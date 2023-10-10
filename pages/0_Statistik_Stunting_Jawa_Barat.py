@@ -22,7 +22,9 @@ if 'api_data' in locals():
     
     if 'data' in api_data:
         data = api_data['data']
-        df = pd.DataFrame(data, index=[0])  # Ubah data ke dalam DataFrame Pandas
+        
+        # Membuat DataFrame dengan baris yang sesuai dengan bidang data
+        df = pd.DataFrame.from_records([data])
         
         # Tampilkan DataFrame sebagai tabel di Streamlit
         st.table(df)
