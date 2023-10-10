@@ -20,7 +20,8 @@ if "data" in data:
     for item in data["data"]:
         st.write(f"Kabupaten/Kota: {item['nama_kabupaten_kota']}")
         st.write(f"Jumlah Balita Stunting: {item['jumlah_balita_stunting']}")
-        st.write(f"Tahun: {item['tahun']}")
+        if item['tahun'] != "Unknown Type: integer)":
+            st.write(f"Tahun: {item['tahun']}")
         st.write("")
 
 else:
