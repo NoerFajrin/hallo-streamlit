@@ -9,7 +9,7 @@ url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_b
 response = requests.get(url)
 
 if response.status_code == 200:
-    data_stunting = response.json()
+    api_data = response.json()
 else:
     st.error("Gagal mengambil data dari API")
 
@@ -17,12 +17,12 @@ else:
 st.title("Data Stunting di Jawa Barat")
 
 # Tampilkan Data Stunting dalam bentuk tabel jika data tersedia
-if 'data_stunting' in locals():
+if 'api_data' in locals():
     st.write("Data Stunting terbaru di Jawa Barat:")
     
-    # Ubah data ke dalam DataFrame Pandas
-    if data_stunting and 'data' in data_stunting:
-        df = pd.DataFrame(data_stunting['data'])
+    if 'data' in api_data:
+        data = api_data['data']
+        df = pd.DataFrame(data, index=[0])  # Ubah data ke dalam DataFrame Pandas
         
         # Tampilkan DataFrame sebagai tabel di Streamlit
         st.table(df)
