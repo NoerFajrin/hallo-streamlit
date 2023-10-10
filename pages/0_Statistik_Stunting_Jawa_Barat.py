@@ -23,9 +23,28 @@ if 'api_data' in locals():
     if 'data' in api_data:
         data = api_data['data']
         
-        # Membuat DataFrame dengan baris yang sesuai dengan bidang data
-        df = pd.DataFrame.from_records([data])
-        
+        # Ekstrak data ke dalam variabel yang sesuai
+        id = data['id']
+        jumlah_balita_stunting = data['jumlah_balita_stunting']
+        kode_kabupaten_kota = data['kode_kabupaten_kota']
+        kode_provinsi = data['kode_provinsi']
+        nama_kabupaten_kota = data['nama_kabupaten_kota']
+        nama_provinsi = data['nama_provinsi']
+        satuan = data['satuan']
+        tahun = data['tahun']
+
+        # Buat DataFrame
+        df = pd.DataFrame({
+            'ID': [id],
+            'Jumlah Balita Stunting': [jumlah_balita_stunting],
+            'Kode Kabupaten/Kota': [kode_kabupaten_kota],
+            'Kode Provinsi': [kode_provinsi],
+            'Nama Kabupaten/Kota': [nama_kabupaten_kota],
+            'Nama Provinsi': [nama_provinsi],
+            'Satuan': [satuan],
+            'Tahun': [tahun]
+        })
+
         # Tampilkan DataFrame sebagai tabel di Streamlit
         st.table(df)
     else:
