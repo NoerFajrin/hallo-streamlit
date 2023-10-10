@@ -1,4 +1,4 @@
-import streamlit
+import streamlit as st
 import requests
 
 # URL API
@@ -13,5 +13,15 @@ def get_api_data():
 st.title("Data Balita Stunting di Jawa Barat")
 
 data = get_api_data()
-st.write(data)  # Tampilkan data JSON
+
+# Periksa apakah respon API valid
+if "data" in data:
+    st.write("Data Balita Stunting:")
+    for item in data["data"]:
+        st.write(f"Kabupaten/Kota: {item['nama_kabupaten_kota']}")
+        st.write(f"Jumlah Balita Stunting: {item['jumlah_balita_stunting']}")
+        st.write("")
+
+else:
+    st.write("Tidak ada data yang tersedia.")
 
