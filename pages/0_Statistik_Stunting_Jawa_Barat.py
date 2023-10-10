@@ -10,42 +10,22 @@ response = requests.get(url)
 
 if response.status_code == 200:
     api_data = response.json()
+    data_stunting = api_data['data']
 else:
     st.error("Gagal mengambil data dari API")
 
 # Judul Aplikasi
 st.title("Data Stunting di Jawa Barat")
 
-# Tampilkan Data Stunting dalam bentuk tabel jika data tersedia
-if 'api_data' in locals():
+# Tampilkan Data Stunting dalam Tabel
+if 'data_stunting' in locals():
+    # Buat DataFrame dari data stunting
+    df = pd.DataFrame(data_stunting, index=[0])
+
+    # Tampilkan DataFrame sebagai tabel
     st.write("Data Stunting terbaru di Jawa Barat:")
-    
-    if 'data' in api_data:
-        data = api_data['data']
-        
-        # Ekstrak data ke dalam variabel yang sesuai
-        id = data['id']
-        jumlah_balita_stunting = data['jumlah_balita_stunting']
-        kode_kabupaten_kota = data['kode_kabupaten_kota']
-        kode_provinsi = data['kode_provinsi']
-        nama_kabupaten_kota = data['nama_kabupaten_kota']
-        nama_provinsi = data['nama_provinsi']
-        satuan = data['satuan']
-        tahun = data['tahun']
+    st.dataframe(df)
 
-        # Buat DataFrame
-        df = pd.DataFrame({
-            'ID': [id],
-            'Jumlah Balita Stunting': [jumlah_balita_stunting],
-            'Kode Kabupaten/Kota': [kode_kabupaten_kota],
-            'Kode Provinsi': [kode_provinsi],
-            'Nama Kabupaten/Kota': [nama_kabupaten_kota],
-            'Nama Provinsi': [nama_provinsi],
-            'Satuan': [satuan],
-            'Tahun': [tahun]
-        })
-
-        # Tampilkan DataFrame sebagai tabel di Streamlit
-        st.table(df)
-    else:
-        st.warning("Data tidak tersedia.")
+# Munculkan kesalahan jika gagal mengambil data
+if 'data_stunting' not in locals():
+    st.error("Gagal mengambil data dari API")
