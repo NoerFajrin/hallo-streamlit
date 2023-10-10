@@ -2,17 +2,16 @@ import streamlit as st
 import requests
 
 # URL API
-url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota"
+api_url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota"
 
-# Mengambil data dari API
-try:
-    response = requests.get(url)
+# Fungsi untuk mendapatkan data dari API
+def get_api_data():
+    response = requests.get(api_url)
+    return response.json()
 
-    if response.status_code == 200:
-        data_stunting = response.json()
-    else:
-        st.error(f"API request failed with status code {response.status_code}")
-except Exception as e:
-    st.error(f"An error occurred while fetching data from the API: {str(e)}")
+# Tampilkan data di Streamlit
+st.title("Data Balita Stunting di Jawa Barat")
 
-# Rest of your Streamlit code
+data = get_api_data()
+st.write(data)  # Tampilkan data JSON
+
