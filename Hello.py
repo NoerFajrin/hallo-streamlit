@@ -24,7 +24,7 @@ def run():
         page_icon="👋",
     )
 
-    st.write("# Noer Fajrin 👋")
+    st.write("# Kerja Sama ITB dan PT. KIREI dalam Penurunan Prevalensi Stunting di Jawa Barat")
 
     st.sidebar.success("Select a demo above.")
 
