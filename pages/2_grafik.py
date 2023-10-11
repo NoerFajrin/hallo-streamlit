@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 # URL API
 api_url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota"
@@ -23,20 +24,30 @@ if "data" in data:
     # Buat DataFrame dari data
     df = pd.DataFrame(data["data"])
 
-    # Daftar kabupaten/kota unik
-    kabupaten_kota_list = df["nama_kabupaten_kota"].unique()
+    # Membersihkan data dengan menghilangkan nilai "tahun" yang tidak valid
+    df = df[df["tahun"] != "Unknown Type: integer)"]
 
-    # Buat satu grafik batang untuk setiap kabupaten/kota
-    st.write("Grafik Jumlah Balita Stunting per Kabupaten/Kota berdasarkan Tahun")
-    for kabupaten_kota in kabupaten_kota_list:
-        data_kabupaten = df[df["nama_kabupaten_kota"] == kabupaten_kota]
-        plt.figure(figsize=(12, 6))
-        plt.bar(data_kabupaten["tahun"], data_kabupaten["jumlah_balita_stunting"])
-        plt.xlabel('Tahun')
-        plt.ylabel('Jumlah Balita Stunting')
-        plt.title(f'Grafik Jumlah Balita Stunting di {kabupaten_kota}')
-        st.write(f'Grafik untuk {kabupaten_kota}')
-        st.pyplot(plt)
+    # Konversi kolom "tahun" menjadi tipe data integer
+    df["tahun"] = df["tahun"].astype(int)
+
+    # Ambil daftar tahun unik
+    tahun_unik = df["tahun"].unique()
+
+    # Pilih palet warna
+    colors = plt.cm.viridis(np.linspace(0, 1, len(tahun_unik)))
+
+    # Buat satu grafik batang untuk seluruh kabupaten/kota dalam satu chart
+    plt.figure(figsize=(12, 6))
+    for i, tahun in enumerate(tahun_unik):
+        data_tahun = df[df["tahun"] == tahun]
+        plt.bar(data_tahun["nama_kabupaten_kota"], data_tahun["jumlah_balita_stunting"], label=tahun, color=colors[i])
+
+    plt.xlabel('Kabupaten/Kota')
+    plt.ylabel('Jumlah Balita Stunting')
+    plt.title('Grafik Jumlah Balita Stunting di Seluruh Kabupaten/Kota Berdasarkan Tahun')
+    plt.legend(title='Tahun')
+    plt.xticks(rotation=90)
+    st.pyplot(plt)
 
 else:
     st.write("Tidak ada data yang tersedia.")
