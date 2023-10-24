@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # URL API
-api_url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?tahun=2021"
+api_url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota"
 
 # Fungsi untuk mendapatkan data dari API
 def get_api_data():
