@@ -18,8 +18,8 @@ data = get_api_data()
 if "data" in data:
     st.write("Data Balita Stunting:")
 
-    # Buat daftar unik tahun dari data
-    years = list(set(item['tahun'] for item in data["data"]))
+    # Buat daftar unik tahun dari data dan urutkan
+    years = sorted(list(set(item['tahun'] for item in data["data"])))
 
     # Pilih tahun menggunakan widget
     selected_year = st.selectbox("Pilih Tahun:", years)
