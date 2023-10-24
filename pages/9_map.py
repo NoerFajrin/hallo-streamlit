@@ -1,39 +1,37 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
 import pydeck as pdk
 
-# Data peta (contoh data)
-data = [
-    {'lat': 37.7749, 'lon': -122.4194, 'name': 'San Francisco'},
-    {'lat': 34.0522, 'lon': -118.2437, 'name': 'Los Angeles'},
-    {'lat': 40.7128, 'lon': -74.0060, 'name': 'New York City'},
-]
+chart_data = pd.DataFrame(
+   np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+   columns=['lat', 'lon'])
 
-# Membuat peta dengan pdk.Deck
-view_state = pdk.ViewState(
-    latitude=data[0]['lat'],
-    longitude=data[0]['lon'],
-    zoom=6
-)
-
-# Menggunakan color scale untuk warna daratan (hijau) dan laut (biru)
-color_scale = [
-    [0, 128, 0],  # Warna hijau untuk daratan
-    [0, 0, 255]   # Warna biru untuk laut
-]
-
-layer = pdk.Layer(
-    'ScatterplotLayer',
-    data=data,
-    get_position='[lon, lat]',
-    get_radius=1000,
-    get_fill_color=color_scale,  # Menggunakan color scale
-    pickable=True,
-    auto_highlight=True
-)
-
-# Menampilkan peta dalam aplikasi Streamlit
-st.title("Contoh Peta dengan pdk.Deck (Daratan Hijau dan Laut Biru)")
 st.pydeck_chart(pdk.Deck(
-    initial_view_state=view_state,
-    layers=[layer]
+    map_style=None,
+    initial_view_state=pdk.ViewState(
+        latitude=37.76,
+        longitude=-122.4,
+        zoom=11,
+        pitch=50,
+    ),
+    layers=[
+        pdk.Layer(
+           'HexagonLayer',
+           data=chart_data,
+           get_position='[lon, lat]',
+           radius=200,
+           elevation_scale=4,
+           elevation_range=[0, 1000],
+           pickable=True,
+           extruded=True,
+        ),
+        pdk.Layer(
+            'ScatterplotLayer',
+            data=chart_data,
+            get_position='[lon, lat]',
+            get_color='[200, 30, 0, 160]',
+            get_radius=200,
+        ),
+    ],
 ))
