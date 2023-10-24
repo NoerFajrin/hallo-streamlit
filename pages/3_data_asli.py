@@ -22,7 +22,7 @@ if "data" in data:
     table_data = []
     for item in data["data"]:
         # Check if the data is from the year 2021
-        if item['tahun'] == "2021":
+        if item['tahun'] == "2017":
             row = {
                 "Kabupaten/Kota": item['nama_kabupaten_kota'],
                 "Jumlah Balita Stunting": item['jumlah_balita_stunting'],
