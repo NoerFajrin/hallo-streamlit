@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # URL API
-api_url = "https://data.jabarprov.go.id/api-backend/bigdata/bps/od_20000_indeks_kedalaman_kemiskinan_berdasarkan_kabupatenkota?limit=1000&where={%22tahun%22:[%222014%22,%222015%22,%222016%22,%222017%22,%222018%22]}"
+api_url = "https://data.jabarprov.go.id/api-backend/bigdata/bps/od_20000_indeks_kedalaman_kemiskinan_berdasarkan_kabupatenkota?limit=1000&where=%7B%22tahun%22%3A%5B%222014%22%2C%222015%22%2C%222016%22%2C%222017%22%2C%222018%22%2C%222019%22%2C%222020%22%2C%222021%22%2C%222022%22%5D%7D"
 
 # Fungsi untuk mendapatkan data dari API
 def get_api_data():
@@ -10,7 +10,7 @@ def get_api_data():
     return response.json()
 
 # Tampilkan data dalam bentuk tabel
-st.title("Tabel Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat (2014-2018)")
+st.title("Tabel Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat (2014-2022)")
 
 data = get_api_data()
 
