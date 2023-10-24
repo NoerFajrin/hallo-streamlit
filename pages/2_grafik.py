@@ -64,7 +64,7 @@ if "data" in data_kemiskinan:
     for item in data_kemiskinan["data"]:
         if item['tahun'] == selected_year:
             row = {
-                "Kabupaten/Kota": item['nama_kabupaten_kota"],
+                "Kabupaten/Kota": item['nama_kabupaten_kota'],
                 "Indeks Kemiskinan": item['indeks_kedalaman_kemiskinan'],
             }
             graph_data_kemiskinan.append(row)
