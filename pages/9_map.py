@@ -47,5 +47,5 @@ st.write(
         ],
     ),
     use_container_width=True,  # Set width to the width of the Streamlit container
-    height=600  # Set a custom height (adjust as needed)
+    height=800  # Set a custom height (adjust as needed)
 )
