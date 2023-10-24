@@ -21,15 +21,18 @@ data1 = get_api_data(api_url1)
 # Fetch data from the second API
 data2 = get_api_data(api_url2)
 
+# Create a list of unique years for both datasets
+if "data" in data1:
+    df1 = pd.DataFrame(data1["data"])
+    years1 = sorted(df1["tahun"].unique())
+
+if "data" in data2:
+    df2 = pd.DataFrame(data2["data"])
+    years2 = sorted(df2["tahun"].unique())
+
 # Check if the first API response is valid
 if "data" in data1:
     st.header("Grafik Data Balita Stunting di Jawa Barat")
-
-    # Create DataFrame from data1
-    df1 = pd.DataFrame(data1["data"])
-
-    # Create a list of unique years from data1
-    years1 = sorted(df1["tahun"].unique())
 
     # Select a year using a widget
     selected_year1 = st.selectbox("Pilih Tahun Data Balita Stunting:", years1)
@@ -54,12 +57,6 @@ else:
 # Check if the second API response is valid
 if "data" in data2:
     st.header("Grafik Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat")
-
-    # Create DataFrame from data2
-    df2 = pd.DataFrame(data2["data"])
-
-    # Create a list of unique years from data2
-    years2 = sorted(df2["tahun"].unique())
 
     # Select a year using a widget
     selected_year2 = st.selectbox("Pilih Tahun Indeks Kemiskinan:", years2)
