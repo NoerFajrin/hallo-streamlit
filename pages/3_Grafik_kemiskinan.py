@@ -12,13 +12,13 @@ def get_api_data():
     return response.json()
 
 # Tampilkan data dalam bentuk tabel
-st.title("Tabel Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat (2014-2022)")
+st.title("Grafik Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat")
 
 data = get_api_data()
 
 # Periksa apakah respon API valid
 if "data" in data:
-    st.write("Berikut ini adalah Tabel Indeks Kemiskinan:")
+    st.write("Berikut ini adalah Grafik Indeks Kemiskinan:")
 
     # Buat daftar unik tahun dari data dan urutkan
     years = sorted(list(set(item['tahun'] for item in data["data"])))
@@ -26,22 +26,18 @@ if "data" in data:
     # Pilih tahun menggunakan widget
     selected_year = st.selectbox("Pilih Tahun:", years)
 
-    # Buat daftar untuk tabel berdasarkan tahun yang dipilih
-    table_data = []
+    # Buat daftar untuk grafik berdasarkan tahun yang dipilih
+    graph_data = []
     for item in data["data"]:
         if item['tahun'] == selected_year:
             row = {
                 "Kabupaten/Kota": item['nama_kabupaten_kota'],
                 "Indeks Kemiskinan": item['indeks_kedalaman_kemiskinan'],
-                "Tahun": item['tahun']
             }
-            table_data.append(row)
-
-    # Tampilkan data dalam tabel
-    st.table(table_data)
+            graph_data.append(row)
 
     # Konversi data ke DataFrame
-    df = pd.DataFrame(table_data)
+    df = pd.DataFrame(graph_data)
 
     # Membuat grafik menggunakan plotly
     fig = px.bar(df, x='Kabupaten/Kota', y='Indeks Kemiskinan', title=f'Indeks Kemiskinan di Jawa Barat ({selected_year})')
