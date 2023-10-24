@@ -58,18 +58,18 @@ else:
 if "data" in data2:
     st.header("Grafik Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat")
 
-    # Select a year using a widget
-    selected_year2 = st.selectbox("Pilih Tahun Indeks Kemiskinan:", years2)
+    # # Select a year using a widget
+    # selected_year2 = st.selectbox("Pilih Tahun Indeks Kemiskinan:", years2)
 
     # Filter data2 based on the selected year
-    filtered_data2 = df2[df2["tahun"] == selected_year2]
+    filtered_data2 = df2[df2["tahun"] == selected_year1]
 
     # Create a bar chart for data2
     fig2 = px.bar(
         filtered_data2,
         x="nama_kabupaten_kota",
         y="indeks_kedalaman_kemiskinan",
-        title=f"Indeks Kemiskinan di Jawa Barat Tahun {selected_year2}",
+        title=f"Indeks Kemiskinan di Jawa Barat Tahun {selected_year1}",
         labels={"indeks_kedalaman_kemiskinan": "Indeks Kemiskinan", "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
