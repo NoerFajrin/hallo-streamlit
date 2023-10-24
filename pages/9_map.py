@@ -16,7 +16,7 @@ view_state = pdk.ViewState(
 )
 
 # Mengubah warna peta menjadi cerah (misalnya, biru terang)
-bright_blue = [0, 0, 255]
+bright_blue = [0, 0, 100]
 layer = pdk.Layer(
     'ScatterplotLayer',
     data=data,
