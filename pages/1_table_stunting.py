@@ -10,7 +10,7 @@ def get_api_data():
     return response.json()
 
 # Tampilkan data dalam bentuk tabel
-st.title("Data Balita Stunting di JaBar")
+st.title("Tabel Data Balita Stunting di Jawa Barat")
 
 data = get_api_data()
 
