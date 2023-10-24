@@ -17,7 +17,7 @@ def get_api_data(api_url):
 # Tampilkan data dalam bentuk grafik
 st.title("Data di Jawa Barat")
 
-# Pilihan tahun bersamaan untuk kedua data
+# Pilihan tahun untuk kedua data
 years = ["2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"]
 selected_year = st.selectbox("Pilih Tahun:", years)
 
@@ -36,7 +36,7 @@ if "data" in data_stunting:
     # Filter data berdasarkan tahun yang dipilih
     filtered_data_stunting = df_stunting[df_stunting["tahun"] == selected_year]
 
-    # Buat grafik batang
+    # Buat grafik batang untuk Balita Stunting
     fig_stunting = px.bar(
         filtered_data_stunting,
         x="nama_kabupaten_kota",
@@ -45,35 +45,37 @@ if "data" in data_stunting:
         labels={"jumlah_balita_stunting": "Jumlah Balita Stunting", "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
-    # Tampilkan grafik Balita Stunting
-    st.plotly_chart(fig_stunting)
-else:
-    st.write("Tidak ada data Balita Stunting yang tersedia.")
+    # Tampilkan grafik Balita Stunting di kolom kiri
+    col1, col2 = st.columns(2)
+    with col1:
+        st.plotly_chart(fig_stunting)
 
 # Data Indeks Kemiskinan
-st.subheader("Data Indeks Kemiskinan")
+col1, col2 = st.columns(2)
+with col2:
+    st.subheader("Data Indeks Kemiskinan")
 
-data_kemiskinan = get_api_data(api_url_kemiskinan)
+    data_kemiskinan = get_api_data(api_url_kemiskinan)
 
-# Periksa apakah respon API valid
-if "data" in data_kemiskinan:
-    st.write("Grafik Indeks Kemiskinan:")
+    # Periksa apakah respon API valid
+    if "data" in data_kemiskinan:
+        st.write("Grafik Indeks Kemiskinan:")
 
-    # Buat daftar untuk grafik berdasarkan tahun yang dipilih
-    graph_data_kemiskinan = []
-    for item in data_kemiskinan["data"]:
-        if item['tahun'] == selected_year:
-            row = {
-                "Kabupaten/Kota": item['nama_kabupaten_kota'],
-                "Indeks Kemiskinan": item['indeks_kedalaman_kemiskinan'],
-            }
-            graph_data_kemiskinan.append(row)
+        # Buat daftar untuk grafik berdasarkan tahun yang dipilih
+        graph_data_kemiskinan = []
+        for item in data_kemiskinan["data"]:
+            if item['tahun'] == selected_year:
+                row = {
+                    "Kabupaten/Kota": item['nama_kabupaten_kota'],
+                    "Indeks Kemiskinan": item['indeks_kedalaman_kemiskinan'],
+                }
+                graph_data_kemiskinan.append(row)
 
-    # Konversi data ke DataFrame
-    df_kemiskinan = pd.DataFrame(graph_data_kemiskinan)
+        # Konversi data ke DataFrame
+        df_kemiskinan = pd.DataFrame(graph_data_kemiskinan)
 
-    # Membuat grafik Indeks Kemiskinan menggunakan plotly
-    fig_kemiskinan = px.bar(df_kemiskinan, x='Kabupaten/Kota', y='Indeks Kemiskinan', title=f'Indeks Kemiskinan di Jawa Barat ({selected_year})')
-    st.plotly_chart(fig_kemiskinan)
-else:
-    st.write("Tidak ada data Indeks Kemiskinan yang tersedia.")
+        # Membuat grafik Indeks Kemiskinan menggunakan plotly
+        fig_kemiskinan = px.bar(df_kemiskinan, x='Kabupaten/Kota', y='Indeks Kemiskinan', title=f'Indeks Kemiskinan di Jawa Barat ({selected_year})')
+        st.plotly_chart(fig_kemiskinan)
+    else:
+        st.write("Tidak ada data Indeks Kemiskinan yang tersedia.")
