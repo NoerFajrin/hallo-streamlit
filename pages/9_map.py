@@ -15,18 +15,20 @@ view_state = pdk.ViewState(
     zoom=6
 )
 
+# Mengubah warna peta menjadi cerah (misalnya, biru terang)
+bright_blue = [0, 0, 255]
 layer = pdk.Layer(
     'ScatterplotLayer',
     data=data,
     get_position='[lon, lat]',
     get_radius=1000,
-    get_color=[255, 0, 0],
+    get_color=bright_blue,  # Mengganti warna ke biru terang
     pickable=True,
     auto_highlight=True
 )
 
 # Menampilkan peta dalam aplikasi Streamlit
-st.title("Contoh Peta dengan pdk.Deck")
+st.title("Contoh Peta dengan pdk.Deck (Biru Terang)")
 st.pydeck_chart(pdk.Deck(
     initial_view_state=view_state,
     layers=[layer]
