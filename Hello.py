@@ -31,6 +31,8 @@ def run():
 
     st.markdown(
         """
+        ### 1. Survei
+        ### 2. Pembuatan Sistem Digitalilasi Antropometri 
         Streamlit is an open-source app framework built specifically for
         Machine Learning and Data Science projects.
         **👈 Select a demo from the sidebar** to see some examples

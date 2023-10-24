@@ -1,5 +1,6 @@
 import pandas
-
+import folium
+import requests
 state_geo = requests.get(
     "https://raw.githubusercontent.com/python-visualization/folium-example-data/main/us_states.json"
 ).json()
