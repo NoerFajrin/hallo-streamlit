@@ -3,84 +3,80 @@ import requests
 import pandas as pd
 import plotly.express as px
 
-# URL API for the first dataset
-api_url_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
-
-# URL API for the second dataset
-api_url_poverty = "https://data.jabarprov.go.id/api-backend/bigdata/bps/od_20000_indeks_kedalaman_kemiskinan_berdasarkan_kabupatenkota?limit=1000&where=%7B%22tahun%22%3A%5B%222014%22%2C%222015%22%2C%222016%22%2C%222017%22%2C%222018%22%2C%222019%22%2C%222020%22%2C%222021%22%2C%222022%22%5D%7D"
+# URL APIs
+api_url1 = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
+api_url2 = "https://data.jabarprov.go.id/api-backend/bigdata/bps/od_20000_indeks_kedalaman_kemiskinan_berdasarkan_kabupatenkota?limit=1000&where=%7B%22tahun%22%3A%5B%222014%22%2C%222015%22%2C%222016%22%2C%222017%22%2C%222018%22%2C%222019%22%2C%222020%22%2C%222021%22%2C%222022%22%5D%7D"
 
 # Fungsi untuk mendapatkan data dari API
 def get_api_data(api_url):
     response = requests.get(api_url)
     return response.json()
 
-# Tampilkan data dalam bentuk grafik
-st.title("Data Visualizations in Jawa Barat")
+# Set the title for the page
+st.title("Data Visualizations for Jawa Barat")
 
 # Fetch data from the first API
-data_stunting = get_api_data(api_url_stunting)
+data1 = get_api_data(api_url1)
 
-# Periksa apakah respon API valid
-if "data" in data_stunting:
-    st.write("Grafik Jumlah Balita Stunting di Provinsi Jawa Barat")
+# Fetch data from the second API
+data2 = get_api_data(api_url2)
 
-    # Buat DataFrame dari data
-    df_stunting = pd.DataFrame(data_stunting["data"])
+# Check if the first API response is valid
+if "data" in data1:
+    st.header("Grafik Data Balita Stunting di Jawa Barat")
 
-    # Buat daftar unik tahun dari data
-    years_stunting = sorted(df_stunting["tahun"].unique())
+    # Create DataFrame from data1
+    df1 = pd.DataFrame(data1["data"])
 
-    # Pilih tahun menggunakan widget
-    selected_year_stunting = st.selectbox("Pilih Tahun untuk Balita Stunting:", years_stunting)
+    # Create a list of unique years from data1
+    years1 = sorted(df1["tahun"].unique())
 
-    # Filter data berdasarkan tahun yang dipilih
-    filtered_data_stunting = df_stunting[df_stunting["tahun"] == selected_year_stunting]
+    # Select a year using a widget
+    selected_year1 = st.selectbox("Pilih Tahun Data Balita Stunting:", years1)
 
-    # Buat grafik batang
-    fig_stunting = px.bar(
-        filtered_data_stunting,
+    # Filter data1 based on the selected year
+    filtered_data1 = df1[df1["tahun"] == selected_year1]
+
+    # Create a bar chart for data1
+    fig1 = px.bar(
+        filtered_data1,
         x="nama_kabupaten_kota",
         y="jumlah_balita_stunting",
-        title=f"Jumlah Balita Stunting di Jawa Barat Tahun {selected_year_stunting}",
+        title=f"Jumlah Balita Stunting di Jawa Barat Tahun {selected_year1}",
         labels={"jumlah_balita_stunting": "Jumlah Balita Stunting", "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
-    # Tampilkan grafik
-    st.plotly_chart(fig_stunting)
+    # Display the bar chart for data1
+    st.plotly_chart(fig1)
 else:
-    st.write("Tidak ada data yang tersedia untuk Balita Stunting.")
+    st.write("Tidak ada data untuk Data Balita Stunting.")
 
-# Fetch data from the second API
-data_poverty = get_api_data(api_url_poverty)
+# Check if the second API response is valid
+if "data" in data2:
+    st.header("Grafik Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat")
 
-# Periksa apakah respon API valid
-if "data" in data_poverty:
-    st.write("Grafik Indeks Kemiskinan di Jawa Barat")
+    # Create DataFrame from data2
+    df2 = pd.DataFrame(data2["data"])
 
-    # Buat DataFrame dari data
-    df_poverty = pd.DataFrame(data_poverty["data"])
+    # Create a list of unique years from data2
+    years2 = sorted(df2["tahun"].unique())
 
-    # Buat daftar unik tahun dari data dan urutkan
-    years_poverty = sorted(list(set(item['tahun'] for item in data_poverty["data"]))
+    # Select a year using a widget
+    selected_year2 = st.selectbox("Pilih Tahun Indeks Kemiskinan:", years2)
 
-    # Pilih tahun menggunakan widget
-    selected_year_poverty = st.selectbox("Pilih Tahun untuk Indeks Kemiskinan:", years_poverty)
+    # Filter data2 based on the selected year
+    filtered_data2 = df2[df2["tahun"] == selected_year2]
 
-    # Buat daftar untuk grafik berdasarkan tahun yang dipilih
-    graph_data_poverty = []
-    for item in data_poverty["data"]:
-        if item['tahun'] == selected_year_poverty:
-            row = {
-                "Kabupaten/Kota": item['nama_kabupaten_kota'],
-                "Indeks Kemiskinan": item['indeks_kedalaman_kemiskinan'],
-            }
-            graph_data_poverty.append(row)
+    # Create a bar chart for data2
+    fig2 = px.bar(
+        filtered_data2,
+        x="nama_kabupaten_kota",
+        y="indeks_kedalaman_kemiskinan",
+        title=f"Indeks Kemiskinan di Jawa Barat Tahun {selected_year2}",
+        labels={"indeks_kedalaman_kemiskinan": "Indeks Kemiskinan", "nama_kabupaten_kota": "Kabupaten/Kota"}
+    )
 
-    # Konversi data ke DataFrame
-    df_poverty_selected = pd.DataFrame(graph_data_poverty)
-
-    # Membuat grafik menggunakan plotly
-    fig_poverty = px.bar(df_poverty_selected, x='Kabupaten/Kota', y='Indeks Kemiskinan', title=f'Indeks Kemiskinan di Jawa Barat ({selected_year_poverty})')
-    st.plotly_chart(fig_poverty)
+    # Display the bar chart for data2
+    st.plotly_chart(fig2)
 else:
-    st.write("Tidak ada data yang tersedia untuk Indeks Kemiskinan.")
+    st.write("Tidak ada data untuk Indeks Kemiskinan.")
