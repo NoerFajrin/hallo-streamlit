@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas
 import folium
 import requests
