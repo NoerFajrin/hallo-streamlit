@@ -1,30 +1,33 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import pydeck as pdk
 
 chart_data = pd.DataFrame(
-#    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
-   columns=['lat', 'lon'])
+    columns=['lat', 'lon']
+)
+
+# Specify the latitude and longitude of Indonesia
+indonesia_latitude = -2.4833826
+indonesia_longitude = 117.8902853
 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
     initial_view_state=pdk.ViewState(
-        latitude=37.76,
-        longitude=-122.4,
-        zoom=11,
+        latitude=indonesia_latitude,
+        longitude=indonesia_longitude,
+        zoom=5,  # You can adjust the zoom level
         pitch=50,
     ),
     layers=[
         pdk.Layer(
-           'HexagonLayer',
-           data=chart_data,
-           get_position='[lon, lat]',
-           radius=200,
-           elevation_scale=4,
-           elevation_range=[0, 1000],
-           pickable=True,
-           extruded=True,
+            'HexagonLayer',
+            data=chart_data,
+            get_position='[lon, lat]',
+            radius=200,
+            elevation_scale=4,
+            elevation_range=[0, 1000],
+            pickable=True,
+            extruded=True,
         ),
         pdk.Layer(
             'ScatterplotLayer',
