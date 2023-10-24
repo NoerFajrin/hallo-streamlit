@@ -16,7 +16,7 @@ data = get_api_data()
 
 # Periksa apakah respon API valid
 if "data" in data:
-    st.write("Data Balita Stunting:")
+    st.write("Berikut ini adalah Tabel Data Stunting di Provinsi Jawa Barat dari Tahun 2014 - 2021")
 
     # Buat daftar unik tahun dari data dan urutkan
     years = sorted(list(set(item['tahun'] for item in data["data"])))
