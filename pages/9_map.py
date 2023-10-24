@@ -1,28 +1,33 @@
 import streamlit as st
-import pandas
-import folium
-import requests
-state_geo = requests.get(
-    "https://raw.githubusercontent.com/python-visualization/folium-example-data/main/us_states.json"
-).json()
-state_data = pandas.read_csv(
-    "https://raw.githubusercontent.com/python-visualization/folium-example-data/main/us_unemployment_oct_2012.csv"
+import pydeck as pdk
+
+# Data peta (contoh data)
+data = [
+    {'lat': 37.7749, 'lon': -122.4194, 'name': 'San Francisco'},
+    {'lat': 34.0522, 'lon': -118.2437, 'name': 'Los Angeles'},
+    {'lat': 40.7128, 'lon': -74.0060, 'name': 'New York City'},
+]
+
+# Membuat peta dengan pdk.Deck
+view_state = pdk.ViewState(
+    latitude=data[0]['lat'],
+    longitude=data[0]['lon'],
+    zoom=6
 )
 
-m = folium.Map(location=[48, -102], zoom_start=3)
+layer = pdk.Layer(
+    'ScatterplotLayer',
+    data=data,
+    get_position='[lon, lat]',
+    get_radius=1000,
+    get_color=[255, 0, 0],
+    pickable=True,
+    auto_highlight=True
+)
 
-folium.Choropleth(
-    geo_data=state_geo,
-    name="choropleth",
-    data=state_data,
-    columns=["State", "Unemployment"],
-    key_on="feature.id",
-    fill_color="YlGn",
-    fill_opacity=0.7,
-    line_opacity=0.2,
-    legend_name="Unemployment Rate (%)",
-).add_to(m)
-
-folium.LayerControl().add_to(m)
-
-m
+# Menampilkan peta dalam aplikasi Streamlit
+st.title("Contoh Peta dengan pdk.Deck")
+st.pydeck_chart(pdk.Deck(
+    initial_view_state=view_state,
+    layers=[layer]
+))
