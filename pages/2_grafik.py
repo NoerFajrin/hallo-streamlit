@@ -1,53 +1,79 @@
 import streamlit as st
 import requests
-import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
+import plotly.express as px
 
-# URL API
-api_url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota"
+# URL API untuk data Balita Stunting
+api_url_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
+
+# URL API untuk data Indeks Kemiskinan
+api_url_kemiskinan = "https://data.jabarprov.go.id/api-backend/bigdata/bps/od_20000_indeks_kedalaman_kemiskinan_berdasarkan_kabupatenkota?limit=1000&where=%7B%22tahun%22%3A%5B%222014%22%2C%222015%22%2C%222016%22%2C%222017%22%2C%222018%22%2C%222019%22%2C%222020%22%2C%222021%22%2C%222022%22%5D%7D"
 
 # Fungsi untuk mendapatkan data dari API
-def get_api_data():
+def get_api_data(api_url):
     response = requests.get(api_url)
     return response.json()
 
-# Tampilkan data dalam bentuk grafik batang
-st.title("Data Balita Stunting di Jawa Barat")
+# Tampilkan data dalam bentuk grafik
+st.title("Data di Jawa Barat")
 
-data = get_api_data()
+# Pilihan tahun bersamaan untuk kedua data
+years = ["2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"]
+selected_year = st.selectbox("Pilih Tahun:", years)
+
+# Data Balita Stunting
+st.subheader("Data Balita Stunting")
+
+data_stunting = get_api_data(api_url_stunting)
 
 # Periksa apakah respon API valid
-if "data" in data:
-    st.write("Data Balita Stunting:")
+if "data" in data_stunting:
+    st.write("Grafik Jumlah Balita Stunting di Provinsi Jawa Barat")
 
     # Buat DataFrame dari data
-    df = pd.DataFrame(data["data"])
+    df_stunting = pd.DataFrame(data_stunting["data"])
 
-    # Membersihkan data dengan menghilangkan nilai "tahun" yang tidak valid
-    df = df[df["tahun"] != "Unknown Type: integer)"]
+    # Filter data berdasarkan tahun yang dipilih
+    filtered_data_stunting = df_stunting[df_stunting["tahun"] == selected_year]
 
-    # Konversi kolom "tahun" menjadi tipe data integer
-    df["tahun"] = df["tahun"].astype(int)
+    # Buat grafik batang
+    fig_stunting = px.bar(
+        filtered_data_stunting,
+        x="nama_kabupaten_kota",
+        y="jumlah_balita_stunting",
+        title=f"Jumlah Balita Stunting di Jawa Barat Tahun {selected_year}",
+        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting", "nama_kabupaten_kota": "Kabupaten/Kota"}
+    )
 
-    # Ambil daftar tahun unik
-    tahun_unik = df["tahun"].unique()
-
-    # Pilih palet warna
-    colors = plt.cm.viridis(np.linspace(0, 1, len(tahun_unik)))
-
-    # Buat satu grafik batang untuk seluruh kabupaten/kota dalam satu chart
-    plt.figure(figsize=(12, 6))
-    for i, tahun in enumerate(tahun_unik):
-        data_tahun = df[df["tahun"] == tahun]
-        plt.bar(data_tahun["nama_kabupaten_kota"], data_tahun["jumlah_balita_stunting"], label=tahun, color=colors[i])
-
-    plt.xlabel('Kabupaten/Kota')
-    plt.ylabel('Jumlah Balita Stunting')
-    plt.title('Grafik Jumlah Balita Stunting di Seluruh Kabupaten/Kota Berdasarkan Tahun')
-    plt.legend(title='Tahun')
-    plt.xticks(rotation=90)
-    st.pyplot(plt)
-
+    # Tampilkan grafik Balita Stunting
+    st.plotly_chart(fig_stunting)
 else:
-    st.write("Tidak ada data yang tersedia.")
+    st.write("Tidak ada data Balita Stunting yang tersedia.")
+
+# Data Indeks Kemiskinan
+st.subheader("Data Indeks Kemiskinan")
+
+data_kemiskinan = get_api_data(api_url_kemiskinan)
+
+# Periksa apakah respon API valid
+if "data" in data_kemiskinan:
+    st.write("Grafik Indeks Kemiskinan:")
+
+    # Buat daftar untuk grafik berdasarkan tahun yang dipilih
+    graph_data_kemiskinan = []
+    for item in data_kemiskinan["data"]:
+        if item['tahun'] == selected_year:
+            row = {
+                "Kabupaten/Kota": item['nama_kabupaten_kota"],
+                "Indeks Kemiskinan": item['indeks_kedalaman_kemiskinan'],
+            }
+            graph_data_kemiskinan.append(row)
+
+    # Konversi data ke DataFrame
+    df_kemiskinan = pd.DataFrame(graph_data_kemiskinan)
+
+    # Membuat grafik Indeks Kemiskinan menggunakan plotly
+    fig_kemiskinan = px.bar(df_kemiskinan, x='Kabupaten/Kota', y='Indeks Kemiskinan', title=f'Indeks Kemiskinan di Jawa Barat ({selected_year})')
+    st.plotly_chart(fig_kemiskinan)
+else:
+    st.write("Tidak ada data Indeks Kemiskinan yang tersedia.")
