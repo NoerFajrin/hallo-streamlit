@@ -23,7 +23,7 @@ st.write(
         initial_view_state=pdk.ViewState(
             latitude=center_latitude,
             longitude=center_longitude,
-            zoom=5,
+            zoom=4,  # Adjust the zoom level to show all of Indonesia
             pitch=50,
         ),
         layers=[
@@ -46,6 +46,6 @@ st.write(
             ),
         ],
     ),
-    use_container_width=False,  # Set width to the width of the Streamlit container
+    use_container_width=True,  # Set width to the width of the Streamlit container
     height=800  # Set a custom height (adjust as needed)
 )
