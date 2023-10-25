@@ -34,6 +34,10 @@ if "data" in data2:
 if "data" in data1:
     df1["jumlah_balita_stunting"] = (df1["jumlah_balita_stunting"] - df1["jumlah_balita_stunting"].min()) / (df1["jumlah_balita_stunting"].max() - df1["jumlah_balita_stunting"].min()) * 5
 
+# Normalize "Indeks Kemiskinan" values to be within the range of 0 to 5
+if "data" in data2:
+    df2["indeks_kedalaman_kemiskinan"] = (df2["indeks_kedalaman_kemiskinan"] - df2["indeks_kedalaman_kemiskinan"].min()) / (df2["indeks_kedalaman_kemiskinan"].max() - df2["indeks_kedalaman_kemiskinan"].min()) * 5
+
 # Check if the first API response is valid
 if "data" in data1:
     st.header("Grafik Data Balita Stunting di Jawa Barat")
@@ -68,13 +72,13 @@ if "data" in data2:
     # Filter data2 based on the selected year
     filtered_data2 = df2[df2["tahun"] == selected_year1]
 
-    # Create a line chart for data2
+    # Create a line chart for data2 with normalized values
     fig2 = px.line(
         filtered_data2,
         x="nama_kabupaten_kota",
         y="indeks_kedalaman_kemiskinan",
         title=f"Indeks Kemiskinan di Jawa Barat Tahun {selected_year1}",
-        labels={"indeks_kedalaman_kemiskinan": "Indeks Kemiskinan", "nama_kabupaten_kota": "Kabupaten/Kota"}
+        labels={"indeks_kedalaman_kemiskinan": "Indeks Kemiskinan (Normalized)", "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
     # Display the line chart for data2
