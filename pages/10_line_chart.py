@@ -30,6 +30,10 @@ if "data" in data2:
     df2 = pd.DataFrame(data2["data"])
     years2 = sorted(df2["tahun"].unique())
 
+# Normalize "Jumlah Balita Stunting" values to be within the range of 0 to 5
+if "data" in data1:
+    df1["jumlah_balita_stunting"] = (df1["jumlah_balita_stunting"] - df1["jumlah_balita_stunting"].min()) / (df1["jumlah_balita_stunting"].max() - df1["jumlah_balita_stunting"].min()) * 5
+
 # Check if the first API response is valid
 if "data" in data1:
     st.header("Grafik Data Balita Stunting di Jawa Barat")
@@ -40,13 +44,13 @@ if "data" in data1:
     # Filter data1 based on the selected year
     filtered_data1 = df1[df1["tahun"] == selected_year1]
 
-    # Create a line chart for data1
+    # Create a line chart for data1 with normalized values
     fig1 = px.line(
         filtered_data1,
         x="nama_kabupaten_kota",
         y="jumlah_balita_stunting",
         title=f"Jumlah Balita Stunting di Jawa Barat Tahun {selected_year1}",
-        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting", "nama_kabupaten_kota": "Kabupaten/Kota"}
+        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting (Normalized)", "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
     # Display the line chart for data1
