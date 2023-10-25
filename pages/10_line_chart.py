@@ -40,48 +40,36 @@ if "data" in data2:
 
 # Check if the first API response is valid
 if "data" in data1:
-    st.header("Grafik Data Balita Stunting di Jawa Barat")
+    st.header("Grafik Data Balita Stunting dan Indeks Kemiskinan di Jawa Barat")
 
     # Select a year using a widget
     selected_year1 = st.selectbox("Pilih Tahun Data Balita Stunting:", years1)
 
     # Filter data1 based on the selected year
     filtered_data1 = df1[df1["tahun"] == selected_year1]
-
-    # Create a line chart for data1 with normalized values
-    fig1 = px.line(
-        filtered_data1,
-        x="nama_kabupaten_kota",
-        y="jumlah_balita_stunting",
-        title=f"Jumlah Balita Stunting di Jawa Barat Tahun {selected_year1}",
-        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting (Normalized)", "nama_kabupaten_kota": "Kabupaten/Kota"}
-    )
-
-    # Display the line chart for data1
-    st.plotly_chart(fig1)
-else:
-    st.write("Tidak ada data untuk Data Balita Stunting.")
-
-# Check if the second API response is valid
-if "data" in data2:
-    st.header("Grafik Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat")
-
-    # # Select a year using a widget
-    # selected_year2 = st.selectbox("Pilih Tahun Indeks Kemiskinan:", years2)
-
+    
     # Filter data2 based on the selected year
     filtered_data2 = df2[df2["tahun"] == selected_year1]
 
-    # Create a line chart for data2 with normalized values
-    fig2 = px.line(
-        filtered_data2,
+    # Create a line chart for data1 with red color
+    fig = px.line(
+        filtered_data1,
         x="nama_kabupaten_kota",
-        y="indeks_kedalaman_kemiskinan",
-        title=f"Indeks Kemiskinan di Jawa Barat Tahun {selected_year1}",
-        labels={"indeks_kedalaman_kemiskinan": "Indeks Kemiskinan (Normalized)", "nama_kabupaten_kota": "Kabupaten/Kota"}
+        y="jumlah_balita_stunting",
+        title=f"Jumlah Balita Stunting dan Indeks Kemiskinan di Jawa Barat Tahun {selected_year1}",
+        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting (Normalized)", "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
-    # Display the line chart for data2
-    st.plotly_chart(fig2)
+    # Add a line chart for data2 with green color
+    fig.add_scatter(
+        x=filtered_data2["nama_kabupaten_kota"],
+        y=filtered_data2["indeks_kedalaman_kemiskinan"],
+        mode="lines",
+        line=dict(color="green"),
+        name="Indeks Kemiskinan (Normalized)"
+    )
+
+    # Display the combined line chart
+    st.plotly_chart(fig)
 else:
-    st.write("Tidak ada data untuk Indeks Kemiskinan.")
+    st.write("Tidak ada data untuk Data Balita Stunting dan Indeks Kemiskinan.")
