@@ -8,3 +8,4 @@ matplotlib
 plotly
 folium
 pydeck
+geopandas
