@@ -18,13 +18,13 @@ for entry in data["data"]:
 # Mengonversi data ke dalam bentuk dataframe
 df = pd.DataFrame(data["data"])
 
-# Membuat peta dengan ikon anak di setiap latlon
+# Membuat peta dengan titik di setiap latlon
 layer = pdk.Layer(
-    "IconLayer",
+    "ScatterplotLayer",
     data=df,
     get_position=["longitude", "latitude"],
-    get_icon="child",  # Icon anak (Anda dapat mengganti dengan ikon lain)
-    get_size=100,  # Ukuran ikon anak
+    get_radius=1000,  # Ukuran titik
+    get_fill_color=[0, 255, 0],  # Warna titik (hijau)
     pickable=True,
 )
 
