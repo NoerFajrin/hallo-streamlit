@@ -22,10 +22,20 @@ df = pd.DataFrame(data["data"])
 layer = pdk.Layer(
     "ScatterplotLayer",
     data=df,
-    get_icon="👶",
     get_position=["longitude", "latitude"],
     get_radius=1000,  # Ukuran titik
     get_fill_color=[0, 255, 0],  # Warna titik (hijau)
+    pickable=True,
+)
+
+# Membuat layer untuk teks label
+text_layer = pdk.Layer(
+    "TextLayer",
+    data=df,
+    get_position=["longitude", "latitude"],
+    get_text="bps_kota_nama",
+    get_size=20,
+    get_color=[0, 0, 0],
     pickable=True,
 )
 
@@ -37,7 +47,7 @@ view_state = pdk.ViewState(
 
 r = pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v9",
-    layers=[layer],
+    layers=[layer, text_layer],  # Tambahkan layer teks
     initial_view_state=view_state,
 )
 
