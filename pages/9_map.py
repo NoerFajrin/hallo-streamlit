@@ -1,30 +1,44 @@
 import streamlit as st
 import pydeck as pdk
+import pandas as pd  # Pastikan Anda mengimpor pandas
 
-DATA_SOURCE = 'https://raw.githubusercontent.com/ajduberstein/geo_datasets/master/fortune_500.csv'
+# Koordinat Bandung
+bandung_latitude = -6.9175
+bandung_longitude = 107.6191
 
-layer = pdk.Layer(
-    "HeatmapLayer",
-    DATA_SOURCE,
+# Buat DataFrame dengan data Bandung
+data = {
+    'latitude': [bandung_latitude],
+    'longitude': [bandung_longitude]
+}
+df = pd.DataFrame(data)  # Gunakan pd.DataFrame untuk membuat DataFrame
+
+# Create a layer for the heatmap
+heatmap_layer = pdk.Layer(
+    'ScatterplotLayer',
+    df,
     opacity=0.9,
-    get_position=["longitude", "latitude"],
-    aggregation="'MEAN'",
-    get_weight="profit / employees > 0 ? profit / employees : 0"
+    get_position=['longitude', 'latitude'],
+    get_color=[0, 255, 0, 160],  # Warna hijau
+    get_radius=200,
 )
 
+# Set the initial view state for the map (untuk melihat seluruh Indonesia)
 view_state = pdk.ViewState(
-    longitude=-95.7129,
-    latitude=37.0902,
-    zoom=3,
-    min_zoom=2,
+    latitude=0,
+    longitude=120,
+    zoom=4,
+    min_zoom=3,
     max_zoom=15,
     pitch=40.5,
     bearing=-80
 )
 
-r = pdk.Deck(
-    layers=[layer],
+# Create a PyDeck map
+deck = pdk.Deck(
+    layers=[heatmap_layer],
     initial_view_state=view_state
 )
 
-r.to_html("heatmap.html")
+# Display the map
+st.pydeck_chart(deck)
