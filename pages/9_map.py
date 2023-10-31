@@ -27,6 +27,15 @@ chart_data = pd.DataFrame({
 })
 
 # Membuat peta
+aceh_latitude = 4.2266
+aceh_longitude = 96.7494
+papua_latitude = -4.2699
+papua_longitude = 138.0804
+
+# Calculate the midpoint for the initial view
+center_latitude = (aceh_latitude + papua_latitude) / 2
+center_longitude = (aceh_longitude + papua_longitude) / 2
+
 st.write(
     pdk.Deck(
         map_style="mapbox://styles/mapbox/light-v9",
