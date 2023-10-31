@@ -5,6 +5,9 @@ import pydeck as pdk
 # Buat DataFrame dengan data titik kota Bandung
 bandung_data = pd.DataFrame({'lat': [-6.9175], 'lon': [107.6191]})
 
+# Create an empty DataFrame to store other data points
+chart_data = pd.DataFrame({'lat': [], 'lon': []})
+
 # Specify the latitude and longitude for Aceh and Papua
 aceh_latitude = 4.2266
 aceh_longitude = 96.7494
@@ -15,7 +18,7 @@ papua_longitude = 138.0804
 center_latitude = (aceh_latitude + papua_latitude) / 2
 center_longitude = (aceh_longitude + papua_longitude) / 2
 
-# Gabungkan data Bandung dengan data lain
+# Merge Bandung data with other data
 chart_data = pd.concat([bandung_data, chart_data], ignore_index=True)
 
 # Use Streamlit's layout options to set the width and height of the map
@@ -25,7 +28,7 @@ st.write(
         initial_view_state=pdk.ViewState(
             latitude=center_latitude,
             longitude=center_longitude,
-            zoom=4,  # Sesuaikan tingkat zoom untuk menampilkan seluruh Indonesia
+            zoom=4,  # Adjust the zoom level to show all of Indonesia
             pitch=50,
         ),
         layers=[
@@ -49,5 +52,5 @@ st.write(
         ],
     ),
     use_container_width=True,  # Set width to the width of the Streamlit container
-    height=800  # Set a custom height (sesuaikan sesuai kebutuhan)
+    height=800  # Set a custom height (adjust as needed)
 )
