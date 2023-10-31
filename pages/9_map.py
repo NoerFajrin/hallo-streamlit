@@ -1,162 +1,34 @@
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
+import requests
 
-# Load data for Aceh (GeoJSON format)
-aceh_geojson = {
-    "type": "Feature",
-    "properties": {},
-    "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-            [96.124878, 5.335717],
-            [95.952344, 5.335717],
-            [95.845049, 5.509063],
-            [95.808411, 5.675477],
-            [95.9852, 5.917229],
-            [95.971651, 6.032648],
-            [95.764046, 6.281491],
-            [95.437378, 6.196607],
-            [95.286646, 6.111723],
-            [95.110769, 6.111723],
-            [95.010122, 6.065052],
-            [94.855736, 5.934926],
-            [94.830619, 5.818791],
-            [94.951661, 5.721207],
-            [94.851013, 5.60987],
-            [94.786272, 5.518055],
-            [94.594439, 5.421157],
-            [94.562255, 5.336158],
-            [94.66955, 5.288199],
-            [94.655308, 5.187313],
-            [94.468244, 5.055032],
-            [94.458989, 4.986875],
-            [94.348101, 4.904997],
-            [94.348101, 4.798884],
-            [94.196369, 4.795981],
-            [94.198476, 4.680047],
-            [94.258035, 4.626716],
-            [94.283151, 4.516059],
-            [94.206089, 4.46358],
-            [94.201149, 4.364875],
-            [94.110313, 4.33868],
-            [94.10693, 4.23418],
-            [94.227279, 4.20571],
-            [94.285716, 4.124047],
-            [94.358154, 4.061123],
-            [94.432135, 4.064501],
-            [94.522164, 4.02558],
-            [94.615, 4.031652],
-            [94.647445, 3.998558],
-            [94.610806, 3.924223],
-            [94.656647, 3.890516],
-            [94.700577, 3.9182],
-            [94.779124, 3.868838],
-            [94.924894, 3.826046],
-            [95.010637, 3.79123],
-            [95.140634, 3.708986],
-            [95.34719, 3.675154],
-            [95.559586, 3.609],
-            [95.778063, 3.520957],
-            [95.855989, 3.419264],
-            [95.961427, 3.336935],
-            [96.128983, 3.300062],
-            [96.153786, 3.41208],
-            [96.322256, 3.414927],
-            [96.368097, 3.48561],
-            [96.373963, 3.625248],
-            [96.283935, 3.813777],
-            [96.125459, 4.050062],
-            [96.179235, 4.126262],
-            [96.226845, 4.123802],
-            [96.289819, 4.170974],
-            [96.358853, 4.171077],
-            [96.415566, 4.186664],
-            [96.451441, 4.236215],
-            [96.553238, 4.266272],
-            [96.65012, 4.227496],
-            [96.755114, 4.25774],
-            [96.785007, 4.294661],
-            [96.911718, 4.327944],
-            [96.990265, 4.373444],
-            [97.078856, 4.369875],
-            [97.111089, 4.43491],
-            [97.199055, 4.46358],
-            [97.180993, 4.515715],
-            [97.287288, 4.531287],
-            [97.361156, 4.587766],
-            [97.471212, 4.586488],
-            [97.480299, 4.623986],
-            [97.615364, 4.671832],
-            [97.64048, 4.630215],
-            [97.674075, 4.681651],
-            [97.747513, 4.708162],
-            [97.724878, 4.810802],
-            [97.700738, 4.87688],
-            [97.62219, 4.87864],
-            [97.51147, 4.812944],
-            [97.41904, 4.880666],
-            [97.329678, 4.895489],
-            [97.245941, 4.955843],
-            [97.181142, 4.947454],
-            [97.129417, 5.014034],
-            [97.014365, 5.018913],
-            [96.975122, 5.066283],
-            [96.943408, 5.092133],
-            [96.900841, 5.092133],
-            [96.849438, 5.174529],
-            [96.657233, 5.171666],
-            [96.61799, 5.208144],
-            [96.51038, 5.223865],
-            [96.491058, 5.263991],
-            [96.364347, 5.313207],
-            [96.347691, 5.371256],
-            [96.303181, 5.383313],
-            [96.25571, 5.472316],
-            [96.215751, 5.502353],
-            [96.124878, 5.335717]
-        ]]
-    }
-}
+# URL to the GeoJSON file for Jawa Barat province
+geojson_url = "https://raw.githubusercontent.com/hitamcoklat/Jawa-Barat-Geo-JSON/master/Jabar_By_Kab.geojson"
 
-# Specify the latitude and longitude for Aceh and Papua
-papua_latitude = -4.2699
-papua_longitude = 138.0804
+# Data that you want to visualize (replace this with your data)
+data = pd.read_csv("data.csv")
 
-# Calculate the midpoint for the initial view
-center_latitude = (aceh_latitude + papua_latitude) / 2
-center_longitude = (aceh_longitude + papua_longitude) / 2
-
-# Use Streamlit's layout options to set the width and height of the map
-st.write(
-    pdk.Deck(
-        map_style=None,
-        initial_view_state=pdk.ViewState(
-            latitude=center_latitude,
-            longitude=center_longitude,
-            zoom=4,
-            pitch=50,
-        ),
-        layers=[
-            pdk.Layer(
-                'HexagonLayer',
-                data=chart_data,
-                get_position='[lon, lat]',
-                radius=200,
-                elevation_scale=4,
-                elevation_range=[0, 1000],
-                pickable=True,
-                extruded=True,
-            ),
-            pdk.Layer(
-                'PolygonLayer',  # Gunakan PolygonLayer untuk mewakili wilayah Aceh
-                data=aceh_geojson,  # Gunakan data Aceh yang telah Anda siapkan
-                get_fill_color='[255, 255, 0, 160]',  # Atur warna kuning di sini (RGBA)
-                extruded=True,
-                wireframe=True,
-            ),
-        ],
-    ),
-    use_container_width=True,
-    height=800
+# Create a GeoJSON layer
+layer = pdk.Layer(
+    "GeoJsonLayer",
+    data=geojson_url,
+    opacity=0.8,
+    stroked=False,
+    filled=True,
+    extruded=False,
+    get_fill_color=[128, 0, 128, 140],  # Purple color with transparency
+    get_line_color=[0, 0, 0],
+    pickable=True,
 )
+
+view_state = pdk.ViewState(
+    latitude=-6.920000,  # Replace with the appropriate latitude
+    longitude=107.600000,  # Replace with the appropriate longitude
+    zoom=7,
+    pitch=0,
+)
+
+# Show the map using Streamlit
+st.pydeck_chart(pdk.Deck(map_style="mapbox://styles/mapbox/light-v9",
+                layers=[layer], initial_view_state=view_state))
