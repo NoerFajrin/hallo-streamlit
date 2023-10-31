@@ -8,22 +8,24 @@ url = "https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilay
 response = requests.get(url)
 data = response.json()
 
+# Mengganti "Unknown Type: float" dengan nilai numerik yang sesuai
+for entry in data["data"]:
+    if entry["latitude"] == "Unknown Type: float":
+        entry["latitude"] = 0  # Ganti dengan nilai latitude yang sesuai
+    if entry["longitude"] == "Unknown Type: float":
+        entry["longitude"] = 0  # Ganti dengan nilai longitude yang sesuai
+
 # Mengonversi data ke dalam bentuk dataframe
 df = pd.DataFrame(data["data"])
 
-# Menampilkan nama kota/kabupaten di Streamlit
-st.write("Data Nama Kota/Kabupaten:")
-st.write(df["bps_kota_nama"])
-
-# Membuat peta dengan tanda pada setiap kota/kabupaten
+# Membuat peta dengan ikon anak di setiap latlon
 layer = pdk.Layer(
-    "TextLayer",
+    "IconLayer",
     data=df,
     get_position=["longitude", "latitude"],
-    get_text="bps_kota_nama",
-    get_color=[0, 255, 0, 255],  # Warna teks (hijau)
-    get_size=30,
-    get_alignment_baseline="bottom",
+    get_icon="child",  # Icon anak (Anda dapat mengganti dengan ikon lain)
+    get_size=100,  # Ukuran ikon anak
+    pickable=True,
 )
 
 view_state = pdk.ViewState(
