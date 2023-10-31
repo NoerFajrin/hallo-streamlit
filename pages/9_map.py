@@ -10,16 +10,20 @@ def get_api_data():
     url = "https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten"
     response = requests.get(url)
     data = response.json()
-    return data["data"]
+    return data
 
 
 # Mendapatkan data dari API
 api_data = get_api_data()
 
+# Membuat list untuk latitude dan longitude
+latitudes = [item['latitude'] for item in api_data]
+longitudes = [item['longitude'] for item in api_data]
+
 # Membuat dataframe dengan data latitude dan longitude
 chart_data = pd.DataFrame({
-    'lat': api_data['latitude'],
-    'lon': api_data['longitude']
+    'lat': latitudes,
+    'lon': longitudes
 })
 
 # Membuat peta
