@@ -22,7 +22,7 @@ df = pd.DataFrame(data["data"])
 layer = pdk.Layer(
     "ScatterplotLayer",
     data=df,
-    get_text="👶",
+    get_text=":baby:",
     get_position=["longitude", "latitude"],
     get_radius=1000,  # Ukuran titik
     get_fill_color=[0, 255, 0],  # Warna titik (hijau)
