@@ -8,15 +8,14 @@ url = "https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilay
 response = requests.get(url)
 data = response.json()
 
-# Mengganti "Unknown Type: float" dengan nilai numerik yang sesuai
-for entry in data["data"]:
-    if entry["latitude"] == "Unknown Type: float":
-        entry["latitude"] = 0  # Ganti dengan nilai latitude yang sesuai
-    if entry["longitude"] == "Unknown Type: float":
-        entry["longitude"] = 0  # Ganti dengan nilai longitude yang sesuai
+# Access the data appropriately
+latitude = data["data"]["latitude"]
+longitude = data["data"]["longitude"]
+bps_kota_nama = data["data"]["bps_kota_nama"]
 
-# Mengonversi data ke dalam bentuk dataframe
-df = pd.DataFrame(data["data"])
+# Create a DataFrame
+df = pd.DataFrame(
+    {"latitude": latitude, "longitude": longitude, "bps_kota_nama": bps_kota_nama})
 
 # Membuat peta dengan titik di setiap latlon
 layer = pdk.Layer(
@@ -40,8 +39,8 @@ text_layer = pdk.Layer(
 )
 
 view_state = pdk.ViewState(
-    latitude=df["latitude"].mean(),
-    longitude=df["longitude"].mean(),
+    latitude=latitude.mean(),
+    longitude=longitude.mean(),
     zoom=5,
 )
 
