@@ -57,6 +57,7 @@ st.write(
                 get_position='[lon, lat]',
                 get_color='[0, 0, 255, 160]',  # Warna biru
                 get_radius=200,
+                get_text='text',
             ),
         ],
     ),
