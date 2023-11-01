@@ -31,6 +31,7 @@ df_stunting = pd.DataFrame(data_stunting)
 combined_data = pd.merge(chart_data, df_stunting,
                          left_on='nama', right_on='nama_kabupaten_kota')
 jumlah_balita_stunting = df_stunting['jumlah_balita_stunting'].astype('string')
+
 # Set initial view for a more zoomed-in map
 center_latitude = -6.920434
 center_longitude = 107.604953
@@ -40,7 +41,6 @@ selected_year = st.selectbox("Select a Year", df_stunting['tahun'].unique())
 
 # Filter data based on the selected year
 filtered_data = combined_data[combined_data['tahun'] == selected_year]
-st.write(filtered_data)
 
 # Create a map with blue markers and text labels for 'nama' and stunting data
 st.write(
