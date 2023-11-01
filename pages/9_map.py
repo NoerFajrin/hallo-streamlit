@@ -59,8 +59,6 @@ st.write(
                 'ScatterplotLayer',
                 data=chart_data,
                 get_position='[lon, lat]',
-                get_icon='marker',  # Nama ikon marker
-                get_size=5,  # Ukuran ikon marker
                 get_color='[0, 0, 255, 160]',  # Warna biru
                 get_radius=200,
             ),
