@@ -6,7 +6,10 @@ import pandas as pd
 data = pd.DataFrame({
     'latitude': [37.7749],
     'longitude': [-122.4194],
-    'text': ['My home']
+    'text': ['My home'],
+    'text_color': [255, 0, 0],  # Red color for text
+    # Green color for circle (with alpha value for transparency)
+    'circle_color': [0, 255, 0, 150]
 })
 
 # Create a Pydeck map
@@ -25,7 +28,8 @@ st.pydeck_chart(pdk.Deck(
             get_position='[longitude, latitude]',
             get_text='text',
             get_size=16,
-            get_color=[255, 0, 0],
+            get_color='text_color',  # Set text color
+            get_background_color='circle_color',  # Set circle color
         ),
     ],
 ))
