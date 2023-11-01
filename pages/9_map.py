@@ -8,6 +8,7 @@ endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_
 
 # Mengambil data dari endpoint
 response = requests.get(endpoint)
+st.write("Response Status Code:", response.status_code)
 data = response.json().get('data', [])
 st.write(data)
 # Membuat DataFrame dengan data kota/kabupaten
