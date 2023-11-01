@@ -5,43 +5,21 @@ import requests
 
 # Define the API endpoint
 api_endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
-
 # Make a GET request to the API
 response = requests.get(api_endpoint)
-
-# Check if the request was successful (status code 200)
-if response.status_code == 200:
-    # Parse the JSON response
-    data = response.json()
-
-    # Display the data in the Streamlit app
-    st.title('API Data Display')
-    st.write('Data from the API:')
-    st.write(data)
-else:
-    st.error(
-        f'Failed to retrieve data from the API. Status code: {response.status_code}')
-
-# You can add more Streamlit components to format the output as needed
-# Mengambil data dari endpoint
 data = response.json().get('data', [])
-
 # Membuat DataFrame dengan data kota/kabupaten
 df = pd.DataFrame(data)
-
 # Ambil latitude dan longitude dari DataFrame
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
 # Replace "nama" with your actual column name containing location names
 nama = df['bps_kota_nama'].astype('string')
-
 # Buat DataFrame dengan data latitude dan longitude
 chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
-
 # Set initial view for a more zoomed-in map
 center_latitude = -6.920434
 center_longitude = 107.604953
-
 # Create a map with blue markers and text labels from the 'nama' column
 st.write(
     pdk.Deck(
@@ -65,7 +43,6 @@ st.write(
                 data=chart_data,
                 get_position='[lon, lat]',
                 get_text="nama",
-                # Increase alpha (transparency) for solid text
                 get_color=[0, 0, 0, 255],
                 get_size=9,  # Increase the font size
                 get_alignment_baseline="'bottom'",
