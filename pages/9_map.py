@@ -36,12 +36,19 @@ longitudes = df['longitude'].astype(float)
 # Buat DataFrame dengan data latitude dan longitude
 chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes})
 
-# Tambahkan kolom 'text' ke DataFrame chart_data
-chart_data['text'] = ['Ini lokasi terpilih'] * len(chart_data)
-
 # Set initial view untuk fokus ke Jawa Barat
 center_latitude = -6.920434
 center_longitude = 107.604953
+
+# Create a custom layer for displaying text on the map
+custom_layer = pdk.Layer(
+    'TextLayer',
+    data=chart_data,
+    get_position='[lon, lat]',
+    get_text='"Ini lokasi terpilih"',
+    get_size=16,
+    get_color='[0, 0, 255]',
+)
 
 # Buat peta dengan tanda biru dan teks "Ini lokasi terpilih" di semua kota/kabupaten
 st.write(
@@ -53,16 +60,7 @@ st.write(
             zoom=8,
             pitch=50,
         ),
-        layers=[
-            pdk.Layer(
-                'ScatterplotLayer',
-                data=chart_data,
-                get_position='[lon, lat]',
-                get_color='[0, 0, 255, 160]',  # Warna biru
-                get_radius=200,
-                get_text='text',
-            ),
-        ],
+        layers=[custom_layer],
     ),
     use_container_width=True,
     height=800
