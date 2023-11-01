@@ -27,7 +27,6 @@ endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_
 #   "metadata": {}
 # }
 # Mengambil data dari endpoint
-# Mengambil data dari endpoint
 response = requests.get(endpoint)
 data = response.json().get('data', [])
 
@@ -37,7 +36,7 @@ df = pd.DataFrame(data)
 # Ambil latitude, longitude, dan nama kota/kabupaten dari DataFrame
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
-kota_nama = df['bps_kota_nama']
+kota_nama = df['bps_kota_nama'].astype('string')
 
 # Buat DataFrame dengan data latitude, longitude, dan nama kota/kabupaten
 chart_data = pd.DataFrame(
@@ -52,8 +51,6 @@ icon_layer = pdk.Layer(
     'IconLayer',
     data=chart_data,
     get_position='[lon, lat]',
-    get_icon='marker',  # Nama ikon marker
-    get_size=5,  # Ukuran ikon marker
     get_color=[0, 0, 255, 160],  # Warna biru
     get_text='kota_nama',  # Menampilkan teks nama kota/kabupaten
     get_text_size=20,  # Ukuran teks
