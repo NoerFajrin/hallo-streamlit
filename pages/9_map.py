@@ -12,7 +12,7 @@ data = response.json().get('data', [])
 
 # Membuat DataFrame dengan data kota/kabupaten
 df = pd.DataFrame(data)
-
+st.write(df)
 # Ambil latitude dan longitude dari DataFrame
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
