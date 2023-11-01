@@ -33,7 +33,7 @@ df = pd.DataFrame(data)
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
 # Replace "nama" with your actual column name containing location names
-nama = df['bps_kota_nama']
+nama = df['bps_kota_nama'].astype('string')
 
 # Buat DataFrame dengan data latitude dan longitude
 chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
@@ -59,8 +59,16 @@ st.write(
                 get_position='[lon, lat]',
                 get_color='[0, 0, 255, 160]',  # Ensure the color is visible
                 get_radius=200,
-                get_text='nama',  # Use the 'nama' column for text
-                get_size=3000,
+            ),
+            pdk.Layer(
+                "TextLayer",
+                data=chart_data,
+                get_position='[lon, lat]',
+                get_text="nama",
+                # Increase alpha (transparency) for solid text
+                get_color=[0, 0, 0, 255],
+                get_size=20,  # Increase the font size
+                get_alignment_baseline="'bottom'",
             ),
         ],
     ),
