@@ -1,56 +1,49 @@
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
+import requests
 
-# Buat DataFrame dengan data titik kota Bandung
-bandung_data = pd.DataFrame({'lat': [-6.9175], 'lon': [107.6191]})
+# Endpoint untuk data kota/kabupaten di Provinsi Jawa Barat
+endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
 
-# Create an empty DataFrame to store other data points
-chart_data = pd.DataFrame({'lat': [], 'lon': []})
+# Mengambil data dari endpoint
+response = requests.get(endpoint)
+data = response.json().get('data', [])
 
-# Specify the latitude and longitude for Aceh and Papua
-aceh_latitude = 4.2266
-aceh_longitude = 96.7494
-papua_latitude = -4.2699
-papua_longitude = 138.0804
+# Membuat DataFrame dengan data kota/kabupaten
+df = pd.DataFrame(data)
 
-# Calculate the midpoint for the initial view
-center_latitude = (aceh_latitude + papua_latitude) / 2
-center_longitude = (aceh_longitude + papua_longitude) / 2
+# Ambil latitude dan longitude dari DataFrame
+latitudes = df['latitude'].astype(float)
+longitudes = df['longitude'].astype(float)
 
-# Merge Bandung data with other data
-chart_data = pd.concat([bandung_data, chart_data], ignore_index=True)
+# Buat DataFrame dengan data latitude dan longitude
+chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes})
 
-# Use Streamlit's layout options to set the width and height of the map
+# Set initial view untuk fokus ke Jawa Barat
+center_latitude = -6.920434
+center_longitude = 107.604953
+
+# Buat peta dengan tanda biru di semua kota/kabupaten
 st.write(
     pdk.Deck(
-        map_style=None,
+        map_style='mapbox://styles/mapbox/light-v9',
         initial_view_state=pdk.ViewState(
             latitude=center_latitude,
             longitude=center_longitude,
-            zoom=4,  # Adjust the zoom level to show all of Indonesia
+            zoom=8,
             pitch=50,
         ),
         layers=[
             pdk.Layer(
-                'HexagonLayer',
-                data=chart_data,
-                get_position='[lon, lat]',
-                radius=200,
-                elevation_scale=4,
-                elevation_range=[0, 1000],
-                pickable=True,
-                extruded=True,
-            ),
-            pdk.Layer(
                 'ScatterplotLayer',
                 data=chart_data,
                 get_position='[lon, lat]',
-                get_color='[200, 30, 0, 160]',
+                get_color='[0, 0, 255, 160]',  # Warna biru
                 get_radius=200,
             ),
         ],
     ),
-    use_container_width=True,  # Set width to the width of the Streamlit container
-    height=800  # Set a custom height (adjust as needed)
+    use_container_width=True,
+    height=800
 )
