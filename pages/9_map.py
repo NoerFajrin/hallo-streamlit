@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-import pydeck as pdk
-import requests
+import folium
+from folium.plugins import MarkerCluster
 
 # Define the API endpoint
 api_endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
@@ -29,39 +29,19 @@ data = response.json().get('data', [])
 # Membuat DataFrame dengan data kota/kabupaten
 df = pd.DataFrame(data)
 
-# Ambil latitude dan longitude dari DataFrame
-latitudes = df['latitude'].astype(float)
-longitudes = df['longitude'].astype(float)
+# Create a map centered on Jawa Barat
+m = folium.Map(location=[-6.920434, 107.604953], zoom_start=8)
 
-# Buat DataFrame dengan data latitude dan longitude
-chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes})
+# Create a MarkerCluster for grouping markers
+marker_cluster = MarkerCluster().add_to(m)
 
-# Set initial view untuk fokus ke Jawa Barat
-center_latitude = -6.920434
-center_longitude = 107.604953
+# Add markers with custom text
+for index, row in df.iterrows():
+    folium.Marker(
+        location=[row['latitude'], row['longitude']],
+        popup="Ini lokasi terpilih",
+        icon=folium.Icon(color='blue', icon='info-sign')
+    ).add_to(marker_cluster)
 
-# Create a custom layer for displaying text on the map
-custom_layer = pdk.Layer(
-    'TextLayer',
-    data=chart_data,
-    get_position='[lon, lat]',
-    get_text='"Ini lokasi terpilih"',
-    get_size=16,
-    get_color='[0, 0, 255]',
-)
-
-# Buat peta dengan tanda biru dan teks "Ini lokasi terpilih" di semua kota/kabupaten
-st.write(
-    pdk.Deck(
-        map_style='mapbox://styles/mapbox/light-v9',
-        initial_view_state=pdk.ViewState(
-            latitude=center_latitude,
-            longitude=center_longitude,
-            zoom=8,
-            pitch=50,
-        ),
-        layers=[custom_layer],
-    ),
-    use_container_width=True,
-    height=800
-)
+# Display the map in Streamlit
+st.write(m)
