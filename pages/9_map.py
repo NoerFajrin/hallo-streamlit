@@ -32,12 +32,11 @@ df = pd.DataFrame(data)
 # Ambil latitude dan longitude dari DataFrame
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
+nama = "nama"
 
 # Buat DataFrame dengan data latitude dan longitude
-chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes})
+chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
 
-# Tambahkan kolom 'text' ke DataFrame chart_data
-chart_data['text'] = ['Ini lokasi terpilih'] * len(chart_data)
 
 # Set initial view untuk fokus ke Jawa Barat
 center_latitude = -6.920434
@@ -60,7 +59,8 @@ st.write(
                 get_position='[lon, lat]',
                 get_color='[0, 0, 255, 160]',  # Warna biru
                 get_radius=200,
-                get_text='text',
+                get_text='nama',
+                get_size=3000,
             ),
         ],
     ),
