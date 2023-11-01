@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Define the API endpoint
-api_endpoint = 'https://jsonplaceholder.typicode.com/posts/1'
+api_endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
 
 # Make a GET request to the API
 response = requests.get(api_endpoint)
