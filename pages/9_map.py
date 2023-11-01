@@ -9,10 +9,10 @@ endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_
 # Mengambil data dari endpoint
 response = requests.get(endpoint)
 data = response.json().get('data', [])
-
+st.write(data)
 # Membuat DataFrame dengan data kota/kabupaten
 df = pd.DataFrame(data)
-st.write(df)
+
 # Ambil latitude dan longitude dari DataFrame
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
