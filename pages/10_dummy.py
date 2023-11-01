@@ -2,38 +2,74 @@ import streamlit as st
 import pydeck as pdk
 import pandas as pd
 
-# Sample data with latitude, longitude, and labels
-data = [
-    {'lat': 37.7749, 'lon': -122.4194, 'name': 'RinRin'},
-    {'lat': 34.0522, 'lon': -118.2437, 'name': 'Juna'},
-    {'lat': 40.7128, 'lon': -74.0060, 'name': 'New York'},
-]
+# Define view state for the map
+view_state = pdk.ViewState(
+    latitude=32,
+    longitude=35,
+    zoom=7,
+    pitch=0
+)
 
-# Create a DataFrame from the sample data
+# Sample data
+data = {
+    'lon': [35, 35.1],
+    'lat': [32.5, 32.6],
+    'name': ['meA', 'meB'],
+    'prec': [100, 300],
+    'temp': [10, 30],
+    'elevationValue': [100, 300]
+}
+
+# Create a DataFrame
 df = pd.DataFrame(data)
 
-# Create a map centered on the United States with a higher zoom level
-st.write(
-    pdk.Deck(
-        map_style='mapbox://styles/mapbox/light-v9',
-        initial_view_state=pdk.ViewState(
-            latitude=39.8097,
-            longitude=-98.5556,
-            zoom=5,  # Adjust the zoom level as needed
-            pitch=50,
-        ),
-        layers=[
-            pdk.Layer(
-                'ScatterplotLayer',
-                data=df,
-                get_position='[lon, lat]',
-                get_color='[0, 0, 255, 160]',  # Blue color
-                get_radius=20000,
-                get_text='name',  # Display the 'name' column as text labels
-                get_size=3000,
-            ),
-        ],
-    ),
-    use_container_width=True,
-    height=800
+# Define the tooltip for data points
+tooltip = {
+    "html": "Name: {name}\nRain: {prec} mm",
+    "style": {
+        "backgroundColor": "steelblue",
+        "color": "black"
+    }
+}
+
+# Create a ScatterplotLayer
+scatterplot_layer = pdk.Layer(
+    type='ScatterplotLayer',
+    data=df,
+    get_position=["lon", "lat"],
+    get_color=["255-temp", "31+temp", "31+temp*3"],
+    get_line_color=[0, 0, 0],
+    get_radius=1750,
+    pickable=True,
+    onClick=True,
+    filled=True,
+    line_width_min_pixels=10,
+    opacity=2
 )
+
+# Create a TextLayer for displaying labels
+text_layer = pdk.Layer(
+    "TextLayer",
+    df,
+    pickable=False,
+    get_position=["lon", "lat"],
+    get_text="name",
+    get_size=3000,
+    sizeUnits='meters',
+    get_color=[0, 0, 0],
+    get_angle=0,
+    getTextAnchor="middle",
+    get_alignment_baseline="center"
+)
+
+# Create the PyDeck Deck
+deck = pdk.Deck(
+    initial_view_state=view_state,
+    map_provider='mapbox',
+    map_style=pdk.map_styles.SATELLITE,
+    layers=[scatterplot_layer, text_layer],
+    tooltip=tooltip
+)
+
+# Display the map in Streamlit
+st.pydeck_chart(deck)
