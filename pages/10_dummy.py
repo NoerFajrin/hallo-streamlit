@@ -4,8 +4,8 @@ import pandas as pd  # Add this import statement
 
 # Sample data with latitude, longitude, and labels
 data = [
-    {'lat': 37.7749, 'lon': -122.4194, 'name': 'San Francisco'},
-    {'lat': 34.0522, 'lon': -118.2437, 'name': 'Los Angeles'},
+    {'lat': 37.7749, 'lon': -122.4194, 'name': 'RinRIn'},
+    {'lat': 34.0522, 'lon': -118.2437, 'name': 'Juna'},
     {'lat': 40.7128, 'lon': -74.0060, 'name': 'New York'},
 ]
 
