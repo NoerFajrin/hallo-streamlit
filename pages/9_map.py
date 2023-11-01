@@ -32,17 +32,17 @@ df = pd.DataFrame(data)
 # Ambil latitude dan longitude dari DataFrame
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
-nama = "nama"
+# Replace "nama" with your actual column name containing location names
+nama = df['bps_kota_kode']
 
 # Buat DataFrame dengan data latitude dan longitude
 chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
-
 
 # Set initial view untuk fokus ke Jawa Barat
 center_latitude = -6.920434
 center_longitude = 107.604953
 
-# Buat peta dengan tanda biru dan teks "Ini lokasi terpilih" di semua kota/kabupaten
+# Buat peta dengan tanda biru dan teks "nama" di semua kota/kabupaten
 st.write(
     pdk.Deck(
         map_style='mapbox://styles/mapbox/light-v9',
