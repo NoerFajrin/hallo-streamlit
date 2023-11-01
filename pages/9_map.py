@@ -67,7 +67,7 @@ st.write(
                 get_text="nama",
                 # Increase alpha (transparency) for solid text
                 get_color=[0, 0, 0, 255],
-                get_size=20,  # Increase the font size
+                get_size=9,  # Increase the font size
                 get_alignment_baseline="'bottom'",
             ),
         ],
