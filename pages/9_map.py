@@ -5,27 +5,7 @@ import requests
 
 # Endpoint untuk data kota/kabupaten di Provinsi Jawa Barat
 endpoint = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
-# struktur data API
-# {
-#   "data": {
-#     "bps_kota_kode": 0,
-#     "bps_kota_nama": "string",
-#     "bps_provinsi_kode": 0,
-#     "bps_provinsi_nama": "string",
-#     "id": 0,
-#     "kemendagri_kota_kode": "Unknown Type: float",
-#     "kemendagri_kota_nama": "string",
-#     "kemendagri_provinsi_kode": 0,
-#     "kemendagri_provinsi_nama": "string",
-#     "kode_pos": "Unknown Type: float",
-#     "latitude": "Unknown Type: float",
-#     "longitude": "Unknown Type: float",
-#     "status_adm": "string"
-#   },
-#   "error": 0,
-#   "message": "string",
-#   "metadata": {}
-# }
+
 # Mengambil data dari endpoint
 response = requests.get(endpoint)
 data = response.json().get('data', [])
