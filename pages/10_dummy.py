@@ -39,6 +39,7 @@ selected_year = st.selectbox("Select a Year", df_stunting['tahun'].unique())
 
 # Filter data based on the selected year
 filtered_data = combined_data[combined_data['tahun'] == selected_year]
+st.write(filtered_data)
 
 # Create a map with blue markers and text labels for 'nama' and stunting data
 st.write(
