@@ -2,7 +2,7 @@ import streamlit as st
 import pydeck as pdk
 import pandas as pd
 
-# Create a DataFrame with dummy data
+# Create a DataFrame with dummy data for one point
 data = pd.DataFrame({
     'latitude': [37.7749],
     'longitude': [-122.4194],
