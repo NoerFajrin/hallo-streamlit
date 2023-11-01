@@ -22,6 +22,7 @@ latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
 # Replace "nama" with your actual column name containing location names
 nama = df['bps_kota_nama'].astype('string')
+
 # Buat DataFrame dengan data latitude dan longitude
 chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
 
@@ -29,7 +30,7 @@ chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
 df_stunting = pd.DataFrame(data_stunting)
 combined_data = pd.merge(chart_data, df_stunting,
                          left_on='nama', right_on='nama_kabupaten_kota')
-
+jumlah_balita_stunting = df_stunting['jumlah_balita_stunting'].astype('string')
 # Set initial view for a more zoomed-in map
 center_latitude = -6.920434
 center_longitude = 107.604953
