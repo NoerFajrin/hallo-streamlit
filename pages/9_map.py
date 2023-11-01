@@ -33,23 +33,23 @@ df = pd.DataFrame(data)
 latitudes = df['latitude'].astype(float)
 longitudes = df['longitude'].astype(float)
 # Replace "nama" with your actual column name containing location names
-nama = df['bps_kota_kode']
+nama = df['bps_kota_nama']
 
 # Buat DataFrame dengan data latitude dan longitude
 chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
 
-# Set initial view untuk fokus ke Jawa Barat
+# Set initial view for a more zoomed-in map
 center_latitude = -6.920434
 center_longitude = 107.604953
 
-# Buat peta dengan tanda biru dan teks "nama" di semua kota/kabupaten
+# Create a map with blue markers and text labels from the 'nama' column
 st.write(
     pdk.Deck(
         map_style='mapbox://styles/mapbox/light-v9',
         initial_view_state=pdk.ViewState(
             latitude=center_latitude,
             longitude=center_longitude,
-            zoom=8,
+            zoom=10,  # Adjust the zoom level as needed
             pitch=50,
         ),
         layers=[
@@ -57,9 +57,9 @@ st.write(
                 'ScatterplotLayer',
                 data=chart_data,
                 get_position='[lon, lat]',
-                get_color='[0, 0, 255, 160]',  # Warna biru
+                get_color='[0, 0, 255, 160]',  # Ensure the color is visible
                 get_radius=200,
-                get_text='nama',
+                get_text='nama',  # Use the 'nama' column for text
                 get_size=3000,
             ),
         ],
