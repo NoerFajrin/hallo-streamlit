@@ -30,6 +30,9 @@ data = response.json().get('data', [])
 # Membuat DataFrame dengan data kota/kabupaten
 df = pd.DataFrame(data)
 
+# Replace missing latitude and longitude values with (0, 0)
+df.fillna({'latitude': 0, 'longitude': 0}, inplace=True)
+
 # Create a map centered on Jawa Barat
 m = folium.Map(location=[-6.920434, 107.604953], zoom_start=8)
 
