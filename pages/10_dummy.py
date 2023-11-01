@@ -1,59 +1,83 @@
-import pandas as pd
 import streamlit as st
+import pandas as pd
 import pydeck as pdk
+import requests
 
-data = pd.DataFrame({
-    'latitude': [37.7749, 37.785, 37.793],
-    'longitude': [-122.4194, -122.395, -122.408],
-    'text': ['Point 1', 'Point 2', 'Point 3'],
-    'text_color': [[255, 0, 0], [0, 0, 255], [0, 255, 0]],
-    'circle_color': [[0, 255, 0, 150], [255, 0, 0, 150], [0, 0, 255, 150]]
-})
+# Define the API endpoints
+endpoint_data_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
+endpoint_data_lat_lon = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
 
-st.header("My PyDeck Map")
+# Make GET requests to the APIs
+response = requests.get(endpoint_data_lat_lon)
+responseStunting = requests.get(endpoint_data_stunting)
 
-# Layer pertama untuk warna lokasi
-layer_location = pdk.Layer(
-    "ScatterplotLayer",
-    data=data,
-    get_position=["longitude", "latitude"],
-    get_fill_color="circle_color",
-    get_radius=100,
-    pickable=True,
-    auto_highlight=True,
+# Parse the JSON responses
+data = response.json().get('data', [])
+data_stunting = responseStunting.json().get('data', [])
+
+# Membuat DataFrame dengan data kota/kabupaten
+df = pd.DataFrame(data)
+# Ambil latitude dan longitude dari DataFrame
+latitudes = df['latitude'].astype(float)
+longitudes = df['longitude'].astype(float)
+# Replace "nama" with your actual column name containing location names
+nama = df['bps_kota_nama'].astype('string')
+# Buat DataFrame dengan data latitude dan longitude
+chart_data = pd.DataFrame({'lat': latitudes, 'lon': longitudes, 'nama': nama})
+
+# Merge the stunting data with the existing data based on 'nama_kabupaten_kota' and 'bps_kota_nama'
+df_stunting = pd.DataFrame(data_stunting)
+combined_data = pd.merge(chart_data, df_stunting,
+                         left_on='nama', right_on='nama_kabupaten_kota')
+
+# Set initial view for a more zoomed-in map
+center_latitude = -6.920434
+center_longitude = 107.604953
+
+# Create a dropdown for selecting the year
+selected_year = st.selectbox("Select a Year", df_stunting['tahun'].unique())
+
+# Filter data based on the selected year
+filtered_data = combined_data[combined_data['tahun'] == selected_year]
+
+# Create a map with blue markers and text labels for 'nama' and stunting data
+st.write(
+    pdk.Deck(
+        map_style='mapbox://styles/mapbox/light-v9',
+        initial_view_state=pdk.ViewState(
+            latitude=center_latitude,
+            longitude=center_longitude,
+            zoom=10,  # Adjust the zoom level as needed
+            pitch=50,
+        ),
+        layers=[
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=filtered_data,
+                get_position='[lon, lat]',
+                get_color='[0, 0, 255, 160]',  # Ensure the color is visible
+                get_radius=200,
+            ),
+            pdk.Layer(
+                "TextLayer",
+                data=filtered_data,
+                get_position='[lon, lat]',
+                get_text="nama",
+                get_color=[0, 0, 0, 255],
+                get_size=9,  # Increase the font size
+                get_alignment_baseline="'bottom'",
+            ),
+            pdk.Layer(
+                "TextLayer",
+                data=filtered_data,
+                get_position='[lon, lat]',
+                get_text="jumlah_balita_stunting",
+                get_color=[255, 0, 0, 255],  # Red color for stunting data
+                get_size=9,  # Increase the font size
+                get_alignment_baseline="'top'",
+            ),
+        ],
+    ),
+    use_container_width=True,
+    height=800
 )
-
-# Layer kedua untuk nomor
-data['number'] = [1, 2, 3]
-layer_number = pdk.Layer(
-    "TextLayer",
-    data=data,
-    get_position=["longitude", "latitude"],
-    get_text="number",
-    get_color=[0, 0, 0],
-    get_size=25,
-    get_alignment_baseline="'bottom'",
-)
-
-# Layer ketiga untuk dot color
-layer_dot_color = pdk.Layer(
-    "ScatterplotLayer",
-    data=data,
-    get_position=["longitude", "latitude"],
-    get_fill_color="text_color",
-    get_radius=100,
-    pickable=True,
-    auto_highlight=True,
-)
-
-# Membuat peta
-view_state = pdk.ViewState(
-    latitude=data['latitude'].mean(),
-    longitude=data['longitude'].mean(),
-    zoom=8,
-)
-r = pdk.Deck(layers=[layer_location, layer_number,
-             layer_dot_color], initial_view_state=view_state)
-
-# Menampilkan peta menggunakan komponen Streamlit
-st.pydeck_chart(r)
