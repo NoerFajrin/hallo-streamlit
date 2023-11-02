@@ -56,6 +56,7 @@ df = pd.DataFrame(combined_data)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
+st.write(filtered_data)
 
 # Create a PyDeck map with a 3D hexagon layer for 'balita_stunting'
 view_state = pdk.ViewState(
