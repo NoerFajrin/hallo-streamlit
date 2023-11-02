@@ -72,7 +72,7 @@ text_layer_balita_stunting = pdk.Layer(
     data=filtered_data,
     get_position='[lon, lat]',
     get_text='balita_stunting',
-    get_size=15,
+    get_size=18,
     get_color='[0, 0, 0, 255]',
     # Tambahkan latar belakang putih
     get_background_color='[255, 255, 255, 128]',
