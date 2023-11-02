@@ -68,8 +68,10 @@ filtered_data = df[df['tahun'] == selected_year]
 # Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
 filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(int)
-min_stunting = filtered_data['balita_stunting'].min()
-max_stunting = filtered_data['balita_stunting'].max()
+min_stunting = filtered_data['balita_stunting'].min().astype(int)
+max_stunting = filtered_data['balita_stunting'].max().astype(int)
+st.write(min_stunting)
+st.write(max_stunting)
 st.write(filtered_data)
 
 st.pydeck_chart(pdk.Deck(
