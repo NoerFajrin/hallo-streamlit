@@ -61,6 +61,7 @@ tipe_data_tahun = filtered_data['balita_stunting'].dtype
 st.write("Tipe data kolom 'tahun':", tipe_data_tahun)
 # Mengubah tipe data kolom 'tahun' menjadi objek (string)
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
+filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
 
 # Menampilkan DataFrame yang telah diubah
 st.write(filtered_data)
@@ -87,7 +88,7 @@ st.pydeck_chart(pdk.Deck(
             'TextLayer',
             data=filtered_data,
             get_position='[lon, lat]',
-            get_text='tahun',
+            get_text='balita_stunting',
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
         ),
