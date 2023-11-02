@@ -81,11 +81,11 @@ st.pydeck_chart(pdk.Deck(
     layers=[
         pdk.Layer(
             'HexagonLayer',
-            data=chart_data,
+            data=filtered_data,
             get_position='[lon, lat]',
             get_color='[200, 30, 0, 160]',
             get_radius=200,
-            get_elevation='elevation',  # Use 'elevation' column for elevation
+            get_elevation='balita_stunting',  # Use 'elevation' column for elevation
             elevation_scale=5,  # You can adjust this value as needed
             elevation_range=[0, 1000],  # Set your desired elevation range
             extruded=True,
