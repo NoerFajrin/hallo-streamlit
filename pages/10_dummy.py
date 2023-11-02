@@ -18,8 +18,10 @@ data_stunting = responseStunting.json().get('data', [])
 # Create a list of years for selection
 years = sorted(list(set(stunting_data["tahun"]
                for stunting_data in data_stunting)))
+
 # Allow the user to select a year
 selected_year = st.selectbox("Pilih Tahun:", years)
+
 # Combine the data for the selected year
 combined_data = []
 
@@ -49,6 +51,11 @@ for stunting_data in data_stunting:
 
             combined_data.append(data_baru)
 
-# Display the combined data
+# Create a DataFrame
 df = pd.DataFrame(combined_data)
+
+# Konversi kolom "tahun" ke tipe data integer
+df['tahun'] = df['tahun'].astype(int)
+
+# Display the combined data
 st.write(df)
