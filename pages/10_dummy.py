@@ -1,6 +1,4 @@
 import streamlit as st
-import pandas as pd
-import pydeck as pdk
 import requests
 
 # Define the API endpoints
@@ -15,7 +13,13 @@ responseStunting = requests.get(endpoint_data_stunting)
 data_lat_lon = response.json().get('data', [])
 data_stunting = responseStunting.json().get('data', [])
 
-# Combine the data
+# Create a list of years for selection
+years = list(set(stunting_data["tahun"] for stunting_data in data_stunting))
+
+# Allow the user to select a year
+selected_year = st.selectbox("Select a year", years)
+
+# Combine the data for the selected year
 combined_data = []
 
 for stunting_data in data_stunting:
@@ -23,24 +27,26 @@ for stunting_data in data_stunting:
     jumlah_balita_stunting = stunting_data["jumlah_balita_stunting"]
     tahun = stunting_data["tahun"]
 
-    # Find matching data in data_lat_lon based on the name of the kabupaten/kota
-    matching_lat_lon_data = [
-        item for item in data_lat_lon if item["bps_kota_nama"] == nama_kabupaten_kota_stunting]
+    # Filter data for the selected year
+    if tahun == selected_year:
+        # Find matching data in data_lat_lon based on the name of the kabupaten/kota
+        matching_lat_lon_data = [
+            item for item in data_lat_lon if item["bps_kota_nama"] == nama_kabupaten_kota_stunting]
 
-    if matching_lat_lon_data:
-        lat = matching_lat_lon_data[0]["latitude"]
-        lon = matching_lat_lon_data[0]["longitude"]
+        if matching_lat_lon_data:
+            lat = matching_lat_lon_data[0]["latitude"]
+            lon = matching_lat_lon_data[0]["longitude"]
 
-        # Create a new data object
-        data_baru = {
-            "nama_kab": nama_kabupaten_kota_stunting,
-            "lat": lat,
-            "lon": lon,
-            "balita_stunting": jumlah_balita_stunting,
-            "tahun": tahun
-        }
+            # Create a new data object
+            data_baru = {
+                "nama_kab": nama_kabupaten_kota_stunting,
+                "lat": lat,
+                "lon": lon,
+                "balita_stunting": jumlah_balita_stunting,
+                "tahun": tahun
+            }
 
-        combined_data.append(data_baru)
+            combined_data.append(data_baru)
 
 # Display the combined data
 st.write(combined_data)
