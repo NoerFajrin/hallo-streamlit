@@ -56,11 +56,9 @@ df = pd.DataFrame(combined_data)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
-
 # Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
 filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
-
 # Create a PyDeck map with markers and text labels
 view_state = pdk.ViewState(
     latitude=filtered_data['lat'].mean(),
@@ -68,7 +66,6 @@ view_state = pdk.ViewState(
     zoom=6,
     pitch=50
 )
-
 # Create a text label layer for 'balita_stunting'
 text_layer_balita_stunting = pdk.Layer(
     'TextLayer',
@@ -77,6 +74,8 @@ text_layer_balita_stunting = pdk.Layer(
     get_text='balita_stunting',
     get_size=18,
     get_color='[0, 0, 0, 255]',
+    # Tambahkan latar belakang putih
+    get_background_color='[255, 255, 255, 128]',
     get_alignment_baseline="'top'",
 )
 
@@ -107,6 +106,5 @@ deck = pdk.Deck(
         text_layer_nama_kab
     ]
 )
-
 # Display the PyDeck map
 st.pydeck_chart(deck)
