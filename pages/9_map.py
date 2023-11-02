@@ -121,4 +121,4 @@ deck = pdk.Deck(
 )
 
 # Display the PyDeck map
-st.pydeck_chart
+st.pydeck_chart(deck)
