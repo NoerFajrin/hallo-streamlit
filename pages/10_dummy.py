@@ -84,7 +84,7 @@ text_layer_nama_kab = pdk.Layer(
     'TextLayer',
     data=filtered_data,
     get_position='[lon, lat]',
-    get_text='nama_kab',
+    # get_text='nama_kab',
     get_size=15,
     get_color='[0, 0, 0, 255]',
     get_alignment_baseline="'bottom'",
