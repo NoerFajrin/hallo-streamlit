@@ -28,7 +28,7 @@ st.pydeck_chart(pdk.Deck(
             get_color='[200, 30, 0, 160]',
             get_radius=200,
             get_elevation='elevation',  # Use 'elevation' column for elevation
-            elevation_scale=4,  # You can adjust this value as needed
+            elevation_scale=1,  # You can adjust this value as needed
             elevation_range=[0, 1000],  # Set your desired elevation range
             extruded=True,
             coverage=1
