@@ -53,11 +53,10 @@ for stunting_data in data_stunting:
 
 # Create a DataFrame
 df = pd.DataFrame(combined_data)
-
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
 # Replace "nama" with your actual column name containing location names
-nama = df['balita_stunting'].astype('int')
+st.write(filtered_data)
 
 # Create a PyDeck map with markers and text labels using the "balita_stunting" column as text
 st.pydeck_chart(pdk.Deck(
