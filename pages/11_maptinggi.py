@@ -27,7 +27,8 @@ combined_data = []
 
 for stunting_data in data_stunting:
     nama_kabupaten_kota_stunting = stunting_data["nama_kabupaten_kota"]
-    jumlah_balita_stunting = stunting_data["jumlah_balita_stunting"]
+    jumlah_balita_stunting = int(
+        stunting_data["jumlah_balita_stunting"])  # Convert to int
     tahun = stunting_data["tahun"]
 
     # Filter data for the selected year
@@ -58,8 +59,9 @@ df = pd.DataFrame(combined_data)
 filtered_data = df[df['tahun'] == selected_year]
 # Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
-filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
-st.write(filtered_data)
+filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(
+    int)  # Ensure it's integer
+
 # Create a PyDeck map with hexagonal layer and text labels
 view_state = pdk.ViewState(
     latitude=filtered_data['lat'].mean(),
@@ -90,3 +92,6 @@ deck = pdk.Deck(
 
 # Display the PyDeck map
 st.pydeck_chart(deck)
+
+# Display the DataFrame
+st.write(filtered_data)
