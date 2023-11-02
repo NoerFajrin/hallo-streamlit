@@ -56,49 +56,57 @@ df = pd.DataFrame(combined_data)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
-st.write(filtered_data)
-tipe_data_tahun = filtered_data['balita_stunting'].dtype
-st.write("Tipe data kolom 'tahun':", tipe_data_tahun)
-# Mengubah tipe data kolom 'tahun' menjadi objek (string)
+
+# Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
 filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
 
-# Menampilkan DataFrame yang telah diubah
-st.write(filtered_data)
+# Create a PyDeck map with markers and text labels
+view_state = pdk.ViewState(
+    latitude=filtered_data['lat'].mean(),
+    longitude=filtered_data['lon'].mean(),
+    zoom=6,
+    pitch=50
+)
 
+# Create a text label layer for 'balita_stunting'
+text_layer_balita_stunting = pdk.Layer(
+    'TextLayer',
+    data=filtered_data,
+    get_position='[lon, lat]',
+    get_text='balita_stunting',
+    get_size=18,
+    get_color='[0, 0, 0, 255]',
+    get_alignment_baseline="'top'",
+)
 
-# Create a PyDeck map with markers and text labels using the "balita_stunting" column as text
-st.pydeck_chart(pdk.Deck(
+# Create a text label layer for 'nama_kab'
+text_layer_nama_kab = pdk.Layer(
+    'TextLayer',
+    data=filtered_data,
+    get_position='[lon, lat]',
+    get_text='nama_kab',
+    get_size=18,
+    get_color='[0, 0, 0, 255]',
+    get_alignment_baseline="'bottom'",
+)
+
+# Create a PyDeck Deck with both text label layers
+deck = pdk.Deck(
     map_style='mapbox://styles/mapbox/light-v9',
-    initial_view_state=pdk.ViewState(
-        latitude=filtered_data['lat'].mean(),
-        longitude=filtered_data['lon'].mean(),
-        zoom=6,
-        pitch=50,
-    ),
+    initial_view_state=view_state,
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
             data=filtered_data,
             get_position='[lon, lat]',
-            get_radius=1000,  # Adjust the marker size as needed
-            get_color='[0, 0, 255, 160]',  # Marker color (blue)
+            get_radius=1000,
+            get_color='[0, 0, 255, 160]'
         ),
-        pdk.Layer(
-            'TextLayer',
-            data=filtered_data,
-            get_position='[lon, lat]',
-            get_text='balita_stunting',
-            get_size=18,  # Text label size
-            get_color='[0, 0, 0, 255]',  # Text label color (black)
-        ),
-        pdk.Layer(
-            'TextLayer',
-            data=filtered_data,
-            get_position='[lon, lat]',
-            get_text='nama_kab',
-            get_size=18,  # Text label size
-            get_color='[0, 0, 0, 255]',  # Text label color (black)
-        ),
-    ],
-))
+        text_layer_balita_stunting,
+        text_layer_nama_kab
+    ]
+)
+
+# Display the PyDeck map
+st.pydeck_chart(deck)
