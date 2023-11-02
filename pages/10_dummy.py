@@ -57,7 +57,7 @@ df = pd.DataFrame(combined_data)
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
 
-st.write(filtered_data)
+st.write(filtered_data.tahun)
 
 # Create a PyDeck map with markers and text labels using the "balita_stunting" column as text
 st.pydeck_chart(pdk.Deck(
