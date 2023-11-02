@@ -22,7 +22,7 @@ years = sorted(list(set(stunting_data["tahun"]
 # Allow the user to select a year
 selected_year = st.selectbox("Select a year", years)
 
-# Create data for each layer
+# Create data for the selected year
 data_layers = []
 
 for stunting_data in data_stunting:
@@ -49,8 +49,8 @@ for stunting_data in data_stunting:
 
 # Create Pandas DataFrame for the combined data
 data_df = pd.DataFrame(data_layers)
-st.write(data_df)
-# Display the combined data with 3 layers on the map
+
+# Display the combined data with TextLayer to show the jumlah_stunting
 st.pydeck_chart(
     pdk.Deck(
         map_style='mapbox://styles/mapbox/light-v9',
@@ -62,13 +62,6 @@ st.pydeck_chart(
         ),
         layers=[
             pdk.Layer(
-                'ScatterplotLayer',
-                data=data_df,
-                get_position='[lon, lat]',
-                get_radius='jumlah_stunting / 100',  # Adjust radius as needed
-                get_fill_color=[0, 0, 255, 160],
-            ),
-            pdk.Layer(
                 "TextLayer",
                 data=data_df,
                 get_position='[lon, lat]',
@@ -76,13 +69,6 @@ st.pydeck_chart(
                 get_color=[0, 0, 0, 255],
                 get_size=16,
                 get_alignment_baseline="'top'",
-            ),
-            pdk.Layer(
-                'ScatterplotLayer',
-                data=data_df,
-                get_position='[lon, lat]',
-                get_radius=200,
-                get_fill_color=[255, 0, 0, 160],
             ),
         ],
     ),
