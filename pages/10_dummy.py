@@ -57,9 +57,7 @@ df = pd.DataFrame(combined_data)
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
 
-# Menghilangkan tanda kutip dan tanda koma dari kolom "balita_stunting" dan mengkonversinya ke tipe data angka
-filtered_data['balita_stunting'] = filtered_data['balita_stunting'].str.replace(
-    ',', '', regex=True).astype(int)
+st.write(filtered_data)
 
 # Create a PyDeck map with markers and text labels using the "balita_stunting" column as text
 st.pydeck_chart(pdk.Deck(
