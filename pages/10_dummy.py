@@ -23,9 +23,7 @@ years = sorted(list(set(stunting_data["tahun"]
 selected_year = st.selectbox("Select a year", years)
 
 # Create data for each layer
-jumlah_stunting_data = []
-nama_kab_data = []
-lat_lon_data = []
+data_layers = []
 
 for stunting_data in data_stunting:
     nama_kabupaten_kota_stunting = stunting_data["nama_kabupaten_kota"]
@@ -42,58 +40,46 @@ for stunting_data in data_stunting:
             lat = matching_lat_lon_data[0]["latitude"]
             lon = matching_lat_lon_data[0]["longitude"]
 
-            jumlah_stunting_data.append({
-                "jumlah_stunting": jumlah_balita_stunting,
-                "lat": lat,
-                "lon": lon
-            })
-
-            nama_kab_data.append({
+            data_layers.append({
                 "nama_kab": nama_kabupaten_kota_stunting,
                 "lat": lat,
-                "lon": lon
+                "lon": lon,
+                "jumlah_stunting": jumlah_balita_stunting
             })
 
-            lat_lon_data.append({
-                "lat": lat,
-                "lon": lon
-            })
-
-# Create Pandas DataFrames
-jumlah_stunting_df = pd.DataFrame(jumlah_stunting_data)
-nama_kab_df = pd.DataFrame(nama_kab_data)
-lat_lon_df = pd.DataFrame(lat_lon_data)
+# Create Pandas DataFrame for the combined data
+data_df = pd.DataFrame(data_layers)
 
 # Display the combined data with 3 layers on the map
 st.pydeck_chart(
     pdk.Deck(
         map_style='mapbox://styles/mapbox/light-v9',
         initial_view_state=pdk.ViewState(
-            latitude=lat_lon_data[0]["lat"],
-            longitude=lat_lon_data[0]["lon"],
+            latitude=data_df['lat'].mean(),
+            longitude=data_df['lon'].mean(),
             zoom=8,
             pitch=50,
         ),
         layers=[
             pdk.Layer(
                 'ScatterplotLayer',
-                data=jumlah_stunting_df,
+                data=data_df,
                 get_position='[lon, lat]',
                 get_radius='jumlah_stunting / 100',  # Adjust radius as needed
                 get_fill_color=[0, 0, 255, 160],
             ),
             pdk.Layer(
                 "TextLayer",
-                data=nama_kab_df,
+                data=data_df,
                 get_position='[lon, lat]',
-                get_text="nama_kab",
+                get_text="jumlah_stunting",
                 get_color=[0, 0, 0, 255],
                 get_size=16,
                 get_alignment_baseline="'top'",
             ),
             pdk.Layer(
                 'ScatterplotLayer',
-                data=lat_lon_df,
+                data=data_df,
                 get_position='[lon, lat]',
                 get_radius=200,
                 get_fill_color=[255, 0, 0, 160],
