@@ -49,7 +49,7 @@ for stunting_data in data_stunting:
 
 # Create Pandas DataFrame for the combined data
 data_df = pd.DataFrame(data_layers)
-
+st.write(data_df)
 # Display the combined data with 3 layers on the map
 st.pydeck_chart(
     pdk.Deck(
