@@ -56,8 +56,8 @@ df = pd.DataFrame(combined_data)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
-
-tipe_data_tahun = filtered_data['nama_kab'].dtype
+st.write(filtered_data)
+tipe_data_tahun = filtered_data['balita_stunting'].dtype
 st.write("Tipe data kolom 'tahun':", tipe_data_tahun)
 
 
@@ -82,7 +82,6 @@ st.pydeck_chart(pdk.Deck(
             'TextLayer',
             data=filtered_data,
             get_position='[lon, lat]',
-            # Display the "balita_stunting" value as text
             get_text='nama_kab',
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
