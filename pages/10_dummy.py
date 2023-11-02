@@ -53,12 +53,11 @@ for stunting_data in data_stunting:
 
 # Create a DataFrame
 df = pd.DataFrame(combined_data)
-st.write(df)
-js = df['balita_stunting'].astype('string')
+
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
 
-# Create a PyDeck map with markers and text labels
+# Create a PyDeck map with markers and text labels using the "balita_stunting" column
 st.pydeck_chart(pdk.Deck(
     map_style='mapbox://styles/mapbox/light-v9',
     initial_view_state=pdk.ViewState(
@@ -79,7 +78,7 @@ st.pydeck_chart(pdk.Deck(
             'TextLayer',
             data=filtered_data,
             get_position='[lon, lat]',
-            get_text='js',
+            get_text='balita_stunting',  # Display the "balita_stunting" value as text
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
         ),
