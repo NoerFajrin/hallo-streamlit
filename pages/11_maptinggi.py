@@ -3,9 +3,13 @@ import pandas as pd
 import numpy as np
 import pydeck as pdk
 
-chart_data = pd.DataFrame(
-    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
-    columns=['lat', 'lon'])
+# Generate random data with elevation values
+chart_data = pd.DataFrame({
+    'lat': np.random.uniform(37.75, 37.77, 1000),  # Adjust latitude range
+    'lon': np.random.uniform(-122.45, -122.42, 1000),  # Adjust longitude range
+    'elevation': np.random.randint(0, 1000, 1000)  # Elevation values
+})
+
 st.write(chart_data)
 
 st.pydeck_chart(pdk.Deck(
@@ -18,21 +22,14 @@ st.pydeck_chart(pdk.Deck(
     ),
     layers=[
         pdk.Layer(
-            'HexagonLayer',
-            data=chart_data,
-            get_position='[lon, lat]',
-            radius=200,
-            elevation_scale=4,
-            elevation_range=[0, 1000],
-            pickable=True,
-            extruded=True,
-        ),
-        pdk.Layer(
             'ScatterplotLayer',
             data=chart_data,
             get_position='[lon, lat]',
             get_color='[200, 30, 0, 160]',
             get_radius=200,
+            get_elevation='elevation',  # Use 'elevation' column for elevation
+            elevation_scale=4,  # You can adjust this value as needed
+            elevation_range=[0, 1000],  # Set your desired elevation range
         ),
     ],
 ))
