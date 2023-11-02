@@ -70,10 +70,9 @@ view_state = pdk.ViewState(
 
 hexagon_layer = pdk.Layer(
     'HexagonLayer',
-    data=filtered_data,
+    'balita_stunting',
     get_position='[lon, lat]',
     auto_highlight=True,
-    get_elevation='balita_stunting',
     elevation_scale=50,
     pickable=True,
     elevation_range=[0, 3000],
