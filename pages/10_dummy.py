@@ -56,8 +56,6 @@ df = pd.DataFrame(combined_data)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
-latitudes = df['latitude'].astype(float)
-longitudes = df['longitude'].astype(float)
 # Replace "nama" with your actual column name containing location names
 nama = df['balita_stunting'].astype('int')
 
