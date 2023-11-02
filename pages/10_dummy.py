@@ -1,7 +1,5 @@
 import streamlit as st
 import requests
-import pandas as pd
-import pydeck as pdk
 
 # Define the API endpoints
 endpoint_data_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
@@ -15,15 +13,14 @@ responseStunting = requests.get(endpoint_data_stunting)
 data_lat_lon = response.json().get('data', [])
 data_stunting = responseStunting.json().get('data', [])
 
-# Create a list of years for selection and sort it
-years = sorted(list(set(stunting_data["tahun"]
-               for stunting_data in data_stunting)))
+# Create a list of years for selection
+years = list(set(stunting_data["tahun"] for stunting_data in data_stunting))
 
 # Allow the user to select a year
 selected_year = st.selectbox("Select a year", years)
 
-# Create data for the selected year
-data_layers = []
+# Combine the data for the selected year
+combined_data = []
 
 for stunting_data in data_stunting:
     nama_kabupaten_kota_stunting = stunting_data["nama_kabupaten_kota"]
@@ -40,37 +37,16 @@ for stunting_data in data_stunting:
             lat = matching_lat_lon_data[0]["latitude"]
             lon = matching_lat_lon_data[0]["longitude"]
 
-            data_layers.append({
+            # Create a new data object
+            data_baru = {
                 "nama_kab": nama_kabupaten_kota_stunting,
                 "lat": lat,
                 "lon": lon,
-                "jumlah_stunting": jumlah_balita_stunting
-            })
+                "balita_stunting": jumlah_balita_stunting,
+                "tahun": tahun
+            }
 
-# Create Pandas DataFrame for the combined data
-data_df = pd.DataFrame(data_layers)
+            combined_data.append(data_baru)
 
-# Display the combined data with TextLayer to show the jumlah_stunting
-st.pydeck_chart(
-    pdk.Deck(
-        map_style='mapbox://styles/mapbox/light-v9',
-        initial_view_state=pdk.ViewState(
-            latitude=data_df['lat'].mean(),
-            longitude=data_df['lon'].mean(),
-            zoom=8,
-            pitch=50,
-        ),
-        layers=[
-            pdk.Layer(
-                "TextLayer",
-                data=data_df,
-                get_position='[lon, lat]',
-                get_text="jumlah_stunting",
-                get_color=[0, 0, 0, 255],
-                get_size=16,
-                get_alignment_baseline="'top'",
-            ),
-        ],
-    ),
-    use_container_width=True,
-)
+# Display the combined data
+st.write(combined_data)
