@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import pandas as pd
+import pydeck as pdk
 
 # Define the API endpoints
 endpoint_data_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
@@ -20,8 +22,10 @@ years = sorted(list(set(stunting_data["tahun"]
 # Allow the user to select a year
 selected_year = st.selectbox("Select a year", years)
 
-# Combine the data for the selected year
-combined_data = []
+# Create data for each layer
+jumlah_stunting_data = []
+nama_kab_data = []
+lat_lon_data = []
 
 for stunting_data in data_stunting:
     nama_kabupaten_kota_stunting = stunting_data["nama_kabupaten_kota"]
@@ -38,16 +42,63 @@ for stunting_data in data_stunting:
             lat = matching_lat_lon_data[0]["latitude"]
             lon = matching_lat_lon_data[0]["longitude"]
 
-            # Create a new data object
-            data_baru = {
+            jumlah_stunting_data.append({
+                "jumlah_stunting": jumlah_balita_stunting,
+                "lat": lat,
+                "lon": lon
+            })
+
+            nama_kab_data.append({
                 "nama_kab": nama_kabupaten_kota_stunting,
                 "lat": lat,
-                "lon": lon,
-                "balita_stunting": jumlah_balita_stunting,
-                "tahun": tahun
-            }
+                "lon": lon
+            })
 
-            combined_data.append(data_baru)
+            lat_lon_data.append({
+                "lat": lat,
+                "lon": lon
+            })
 
-# Display the combined data
-st.write(combined_data)
+# Create Pandas DataFrames
+jumlah_stunting_df = pd.DataFrame(jumlah_stunting_data)
+nama_kab_df = pd.DataFrame(nama_kab_data)
+lat_lon_df = pd.DataFrame(lat_lon_data)
+
+# Display the combined data with 3 layers on the map
+st.pydeck_chart(
+    pdk.Deck(
+        map_style='mapbox://styles/mapbox/light-v9',
+        initial_view_state=pdk.ViewState(
+            latitude=lat_lon_data[0]["lat"],
+            longitude=lat_lon_data[0]["lon"],
+            zoom=8,
+            pitch=50,
+        ),
+        layers=[
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=jumlah_stunting_df,
+                get_position='[lon, lat]',
+                get_radius='jumlah_stunting / 100',  # Adjust radius as needed
+                get_fill_color=[0, 0, 255, 160],
+            ),
+            pdk.Layer(
+                "TextLayer",
+                data=nama_kab_df,
+                get_position='[lon, lat]',
+                get_text="nama_kab",
+                get_color=[0, 0, 0, 255],
+                get_size=16,
+                get_alignment_baseline="'top'",
+            ),
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=lat_lon_df,
+                get_position='[lon, lat]',
+                get_radius=200,
+                get_fill_color=[255, 0, 0, 160],
+            ),
+        ],
+    ),
+    use_container_width=True,
+)
