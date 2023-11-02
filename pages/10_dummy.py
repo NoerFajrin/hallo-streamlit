@@ -56,6 +56,10 @@ df = pd.DataFrame(combined_data)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
+latitudes = df['latitude'].astype(float)
+longitudes = df['longitude'].astype(float)
+# Replace "nama" with your actual column name containing location names
+nama = df['balita_stunting'].astype('int')
 
 # Create a PyDeck map with markers and text labels using the "balita_stunting" column as text
 st.pydeck_chart(pdk.Deck(
@@ -79,7 +83,7 @@ st.pydeck_chart(pdk.Deck(
             data=filtered_data,
             get_position='[lon, lat]',
             # Display the "balita_stunting" value as text
-            get_text='balita_stunting.astype(str)',
+            get_text='nama',
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
         ),
