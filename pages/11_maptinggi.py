@@ -59,7 +59,7 @@ filtered_data = df[df['tahun'] == selected_year]
 # Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
 filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
-
+st.write(filtered_data)
 # Create a PyDeck map with hexagonal layer and text labels
 view_state = pdk.ViewState(
     latitude=filtered_data['lat'].mean(),
