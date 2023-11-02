@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pydeck as pdk
+import requests
 
 # Generate random data with elevation values
 chart_data = pd.DataFrame({
