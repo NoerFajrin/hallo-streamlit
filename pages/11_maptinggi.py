@@ -5,9 +5,9 @@ import pydeck as pdk
 
 # Generate random data with elevation values
 chart_data = pd.DataFrame({
-    'lat': np.random.uniform(37.75, 37.77, 1000),  # Adjust latitude range
-    'lon': np.random.uniform(-122.45, -122.42, 1000),  # Adjust longitude range
-    'elevation': np.random.randint(0, 1000, 1000)  # Elevation values
+    'lat': np.random.uniform(37.75, 37.77, 2),  # Adjust latitude range
+    'lon': np.random.uniform(-122.45, -122.42, 2),  # Adjust longitude range
+    'elevation': np.random.randint(0, 1000, 2)  # Elevation values
 })
 
 st.write(chart_data)
