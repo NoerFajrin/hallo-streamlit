@@ -92,5 +92,13 @@ st.pydeck_chart(pdk.Deck(
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
         ),
+        pdk.Layer(
+            'TextLayer',
+            data=filtered_data,
+            get_position='[lon, lat]',
+            get_text='nama_kab',
+            get_size=18,  # Text label size
+            get_color='[0, 0, 0, 255]',  # Text label color (black)
+        ),
     ],
 ))
