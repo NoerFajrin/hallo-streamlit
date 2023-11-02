@@ -68,6 +68,8 @@ filtered_data = df[df['tahun'] == selected_year]
 # Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
 filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(int)
+min_stunting = filtered_data['balita_stunting'].min()
+max_stunting = filtered_data['balita_stunting'].max()
 st.write(filtered_data)
 
 st.pydeck_chart(pdk.Deck(
@@ -89,7 +91,8 @@ st.pydeck_chart(pdk.Deck(
             pickable=True,
             get_elevation='balita_stunting',  # Use 'elevation' column for elevation
             elevation_scale=5,  # You can adjust this value as needed
-            elevation_range=[1000, 20000],  # Set your desired elevation range
+            # Set your desired elevation range
+            elevation_range=[min_stunting, max_stunting],
             extruded=True,
             coverage=1,
             tooltip={"html": "Elevation: '[balita_stunting]'"},
