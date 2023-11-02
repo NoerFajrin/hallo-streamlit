@@ -68,7 +68,7 @@ view_state = pdk.ViewState(
 )
 # Create a text label layer for 'balita_stunting'
 text_layer_balita_stunting = pdk.Layer(
-    'TextLayer',
+    'ColumnLayer',
     data=filtered_data,
     get_position='[lon, lat]',
     get_elevation='balita_stunting',
