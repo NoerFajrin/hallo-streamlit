@@ -55,7 +55,7 @@ for stunting_data in data_stunting:
 df = pd.DataFrame(combined_data)
 
 # Konversi kolom "tahun" ke tipe data integer
-df['tahun'] = df['tahun'].astype(int)
-
+unique_years = df['tahun'].unique()
+st.write(unique_years)
 # Display the combined data
 st.write(df)
