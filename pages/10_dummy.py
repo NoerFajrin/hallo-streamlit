@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import pydeck as pdk
 import requests
 
 # Define the API endpoints
@@ -49,4 +51,5 @@ for stunting_data in data_stunting:
             combined_data.append(data_baru)
 
 # Display the combined data
-st.write(combined_data)
+df = pd.DataFrame(combined_data)
+st.write(df)
