@@ -16,13 +16,10 @@ data_lat_lon = response.json().get('data', [])
 data_stunting = responseStunting.json().get('data', [])
 
 # Create a list of years for selection
-years = list(set(stunting_data["tahun"] for stunting_data in data_stunting))
-
+years = sorted(list(set(stunting_data["tahun"]
+               for stunting_data in data_stunting)))
 # Allow the user to select a year
-# selected_year = st.selectbox("Select a year", years)
-selected_years_range = st.slider(
-    "Select a range of years", 2014, 2022, (2014, 2022))
-
+selected_year = st.selectbox("Pilih Tahun:", years)
 # Combine the data for the selected year
 combined_data = []
 
