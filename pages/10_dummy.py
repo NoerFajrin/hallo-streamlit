@@ -54,8 +54,49 @@ for stunting_data in data_stunting:
 # Create a DataFrame
 df = pd.DataFrame(combined_data)
 
-# Konversi kolom "tahun" ke tipe data integer
-# Remove the comma (,) from the "tahun" values and convert to integer
-df['tahun'] = df['tahun'].astype(int)
+# Ambil latitude dan longitude dari DataFrame
+tahun = df['tahun'].astype(int)
+latitudes = df['latitude'].astype(float)
+longitudes = df['longitude'].astype(float)
+nama = df['nama_kab'].astype('string')
+jumlah = df['balita_stunting'].astype(int)
+# Buat DataFrame dengan data latitude dan longitude
+chart_data = pd.DataFrame(
+    {'lat': latitudes, 'lon': longitudes, 'jumlah': jumlah})
 # Display the combined data
 st.write(df)
+# Set initial view for a more zoomed-in map
+center_latitude = -6.920434
+center_longitude = 107.604953
+# Create a map with blue markers and text labels from the 'nama' column
+st.write(
+    pdk.Deck(
+        map_style='mapbox://styles/mapbox/light-v9',
+        initial_view_state=pdk.ViewState(
+            latitude=center_latitude,
+            longitude=center_longitude,
+            zoom=10,  # Adjust the zoom level as needed
+            pitch=50,
+        ),
+        layers=[
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=chart_data,
+                get_position='[lon, lat]',
+                get_color='[0, 0, 255, 160]',  # Ensure the color is visible
+                get_radius=200,
+            ),
+            pdk.Layer(
+                "TextLayer",
+                data=chart_data,
+                get_position='[lon, lat]',
+                get_text="jumlah",
+                get_color=[0, 0, 0, 255],
+                get_size=9,  # Increase the font size
+                get_alignment_baseline="'bottom'",
+            ),
+        ],
+    ),
+    use_container_width=True,
+    height=800
+)
