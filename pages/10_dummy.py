@@ -54,6 +54,7 @@ for stunting_data in data_stunting:
 # Create a DataFrame
 df = pd.DataFrame(combined_data)
 st.write(df)
+js = df['balita_stunting'].astype('string')
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
 
@@ -78,7 +79,7 @@ st.pydeck_chart(pdk.Deck(
             'TextLayer',
             data=filtered_data,
             get_position='[lon, lat]',
-            get_text='balita_stunting',
+            get_text='js',
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
         ),
