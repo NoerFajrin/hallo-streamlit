@@ -83,7 +83,7 @@ st.pydeck_chart(pdk.Deck(
             data=filtered_data,
             get_position='[lon, lat]',
             # Display the "balita_stunting" value as text
-            get_text='balita_stunting.astype(str)',
+            get_text='nama_kab',
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
         ),
