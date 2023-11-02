@@ -13,8 +13,9 @@ responseStunting = requests.get(endpoint_data_stunting)
 data_lat_lon = response.json().get('data', [])
 data_stunting = responseStunting.json().get('data', [])
 
-# Create a list of years for selection
-years = list(set(stunting_data["tahun"] for stunting_data in data_stunting))
+# Create a list of years for selection and sort it
+years = sorted(list(set(stunting_data["tahun"]
+               for stunting_data in data_stunting)))
 
 # Allow the user to select a year
 selected_year = st.selectbox("Select a year", years)
