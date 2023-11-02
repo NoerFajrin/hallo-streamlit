@@ -64,7 +64,7 @@ view_state = pdk.ViewState(
     latitude=filtered_data['lat'].mean(),
     longitude=filtered_data['lon'].mean(),
     zoom=19,
-    pitch=50
+    pitch=20
 )
 # Create a text label layer for 'balita_stunting'
 text_layer_balita_stunting = pdk.Layer(
