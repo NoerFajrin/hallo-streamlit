@@ -69,23 +69,23 @@ view_state = pdk.ViewState(
 )
 # Create a text label layer for 'balita_stunting'
 text_layer_balita_stunting = pdk.Layer(
-    # 'TextLayer',
-    # data=filtered_data,
-    # get_position='[lon, lat]',
-    # get_text='balita_stunting',
-    # get_size=15,
-    # get_color='[0, 0, 0, 255]',
-    # get_alignment_baseline="'bottom'",
-    'HexagonLayer',
+    'TextLayer',
     data=filtered_data,
     get_position='[lon, lat]',
-    get_color='[200, 30, 0, 160]',
-    get_radius=200,
-    get_elevation='balita_stunting',  # Use 'elevation' column for elevation
-    elevation_scale=4,  # You can adjust this value as needed
-    elevation_range=[0, 1000],  # Set your desired elevation range
-    extruded=True,
-    coverage=1
+    get_text='balita_stunting',
+    get_size=15,
+    get_color='[0, 0, 0, 255]',
+    get_alignment_baseline="'bottom'",
+    # 'HexagonLayer',
+    # data=filtered_data,
+    # get_position='[lon, lat]',
+    # get_color='[200, 30, 0, 160]',
+    # get_radius=200,
+    # get_elevation='balita_stunting',  # Use 'elevation' column for elevation
+    # elevation_scale=4,  # You can adjust this value as needed
+    # elevation_range=[0, 1000],  # Set your desired elevation range
+    # extruded=True,
+    # coverage=1
 )
 
 # Create a text label layer for 'nama_kab'
