@@ -56,6 +56,8 @@ df = pd.DataFrame(combined_data)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
+filtered_data['tahun'] = filtered_data['tahun'].astype(str)
+filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(int)
 st.write(filtered_data)
 
 # Create a PyDeck map with a 3D hexagon layer for 'balita_stunting'
