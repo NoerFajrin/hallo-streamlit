@@ -12,6 +12,7 @@ response = requests.get(endpoint_data_lat_lon)
 responseStunting = requests.get(endpoint_data_stunting)
 
 # Parse the JSON responses
-data = response.json().get('data', [])
+data_lat_lon = response.json().get('data', [])
 data_stunting = responseStunting.json().get('data', [])
-st.write(data)
+st.write(data_lat_lon)
+st.write(data_stunting)
