@@ -55,7 +55,10 @@ for stunting_data in data_stunting:
 df = pd.DataFrame(combined_data)
 
 # Konversi kolom "tahun" ke tipe data integer
+# Remove the comma (,) from the "tahun" values and convert to integer
+df['tahun'] = df['tahun'].str.replace(',', '').astype(int)
+
+# Check unique values in the 'tahun' column
 unique_years = df['tahun'].unique()
-st.write(unique_years)
 # Display the combined data
 st.write(df)
