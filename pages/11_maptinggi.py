@@ -79,7 +79,6 @@ hexagon_layer = pdk.Layer(
     elevation_scale=4,  # You can adjust this value as needed
     elevation_range=[0, 300],  # Set your desired elevation range
     # Use 'balita_stunting' column for elevation
-    get_elevation='balita_stunting',
     pickable=True,
     extruded=True,
 )
