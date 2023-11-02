@@ -63,7 +63,7 @@ filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
 view_state = pdk.ViewState(
     latitude=filtered_data['lat'].mean(),
     longitude=filtered_data['lon'].mean(),
-    zoom=19,
+    zoom=13,
     pitch=50,
 )
 # Create a text label layer for 'balita_stunting'
@@ -72,7 +72,7 @@ text_layer_balita_stunting = pdk.Layer(
     data=filtered_data,
     get_position='[lon, lat]',
     get_text='balita_stunting',
-    get_size=18,
+    get_size=10,
     get_color='[0, 0, 0, 255]',
     # Tambahkan latar belakang putih
     get_background_color='[255, 255, 255, 128]',
@@ -85,7 +85,7 @@ text_layer_nama_kab = pdk.Layer(
     data=filtered_data,
     get_position='[lon, lat]',
     get_text='nama_kab',
-    get_size=18,
+    get_size=9,
     get_color='[0, 0, 0, 255]',
     get_alignment_baseline="'bottom'",
 )
