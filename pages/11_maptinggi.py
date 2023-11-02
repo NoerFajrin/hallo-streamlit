@@ -76,8 +76,8 @@ hexagon_layer = pdk.Layer(
     data=filtered_data,
     get_position='[lon, lat]',
     radius=1000,  # Set your desired radius for the hexagons
-    elevation_scale=4,  # You can adjust this value as needed
-    elevation_range=[0, 300],  # Set your desired elevation range
+    elevation_scale=20,  # You can adjust this value as needed
+    elevation_range=[0, 2000],  # Set your desired elevation range
     # Use 'balita_stunting' column for elevation
     pickable=True,
     extruded=True,
