@@ -67,7 +67,7 @@ df = pd.DataFrame(combined_data)
 filtered_data = df[df['tahun'] == selected_year]
 # Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
-filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
+filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(int)
 st.write(filtered_data)
 
 st.pydeck_chart(pdk.Deck(
