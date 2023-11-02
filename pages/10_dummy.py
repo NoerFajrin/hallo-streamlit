@@ -53,10 +53,13 @@ for stunting_data in data_stunting:
 
 # Create a DataFrame
 df = pd.DataFrame(combined_data)
+
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
-# Replace "nama" with your actual column name containing location names
-st.write(filtered_data)
+
+# Menghilangkan tanda kutip dan tanda koma dari kolom "balita_stunting" dan mengkonversinya ke tipe data angka
+filtered_data['balita_stunting'] = filtered_data['balita_stunting'].str.replace(
+    ',', '', regex=True).astype(int)
 
 # Create a PyDeck map with markers and text labels using the "balita_stunting" column as text
 st.pydeck_chart(pdk.Deck(
@@ -80,7 +83,7 @@ st.pydeck_chart(pdk.Deck(
             data=filtered_data,
             get_position='[lon, lat]',
             # Display the "balita_stunting" value as text
-            get_text='balita_stunting',
+            get_text='balita_stunting.astype(str)',
             get_size=18,  # Text label size
             get_color='[0, 0, 0, 255]',  # Text label color (black)
         ),
