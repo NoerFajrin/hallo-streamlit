@@ -15,7 +15,7 @@ def get_data():
 
 
 data = get_data().dropna()  # IMPORTANT TO DROP NA
-
+st.write(data)
 layer = pdk.Layer(
     "HexagonLayer",
     data=data,
