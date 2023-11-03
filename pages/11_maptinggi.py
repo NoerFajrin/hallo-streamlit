@@ -118,9 +118,9 @@ hex_layer = pdk.Layer(
     get_radius=200,
     # auto_highlight=True,
     pickable=True,
-    get_elevation='scaled_balita_stunting',
+    get_elevation='balita_stunting',
     elevation_scale=100,
-    elevation_range=[0, 100],  # Adjusted for 0 to 100 range
+    elevation_range=[0, 60000],  # Adjusted for 0 to 100 range
     extruded=True,
     coverage=1,
 )
@@ -141,7 +141,7 @@ deck = pdk.Deck(
         hex_layer
     ],
     initial_view_state=view_state,
-    tooltip={"html": "<b>Elevation Value:</b> {scaled_balita_stunting}",
+    tooltip={"html": "<b>Elevation Value:</b> {balita_stunting}",
              "style": {"color": "white"}},
 
 )
