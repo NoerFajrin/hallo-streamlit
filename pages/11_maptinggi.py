@@ -128,7 +128,6 @@ hex_layer = pdk.Layer(
 # Create a PyDeck Deck with all layers
 deck = pdk.Deck(
     map_style='mapbox://styles/mapbox/light-v9',
-    initial_view_state=view_state,
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
@@ -140,7 +139,11 @@ deck = pdk.Deck(
         # text_layer_scaled_balita_stunting,
         # text_layer_nama_kab,
         hex_layer
-    ]
+    ],
+    initial_view_state=view_state,
+    tooltip={"html": "<b>Elevation Value:</b> {scaled_balita_stunting}",
+             "style": {"color": "white"}},
+
 )
 
 # Display the PyDeck map
