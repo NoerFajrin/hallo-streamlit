@@ -97,8 +97,8 @@ deck = pdk.Deck(
             'ScatterplotLayer',
             data=filtered_data,
             get_position='[lon, lat]',
-            # get_radius=1000,
-            # get_color='[0, 0, 255, 160]'
+            get_radius=1000,
+            get_color='[0, 0, 255, 160]'
         ),
         text_layer_balita_stunting,
         text_layer_nama_kab,
