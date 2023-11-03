@@ -11,5 +11,8 @@ if datadunia is not None:
 
     # Print the DataFrame
     st.write(datadunia)
+
+    # Convert DataFrame to JSON and display it
+    st.json(datadunia.to_json(orient='records'))
 else:
     st.write("Data not found or could not be loaded.")
