@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 import requests
+import numpy as np
 
 # Define the API endpoints
 endpoint_data_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
@@ -79,7 +80,22 @@ new_max = 100
 filtered_data['scaled_balita_stunting'] = filtered_data['balita_stunting'].apply(
     lambda x: min_max_scaling(x, min_stunting, max_stunting, new_min, new_max))
 
-st.write(filtered_data)
+# Define a function to map scaled values to colors
+
+
+def get_color(scaled_value):
+    if scaled_value <= 20:
+        return [0, 255, 0, 160]  # Green
+    elif scaled_value <= 50:
+        return [255, 255, 0, 160]  # Yellow
+    else:
+        return [255, 0, 0, 160]  # Red
+
+
+# Add a 'color' column to the filtered_data
+filtered_data['color'] = filtered_data['scaled_balita_stunting'].apply(
+    get_color)
+
 # Create a PyDeck map with markers and text labels
 view_state = pdk.ViewState(
     latitude=filtered_data['lat'].mean(),
@@ -110,18 +126,17 @@ text_layer_nama_kab = pdk.Layer(
     get_alignment_baseline="'bottom'",
 )
 
-# Create a hexagon layer with scaled 'balita_stunting'
-hex_layer = pdk.Layer(
+# Create a column layer with scaled 'balita_stunting' and color mapping
+column_layer = pdk.Layer(
     'ColumnLayer',
     data=filtered_data,
-    get_position=["lon", "lat"],
-    get_color='[200, 30, 0, 160]',
+    get_position='[lon, lat]',
+    get_fill_color='color',
     get_radius=200,
-    # auto_highlight=True,
+    auto_highlight=True,
     pickable=True,
     get_elevation='scaled_balita_stunting',
     elevation_scale=100,
-    # Adjusted for 0 to 100 range
     elevation_range=[0, 100],
     extruded=True,
     coverage=1,
@@ -138,14 +153,13 @@ deck = pdk.Deck(
             get_radius=200,
             get_color='[0, 0, 255, 160]'
         ),
-        # text_layer_scaled_balita_stunting,
+        # //text_layer_scaled_balita_stunting,
         # text_layer_nama_kab,
-        hex_layer
+        column_layer
     ],
     initial_view_state=view_state,
     tooltip={"html": "<b>Balita Stunting:</b> {balita_stunting} <br><b>Wilayah:</b> {nama_kab} <br>",
              "style": {"color": "white"}},
-
 )
 
 # Display the PyDeck map
