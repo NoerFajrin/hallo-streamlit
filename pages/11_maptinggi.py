@@ -78,6 +78,7 @@ new_max = 100
 # Apply min-max scaling to 'balita_stunting' and store the scaled values in a new column 'scaled_balita_stunting'
 filtered_data['scaled_balita_stunting'] = filtered_data['balita_stunting'].apply(
     lambda x: min_max_scaling(x, min_stunting, max_stunting, new_min, new_max))
+
 st.write(filtered_data)
 # Create a PyDeck map with markers and text labels
 view_state = pdk.ViewState(

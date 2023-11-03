@@ -145,7 +145,6 @@ column_layer = pdk.Layer(
 # Create a PyDeck Deck with all layers
 deck = pdk.Deck(
     map_style='mapbox://styles/mapbox/light-v9',
-    initial_view_state=view_state,
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
@@ -154,10 +153,13 @@ deck = pdk.Deck(
             get_radius=200,
             get_color='[0, 0, 255, 160]'
         ),
-        text_layer_scaled_balita_stunting,
-        text_layer_nama_kab,
+        # //text_layer_scaled_balita_stunting,
+        # text_layer_nama_kab,
         column_layer
-    ]
+    ],
+    initial_view_state=view_state,
+    tooltip={"html": "<b>Balita Stunting:</b> {balita_stunting} <br><b>Wilayah:</b> {nama_kab} <br>",
+             "style": {"color": "white"}},
 )
 
 # Display the PyDeck map
