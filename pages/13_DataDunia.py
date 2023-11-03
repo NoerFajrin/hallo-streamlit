@@ -15,9 +15,6 @@ if datadunia is not None:
     datadunia['Latitude'] = datadunia['Data Awal'].str.extract(
         r'Latitude \(lat\) = ([\d.-]+)')
 
-    # Add a new column for row number
-    datadunia['Row Number'] = range(1, len(datadunia) + 1)
-
     # Print the updated DataFrame
     st.write(datadunia)
 
@@ -25,7 +22,7 @@ if datadunia is not None:
     selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
 
     # Select only the relevant columns
-    selected_cols = ["Row Number", "Country and areas", str(
+    selected_cols = ["Country and areas", str(
         selected_years), "Latitude", "Longitude"]
 
     # Filter and sort the DataFrame
@@ -36,7 +33,7 @@ if datadunia is not None:
     num_rows = st.number_input(
         "Number of Rows to Display", min_value=1, value=10)
 
-    # Display the sorted DataFrame with the selected number of rows
-    st.dataframe(sorted_df.head(num_rows), index=False)
+    # Display the top N rows
+    st.write(sorted_df.head(num_rows))
 else:
     st.write("Data not found or could not be loaded.")
