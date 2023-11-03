@@ -89,6 +89,20 @@ text_layer_nama_kab = pdk.Layer(
     get_color='[0, 0, 0, 255]',
     get_alignment_baseline="'bottom'",
 )
+hex_layer = pdk.Layer(
+    'HexagonLayer',
+    data=filtered_data,
+    get_position='[lon, lat]',
+    get_color='[200, 30, 0, 160]',
+    get_radius=200,
+    auto_highlight=True,
+    pickable=True,
+    get_elevation='balita_stunting',
+    elevation_scale=5,
+    elevation_range=[1000, 20000],
+    extruded=True,
+    coverage=1,
+)
 
 # Create a PyDeck Deck with all layers
 deck = pdk.Deck(
@@ -104,20 +118,7 @@ deck = pdk.Deck(
         ),
         text_layer_balita_stunting,
         text_layer_nama_kab,
-        pdk.Layer(
-            'HexagonLayer',
-            data=filtered_data,
-            get_position='[lon, lat]',
-            get_color='[200, 30, 0, 160]',
-            get_radius=200,
-            auto_highlight=True,
-            pickable=True,
-            get_elevation='balita_stunting',
-            elevation_scale=5,
-            elevation_range=[1000, 20000],
-            extruded=True,
-            coverage=1,
-        )
+        hex_layer
     ]
 )
 
