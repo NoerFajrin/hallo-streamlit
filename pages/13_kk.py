@@ -6,6 +6,9 @@ datadunia = pd.read_csv('datadunia.csv')
 
 # Check if the data has been loaded
 if datadunia is not None:
+    # Replace ',' with '.' in all columns of the DataFrame
+    datadunia = datadunia.replace(',', '.', regex=True)
+
     # Print the DataFrame
     st.write(datadunia)
 else:
