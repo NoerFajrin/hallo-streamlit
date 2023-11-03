@@ -1,17 +1,8 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import pydeck as pdk
 import requests
 
-# Generate random data with elevation values
-chart_data = pd.DataFrame({
-    'lat': np.random.uniform(37.75, 37.77, 3),  # Adjust latitude range
-    'lon': np.random.uniform(-122.45, -122.42, 3),  # Adjust longitude range
-    'elevation': np.random.randint(0, 1000, 3)  # Elevation values
-})
-
-st.write(chart_data)
 # Define the API endpoints
 endpoint_data_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
 endpoint_data_lat_lon = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
@@ -67,18 +58,52 @@ df = pd.DataFrame(combined_data)
 filtered_data = df[df['tahun'] == selected_year]
 # Convert the 'tahun' and 'balita_stunting' columns to strings
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
-filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(int)
-st.write(filtered_data)
+filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(str)
 
-st.pydeck_chart(pdk.Deck(
-    map_style=None,
-    initial_view_state=pdk.ViewState(
-        latitude=filtered_data['lat'].mean(),
-        longitude=filtered_data['lon'].mean(),
-        zoom=11,
-        pitch=50,
-    ),
+# Create a PyDeck map with markers and text labels
+view_state = pdk.ViewState(
+    latitude=filtered_data['lat'].mean(),
+    longitude=filtered_data['lon'].mean(),
+    zoom=9,
+    pitch=50,
+)
+
+# Create a text label layer for 'balita_stunting'
+text_layer_balita_stunting = pdk.Layer(
+    'TextLayer',
+    data=filtered_data,
+    get_position='[lon, lat]',
+    get_text='balita_stunting',
+    get_size=15,
+    get_color='[0, 0, 0, 255]',
+    get_alignment_baseline="'bottom'",
+)
+
+# Create a text label layer for 'nama_kab'
+text_layer_nama_kab = pdk.Layer(
+    'TextLayer',
+    data=filtered_data,
+    get_position='[lon, lat]',
+    get_text='nama_kab',
+    get_size=15,
+    get_color='[0, 0, 0, 255]',
+    get_alignment_baseline="'bottom'",
+)
+
+# Create a PyDeck Deck with all layers
+deck = pdk.Deck(
+    map_style='mapbox://styles/mapbox/light-v9',
+    initial_view_state=view_state,
     layers=[
+        pdk.Layer(
+            'ScatterplotLayer',
+            data=filtered_data,
+            get_position='[lon, lat]',
+            get_radius=1000,
+            get_color='[0, 0, 255, 160]'
+        ),
+        text_layer_balita_stunting,
+        text_layer_nama_kab,
         pdk.Layer(
             'HexagonLayer',
             data=filtered_data,
@@ -87,12 +112,14 @@ st.pydeck_chart(pdk.Deck(
             get_radius=200,
             auto_highlight=True,
             pickable=True,
-            get_elevation='balita_stunting',  # Use 'elevation' column for elevation
-            elevation_scale=5,  # You can adjust this value as needed
-            elevation_range=[1000, 50000],  # Set your desired elevation range
+            get_elevation='balita_stunting',
+            elevation_scale=5,
+            elevation_range=[1000, 20000],
             extruded=True,
             coverage=1,
-            tooltip={"html": "Elevation: '[balita_stunting]'"},
-        ),
-    ],
-))
+        )
+    ]
+)
+
+# Display the PyDeck map
+st.pydeck_chart(deck)
