@@ -17,5 +17,14 @@ if datadunia is not None:
 
     # Print the updated DataFrame
     st.write(datadunia)
+
+    # Pilih tahun untuk mengurutkan
+    selected_year = st.selectbox("Pilih Tahun", datadunia.columns[:-3])
+
+    # Urutkan DataFrame berdasarkan tahun yang dipilih
+    sorted_df = datadunia.sort_values(by=selected_year, ascending=False)
+
+    # Tampilkan DataFrame yang telah diurutkan
+    st.write(sorted_df)
 else:
     st.write("Data not found or could not be loaded.")
