@@ -111,16 +111,16 @@ text_layer_nama_kab = pdk.Layer(
 
 # Create a hexagon layer with scaled 'balita_stunting'
 hex_layer = pdk.Layer(
-    'HexagonLayer',
+    'ColumnLayer',
     data=filtered_data[["scaled_balita_stunting", "lon", "lat"]],
     get_position=["lon", "lat"],
     get_color='[200, 30, 0, 160]',
     get_radius=200,
     # auto_highlight=True,
     pickable=True,
-    # get_elevation='scaled_balita_stunting',
+    get_elevation='scaled_balita_stunting',
     elevation_scale=100,
-    elevation_range=[90, 100],  # Adjusted for 0 to 100 range
+    elevation_range=[0, 100],  # Adjusted for 0 to 100 range
     extruded=True,
     coverage=1,
 )
