@@ -31,6 +31,7 @@ if datadunia is not None:
 
     # Reset the index to start from 1 for the first row
     sorted_df = sorted_df.reset_index(drop=True)
+    sorted_df.index += 1  # Start the index from 1
 
     # Display the sorted DataFrame with the modified index
     st.write(sorted_df)
