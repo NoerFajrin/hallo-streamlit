@@ -137,8 +137,8 @@ deck = pdk.Deck(
             get_radius=200,
             get_color='[0, 0, 255, 160]'
         ),
-        text_layer_scaled_balita_stunting,
-        text_layer_nama_kab,
+        # text_layer_scaled_balita_stunting,
+        # text_layer_nama_kab,
         hex_layer
     ]
 )
