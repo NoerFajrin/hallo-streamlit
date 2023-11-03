@@ -2,32 +2,35 @@ import streamlit as st
 import pydeck as pdk
 import pandas as pd
 
-# Create a DataFrame with dummy data (latitude, longitude, and elevation)
-data = pd.DataFrame({
-    'lat': [37.7749, 37.7749, 37.775, 37.7751],
-    'lon': [-122.4194, -122.4184, -122.42, -122.42],
-    'elevation': [10, 30, 60, 90]
-})
+CPU_GRID_LAYER_DATA = (
+    "https://raw.githubusercontent.com/uber-common/"
+    "deck.gl-data/master/website/sf-bike-parking.json"
+)
 
-# Create a PyDeck map
-st.pydeck_chart(pdk.Deck(
-    map_style='mapbox://styles/mapbox/light-v9',
-    initial_view_state=pdk.ViewState(
-        latitude=data['lat'].mean(),
-        longitude=data['lon'].mean(),
-        zoom=15,
-        pitch=50,
-    ),
-    layers=[
-        pdk.Layer(
-            'ScatterplotLayer',
-            data=data,
-            get_position='[lon, lat]',
-            get_radius=200,
-            get_fill_color='[0, elevation, 0]',
-            pickable=True,
-            extruded=True,
-            elevation_scale=4,
-        ),
-    ],
-))
+st.title("GridLayer Example")
+
+# Load the data
+df = pd.read_json(CPU_GRID_LAYER_DATA)
+
+# Define a layer to display on a map
+layer = pdk.Layer(
+    "GridLayer",
+    df,
+    pickable=True,
+    extruded=True,
+    cell_size=200,
+    elevation_scale=4,
+    get_position="COORDINATES",
+)
+
+view_state = pdk.ViewState(
+    latitude=37.7749295,
+    longitude=-122.4194155,
+    zoom=11,
+    bearing=0,
+    pitch=45,
+)
+
+# Render the PyDeck map using Streamlit
+st.pydeck_chart(pdk.Deck(layers=[layer], initial_view_state=view_state, tooltip={
+                "text": "{position}\nCount: {count}"}))
