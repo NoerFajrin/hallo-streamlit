@@ -161,6 +161,5 @@ deck = pdk.Deck(
     tooltip={"html": "<b>Balita Stunting:</b> {balita_stunting} <br><b>Wilayah:</b> {nama_kab} <br>",
              "style": {"color": "white"}},
 )
-
 # Display the PyDeck map
 st.pydeck_chart(deck)
