@@ -60,6 +60,25 @@ filtered_data = df[df['tahun'] == selected_year]
 filtered_data['tahun'] = filtered_data['tahun'].astype(str)
 filtered_data['balita_stunting'] = filtered_data['balita_stunting'].astype(int)
 
+# Min-max scaling function
+
+
+def min_max_scaling(x, min_val, max_val, new_min, new_max):
+    return ((x - min_val) / (max_val - min_val)) * (new_max - new_min) + new_min
+
+
+# Calculate the minimum and maximum values of 'balita_stunting'
+min_stunting = filtered_data['balita_stunting'].min()
+max_stunting = filtered_data['balita_stunting'].max()
+
+# Define the desired range (0 to 100)
+new_min = 0
+new_max = 100
+
+# Apply min-max scaling to 'balita_stunting' and store the scaled values in a new column 'scaled_balita_stunting'
+filtered_data['scaled_balita_stunting'] = filtered_data['balita_stunting'].apply(
+    lambda x: min_max_scaling(x, min_stunting, max_stunting, new_min, new_max))
+st.write(filtered_data)
 # Create a PyDeck map with markers and text labels
 view_state = pdk.ViewState(
     latitude=filtered_data['lat'].mean(),
@@ -68,12 +87,12 @@ view_state = pdk.ViewState(
     pitch=50,
 )
 
-# Create a text label layer for 'balita_stunting'
-text_layer_balita_stunting = pdk.Layer(
+# Create a text label layer for 'scaled_balita_stunting'
+text_layer_scaled_balita_stunting = pdk.Layer(
     'TextLayer',
     data=filtered_data,
     get_position='[lon, lat]',
-    get_text='balita_stunting',
+    get_text='scaled_balita_stunting',
     get_size=15,
     get_color='[0, 0, 0, 255]',
     get_alignment_baseline="'bottom'",
@@ -89,6 +108,8 @@ text_layer_nama_kab = pdk.Layer(
     get_color='[0, 0, 0, 255]',
     get_alignment_baseline="'bottom'",
 )
+
+# Create a hexagon layer with scaled 'balita_stunting'
 hex_layer = pdk.Layer(
     'HexagonLayer',
     data=filtered_data,
@@ -97,9 +118,9 @@ hex_layer = pdk.Layer(
     get_radius=200,
     auto_highlight=True,
     pickable=True,
-    get_elevation='balita_stunting',
+    get_elevation='scaled_balita_stunting',
     elevation_scale=5,
-    elevation_range=[1000, 20000],
+    elevation_range=[0, 100],  # Adjusted for 0 to 100 range
     extruded=True,
     coverage=1,
 )
@@ -116,8 +137,8 @@ deck = pdk.Deck(
             get_radius=200,
             get_color='[0, 0, 255, 160]'
         ),
-        # text_layer_balita_stunting,
-        # text_layer_nama_kab,
+        text_layer_scaled_balita_stunting,
+        text_layer_nama_kab,
         hex_layer
     ]
 )
