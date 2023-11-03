@@ -118,10 +118,10 @@ hex_layer = pdk.Layer(
     get_radius=200,
     # auto_highlight=True,
     pickable=True,
-    get_elevation='balita_stunting',
+    get_elevation='scaled_balita_stunting',
     elevation_scale=100,
     # Adjusted for 0 to 100 range
-    elevation_range=[min_stunting, max_stunting],
+    elevation_range=[0, 100],
     extruded=True,
     coverage=1,
 )
