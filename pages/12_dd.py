@@ -6,14 +6,18 @@ import pydeck as pdk
 # Create a slider for chart height
 height = st.slider('Chart height:', 0, 500, 400, 100)
 
-# Generate random data
-data = np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4]
-df = pd.DataFrame(data, columns=["lat", "lon"])
-st.write(df)
+# Generate random data with three columns
+data = pd.DataFrame({
+    'lat': np.random.randn(1000) * 0.5 + 37.76,
+    'lon': np.random.randn(1000) * 0.5 - 122.4,
+    # Modify this to your actual elevation data
+    'elevation': np.random.randint(0, 1000, 1000)
+})
+
 # Create a PyDeck HexagonLayer
 hexagon_layer = pdk.Layer(
     "HexagonLayer",
-    data=df,
+    data=data,
     get_position="[lon, lat]",
     radius=200,
     elevation_scale=4,
@@ -25,7 +29,7 @@ hexagon_layer = pdk.Layer(
 # Create a PyDeck ScatterplotLayer
 scatterplot_layer = pdk.Layer(
     "ScatterplotLayer",
-    data=df,
+    data=data,
     get_position="[lon, lat]",
 )
 
