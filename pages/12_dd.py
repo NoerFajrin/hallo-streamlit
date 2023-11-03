@@ -23,7 +23,7 @@ layer = pdk.Layer(
     auto_highlight=True,
     elevation_scale=50,
     pickable=True,
-    elevation_range=[0, 3000],
+    elevation_range=[0, 2],
     extruded=True,
     coverage=1,
 )
