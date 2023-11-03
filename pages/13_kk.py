@@ -11,8 +11,17 @@ if datadunia is not None:
 
     # Print the DataFrame
     st.write(datadunia)
+    df = pd.DataFrame(datadunia.to_json(orient='records'))
+    # Mengekstrak Longitude (lon) dan Latitude (lat) dari "Data Awal"
+    df['Longitude'] = df['Data Awal'].str.extract(
+        r'Longitude \(lon\) = ([\d.-]+)')
+    df['Latitude'] = df['Data Awal'].str.extract(
+        r'Latitude \(lat\) = ([\d.-]+)')
+
+    # Menampilkan DataFrame baru
+    print(df)
 
     # Convert DataFrame to JSON and display it
-    st.json(datadunia.to_json(orient='records'))
+    # st.json(datadunia.to_json(orient='records'))
 else:
     st.write("Data not found or could not be loaded.")
