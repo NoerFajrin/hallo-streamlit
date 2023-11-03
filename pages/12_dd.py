@@ -1,50 +1,44 @@
+"""Example from https://deckgl.readthedocs.io/en/latest/tooltip.html"""
 import streamlit as st
-import pandas as pd
-import numpy as np
 import pydeck as pdk
+import pandas as pd
 
-# Create a slider for chart height
-height = st.slider('Chart height:', 0, 500, 400, 100)
+UK_ACCIDENTS_DATA = (
+    "https://raw.githubusercontent.com/uber-common/"
+    "deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv"
+)
 
-# Generate random data with three columns
-data = pd.DataFrame({
-    'lat': np.random.randn(1000) * 0.5 + 37.76,
-    'lon': np.random.randn(1000) * 0.5 - 122.4,
-    # Modify this to your actual elevation data
-    'elevation': np.random.randint(0, 1000, 1000)
-})
 
-# Create a PyDeck HexagonLayer
-hexagon_layer = pdk.Layer(
+@st.cache
+def get_data():
+    return pd.read_csv(UK_ACCIDENTS_DATA)[["lng", "lat"]]
+
+
+data = get_data().dropna()  # IMPORTANT TO DROP NA
+
+layer = pdk.Layer(
     "HexagonLayer",
     data=data,
-    get_position="[lon, lat]",
-    radius=200,
-    elevation_scale=4,
-    elevation_range=[0, 1000],
+    get_position="[lng, lat]",
+    auto_highlight=True,
+    elevation_scale=50,
     pickable=True,
+    elevation_range=[0, 3000],
     extruded=True,
+    coverage=1,
 )
 
-# Create a PyDeck ScatterplotLayer
-scatterplot_layer = pdk.Layer(
-    "ScatterplotLayer",
-    data=data,
-    get_position="[lon, lat]",
+# Set the viewport location
+view_state = pdk.ViewState(
+    longitude=-1.415, latitude=52.2323, zoom=6, min_zoom=5, max_zoom=15, pitch=40.5, bearing=-27.36
 )
 
-# Create a PyDeck Deck with the layers
-deck = pdk.Deck(
-    layers=[hexagon_layer, scatterplot_layer],
-    initial_view_state={
-        "latitude": 37.76,
-        "longitude": -122.4,
-        "zoom": 11,
-        "pitch": 50,
-        "height": height,
-    },
-    map_style="mapbox://styles/mapbox/light-v9",  # You can adjust the map style
+# Combined all of it and render a viewport
+r = pdk.Deck(
+    map_style="mapbox://styles/mapbox/light-v9",
+    layers=[layer],
+    initial_view_state=view_state,
+    tooltip={"html": "<b>Elevation Value:</b> {elevationValue}",
+             "style": {"color": "white"}},
 )
-
-# Display the PyDeck map in Streamlit
-st.pydeck_chart(deck)
+st.pydeck_chart(r)
