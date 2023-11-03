@@ -29,7 +29,10 @@ if datadunia is not None:
     sorted_df = datadunia[selected_cols].sort_values(
         by=str(selected_years), ascending=False)
 
-    # Display the top N rows
-    st.write(sorted_df, index=False)
+    # Reset the index to start from 1 for the first row
+    sorted_df = sorted_df.reset_index(drop=True)
+
+    # Display the sorted DataFrame with the modified index
+    st.write(sorted_df)
 else:
     st.write("Data not found or could not be loaded.")
