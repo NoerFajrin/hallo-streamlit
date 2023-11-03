@@ -142,7 +142,7 @@ deck = pdk.Deck(
         hex_layer
     ],
     initial_view_state=view_state,
-    tooltip={"html": "<b>Balita Stunting:</b> {balita_stunting} ",
+    tooltip={"html": "<b>Balita Stunting:</b> {balita_stunting} <br><b>Wilayah:</b> {nama_kab} <br>",
              "style": {"color": "white"}},
 
 )
