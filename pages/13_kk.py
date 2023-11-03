@@ -18,13 +18,18 @@ if datadunia is not None:
     # Print the updated DataFrame
     st.write(datadunia)
 
-    # Pilih tahun untuk mengurutkan
-    selected_year = st.selectbox("Pilih Tahun", datadunia.columns[:-3])
+    # Filter the years (2000-2022)
+    selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
 
-    # Urutkan DataFrame berdasarkan tahun yang dipilih
-    sorted_df = datadunia.sort_values(by=selected_year, ascending=False)
+    # Select only the relevant columns
+    selected_cols = ["Country and areas", str(
+        selected_years), "Latitude", "Longitude"]
 
-    # Tampilkan DataFrame yang telah diurutkan
+    # Filter and sort the DataFrame
+    sorted_df = datadunia[selected_cols].sort_values(
+        by=str(selected_years), ascending=False)
+
+    # Display the sorted DataFrame
     st.write(sorted_df)
 else:
     st.write("Data not found or could not be loaded.")
