@@ -92,12 +92,11 @@ st.pydeck_chart(pdk.Deck(
             auto_highlight=True,
             pickable=True,
             get_elevation='balita_stunting',  # Use 'elevation' column for elevation
-            elevation_scale=5,  # You can adjust this value as needed
+            elevation_scale=100,  # You can adjust this value as needed
             # Set your desired elevation range
             elevation_range='[min_stunting, max_stunting]',
             extruded=True,
             coverage=1,
-            tooltip={"html": "Elevation: '[balita_stunting]'"},
         ),
     ],
 ))
