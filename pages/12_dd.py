@@ -9,7 +9,7 @@ height = st.slider('Chart height:', 0, 500, 400, 100)
 # Generate random data
 data = np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4]
 df = pd.DataFrame(data, columns=["lat", "lon"])
-
+st.write(df)
 # Create a PyDeck HexagonLayer
 hexagon_layer = pdk.Layer(
     "HexagonLayer",
