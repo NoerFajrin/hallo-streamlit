@@ -49,9 +49,9 @@ if datadunia is not None:
 
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
-        latitude=new_json_array['lat'].mean(),
-        longitude=new_json_array['lon'].mean(),
-        zoom=9,
+        latitude=-2.5489,  # Latitude of Indonesia
+        longitude=118.0149,  # Longitude of Indonesia
+        zoom=5,  # Adjust the zoom level as needed
         pitch=50,
     )
 
