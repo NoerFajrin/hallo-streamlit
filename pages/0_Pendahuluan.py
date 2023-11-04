@@ -27,6 +27,10 @@ if datadunia is not None:
     sorted_df.index += 1  # Start the index from 1
     # Display the sorsted DataFrame with the modified index
     st.write(sorted_df)
+    # Convert Latitude and Longitude to float
+    sorted_df['Latitude'] = sorted_df['Latitude'].astype(float)
+    sorted_df['Longitude'] = sorted_df['Longitude'].astype(float)
+
     json_array = sorted_df.to_json(orient='records')
 
     # Display the JSON array
