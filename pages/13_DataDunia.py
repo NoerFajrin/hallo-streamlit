@@ -30,6 +30,8 @@ if datadunia is not None:
         by=str(selected_years), ascending=False)
 
     # Reset the index to start from 1 for the first row
+    sorted_df['selected_years'] = sorted_df['selected_years'].astype(str) + '%'
+
     sorted_df = sorted_df.reset_index(drop=True)
     sorted_df.index += 1  # Start the index from 1
 
