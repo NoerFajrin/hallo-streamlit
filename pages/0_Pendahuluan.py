@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import pydeck as pdk
 
 # Load the CSV data
 datadunia = pd.read_csv('datadunia.csv')
@@ -16,15 +15,10 @@ if datadunia is not None:
     datadunia['Latitude'] = datadunia['Data Awal'].str.extract(
         r'Latitude \(lat\) = ([\d.-]+)')
 
-    # Convert "Latitude" and "Longitude" columns to numeric (float)
-    datadunia['Latitude'] = pd.to_numeric(
-        datadunia['Latitude'], errors='coerce')
-    datadunia['Longitude'] = pd.to_numeric(
-        datadunia['Longitude'], errors='coerce')
+    # Print the updated DataFrame
+    st.write(datadunia)
 
     # Filter the years (2000-2022)
-    st.write("# Unicef Data: Monitoring the situation of Children and Woman")
-    st.write("Noer Fajrin, 23222036")
     selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
 
     # Select only the relevant columns
@@ -39,48 +33,13 @@ if datadunia is not None:
     sorted_df = sorted_df.reset_index(drop=True)
     sorted_df.index += 1  # Start the index from 1
 
-    # Create a new data format
-    data_baru = {
-        # Convert to list
-        "nama_negara": sorted_df["Country and areas"].tolist(),
-        "lat": sorted_df["Latitude"].tolist(),  # Convert to list
-        "lon": sorted_df["Longitude"].tolist(),  # Convert to list
-        "prediksi": sorted_df[selected_years].tolist(),  # Convert to list
-    }
+    # Display the sorted DataFrame with the modified index
+    st.write(sorted_df)
 
-    # Use data_baru for the map
-    st.write("New Data Format for Map:")
-    st.write(data_baru)
+    # Convert the DataFrame to a JSON representation
+    json_representation = sorted_df.to_json(orient='records')
 
-    # Create a PyDeck map using data_baru
-    view_state = pdk.ViewState(
-        latitude=0,  # Provide the default latitude here
-        longitude=0,  # Provide the default longitude here
-        zoom=1,  # Provide the default zoom level here
-    )
-
-    # Create a text layer for 'nama_negara' with tooltips
-    text_layer = pdk.Layer(
-        "TextLayer",
-        data=data_baru,
-        get_position=["lon", "lat"],
-        get_text="nama_negara",
-        get_size=24,
-        get_color=[255, 0, 0],
-        get_alignment_baseline="'bottom'",
-    )
-
-    # Create a PyDeck Deck with the text layer and view state
-    deck = pdk.Deck(
-        map_style="mapbox://styles/mapbox/light-v9",
-        layers=[text_layer],
-        initial_view_state=view_state,
-        tooltip={"html": "<b>Country:</b> {nama_negara}",
-                 "style": {"color": "white"}},
-    )
-
-    # Display the PyDeck map
-    st.pydeck_chart(deck)
-
+    # Display the JSON representation using st.write
+    st.write(json_representation)
 else:
     st.write("Data not found or could not be loaded.")
