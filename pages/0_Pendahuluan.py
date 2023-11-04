@@ -15,9 +15,6 @@ if datadunia is not None:
     datadunia['Latitude'] = datadunia['Data Awal'].str.extract(
         r'Latitude \(lat\) = ([\d.-]+)')
 
-    # Print the updated DataFrame
-    st.write(datadunia)
-
     # Filter the years (2000-2022)
     selected_year_label = "Pilih Tahun"
     selected_year = st.selectbox(selected_year_label, list(range(2000, 2023)))
