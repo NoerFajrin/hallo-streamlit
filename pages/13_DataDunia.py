@@ -19,7 +19,7 @@ if datadunia is not None:
     st.write(datadunia)
 
     # Filter the years (2000-2022)
-    selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
+    selected_years = st.selectbox("Select Year", list(range(2000, 2022)))
 
     # Select only the relevant columns
     selected_cols = ["Country and areas", str(
@@ -27,7 +27,7 @@ if datadunia is not None:
 
     # Filter and sort the DataFrame
     sorted_df = datadunia[selected_cols].sort_values(
-        by=str(selected_years), ascending=False)
+        by=str(selected_years + "%"), ascending=False)
 
     # Reset the index to start from 1 for the first row
     sorted_df = sorted_df.reset_index(drop=True)
