@@ -19,19 +19,27 @@ if datadunia is not None:
     selected_year_label = "Pilih Tahun"
     selected_year = st.selectbox(selected_year_label, list(range(2000, 2023)))
 
+    # Rename the columns in the DataFrame
+    datadunia = datadunia.rename(columns={
+        "Country and areas": "Negara",
+        str(selected_year): "Estimate",
+        "Latitude": "lat",
+        "Longitude": "lon"
+    })
+
     # Select only the relevant columns
-    selected_cols = ["Country and areas", str(
-        selected_year), "Latitude", "Longitude"]
+    selected_cols = ["Country and areas",
+                     "selected years", "Latitude", "Longitude"]
 
     # Filter and sort the DataFrame
     sorted_df = datadunia[selected_cols].sort_values(
-        by=str(selected_year), ascending=False)
+        by="selected years", ascending=False)
 
     # Reset the index to start from 1 for the first row
     sorted_df = sorted_df.reset_index(drop=True)
     sorted_df.index += 1  # Start the index from 1
 
-    # Display the sorted DataFrame with the modified index
+    # Display the sorted DataFrame with the modified column names and the modified index
     st.write(sorted_df)
 else:
     st.write("Data not found or could not be loaded.")
