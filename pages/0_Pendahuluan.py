@@ -41,10 +41,11 @@ if datadunia is not None:
 
     # Create a new data format
     data_baru = {
-        "nama_negara": sorted_df["Country and areas"],
-        "lat": sorted_df["Latitude"],
-        "lon": sorted_df["Longitude"],
-        "prediksi": sorted_df[str(selected_years)]  # Convert to string
+        # Convert to list
+        "nama_negara": sorted_df["Country and areas"].tolist(),
+        "lat": sorted_df["Latitude"].tolist(),  # Convert to list
+        "lon": sorted_df["Longitude"].tolist(),  # Convert to list
+        "prediksi": sorted_df[selected_years].tolist(),  # Convert to list
     }
 
     # Use data_baru for the map
