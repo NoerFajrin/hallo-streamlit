@@ -1,8 +1,10 @@
 import streamlit as st
 import pandas as pd
+import pydeck as pdk
 
 # Load the CSV data
 datadunia = pd.read_csv('datadunia.csv')
+
 # Check if the data has been loaded
 if datadunia is not None:
     # Replace ',' with '.' in all columns of the DataFrame
@@ -15,7 +17,7 @@ if datadunia is not None:
         r'Latitude \(lat\) = ([\d.-]+)')
 
     # Filter the years (2000-2022)
-    st.write("# Unicef Data : Monitoring the sitution of Children and Woman")
+    st.write("# Unicef Data : Monitoring the situation of Children and Woman")
     st.write("Noer Fajrin, 23222036")
     selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
 
@@ -33,5 +35,35 @@ if datadunia is not None:
 
     # Display the sorted DataFrame with the modified index
     st.write(sorted_df)
+
+    # Create a PyDeck map
+    view_state = pdk.ViewState(
+        latitude=0,  # Provide the default latitude here
+        longitude=0,  # Provide the default longitude here
+        zoom=1,  # Provide the default zoom level here
+    )
+
+    # Create a text layer for 'Country and areas' with tooltips
+    text_layer = pdk.Layer(
+        "TextLayer",
+        data=sorted_df,
+        get_position=["Longitude", "Latitude"],
+        get_text="Country and areas",
+        get_size=24,
+        get_color=[255, 255, 255],
+        get_alignment_baseline="'bottom'",
+    )
+
+    # Create a PyDeck Deck with the text layer and view state
+    deck = pdk.Deck(
+        map_style="mapbox://styles/mapbox/light-v9",
+        layers=[text_layer],
+        initial_view_state=view_state,
+        tooltip={"html": "<b>Country:</b> {Country and areas}",
+                 "style": {"color": "white"}},
+    )
+
+    # Display the PyDeck map
+    st.pydeck_chart(deck)
 else:
     st.write("Data not found or could not be loaded.")
