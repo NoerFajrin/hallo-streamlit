@@ -87,7 +87,7 @@ if datadunia is not None:
         data=df,
         get_position='[lon, lat]',
         get_fill_color='FillColor',
-        get_radius=100000,
+        get_radius=500000000,
         auto_highlight=True,
         pickable=True,
         get_elevation='Nilai',
