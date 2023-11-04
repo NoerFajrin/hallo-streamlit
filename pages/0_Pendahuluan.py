@@ -57,6 +57,7 @@ if datadunia is not None:
 
     # Display the new JSON array
     st.json(new_json_array)
+    new_json_array['FillColor'] = new_json_array['Nilai'].apply(get_color)
 
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
@@ -82,7 +83,7 @@ if datadunia is not None:
         'ColumnLayer',
         data=new_json_array,
         get_position='[lon, lat]',
-        get_fill_color=[get_color(nilai) for nilai in new_json_array['Nilai']],
+        get_fill_color='FillColor',
         get_radius=8000,
         auto_highlight=True,
         pickable=True,
