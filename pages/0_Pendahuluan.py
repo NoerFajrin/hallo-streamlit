@@ -37,7 +37,7 @@ if datadunia is not None:
     st.write(sorted_df)
 
     # Convert the DataFrame to a JSON representation
-    json_representation = sorted_df.to_json(orient='records')
+    json_representation = sorted_df.json().get('data', [])
 
     # Display the JSON representation using st.write
     st.write(json_representation)
