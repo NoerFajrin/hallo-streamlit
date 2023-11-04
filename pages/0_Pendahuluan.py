@@ -44,7 +44,7 @@ if datadunia is not None:
         "nama_negara": sorted_df["Country and areas"],
         "lat": sorted_df["Latitude"],
         "lon": sorted_df["Longitude"],
-        "prediksi": sorted_df[selected_years]
+        "prediksi": sorted_df[str(selected_years)]  # Convert to string
     }
 
     # Use data_baru for the map
