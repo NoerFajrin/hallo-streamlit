@@ -48,7 +48,7 @@ if datadunia is not None:
 
     for index, row in sorted_df.iterrows():
         new_json_item = {
-            "Nilai": int[row[str(selected_years)]],
+            "Nilai": int(row[str(selected_years)]),
             "Negara": row["Country and areas"],
             "lat": row["Latitude"],
             "lon": row["Longitude"]
