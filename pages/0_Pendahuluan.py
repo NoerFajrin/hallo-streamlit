@@ -61,6 +61,15 @@ if datadunia is not None:
 
     # Apply the get_color function to each element in the 'Nilai' column
     df['FillColor'] = df['Nilai'].apply(get_color)
+    # Extract latitude and longitude coordinates from the DataFrame
+    coordinates = [(row["lon"], row["lat"]) for index, row in df.iterrows()]
+
+    # Create a list of connections to form a ring
+    connections = []
+    for i in range(len(coordinates) - 1):
+        connections.append([coordinates[i], coordinates[i + 1]])
+    connections.append([coordinates[-1], coordinates[0]]
+                       )  # Connect the last to the first
 
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
@@ -71,6 +80,15 @@ if datadunia is not None:
     )
 
     # Create a text label layer for 'nama_kab'
+    great_circle_layer = pdk.Layer(
+        "GreatCircleLayer",
+        data=connections,
+        get_source_position="d[0]",
+        get_target_position="d[1]",
+        get_stroke_width=2,
+        get_source_color=[255, 0, 0],
+        get_target_color=[0, 0, 255],
+    )
     text_layer_nama_negara = pdk.Layer(
         'TextLayer',
         data=df,
@@ -83,14 +101,14 @@ if datadunia is not None:
 
     # Create a column layer with scaled 'balita_stunting' and color mapping
     column_layer = pdk.Layer(
-        'GridLayer',
+        'ColumnLayer',
         data=df,
         get_position='[lon, lat]',
         get_fill_color='FillColor',
         get_radius=500000000,
         auto_highlight=True,
         pickable=True,
-        # get_elevation='Nilai',
+        get_elevation='Nilai',
         elevation_scale=10000,
         elevation_range=[0, 100],
         extruded=True,
@@ -109,6 +127,7 @@ if datadunia is not None:
                 get_color='[0, 0, 255, 160]'
             ),
             # text_layer_nama_negara,
+            great_circle_layer,
             column_layer
         ],
         initial_view_state=view_state,
