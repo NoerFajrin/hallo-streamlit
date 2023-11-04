@@ -32,7 +32,7 @@ if datadunia is not None:
 
     # Filter and sort the DataFrame
     sorted_df = datadunia[selected_cols].sort_values(
-        by="Estimate", ascending=False)
+        by=str(selected_year), ascending=False)
 
     # Reset the index to start from 1 for the first row
     sorted_df = sorted_df.reset_index(drop=True)
