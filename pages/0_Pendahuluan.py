@@ -16,8 +16,14 @@ if datadunia is not None:
     datadunia['Latitude'] = datadunia['Data Awal'].str.extract(
         r'Latitude \(lat\) = ([\d.-]+)')
 
+    # Convert "Latitude" and "Longitude" columns to numeric (float)
+    datadunia['Latitude'] = pd.to_numeric(
+        datadunia['Latitude'], errors='coerce')
+    datadunia['Longitude'] = pd.to_numeric(
+        datadunia['Longitude'], errors='coerce')
+
     # Filter the years (2000-2022)
-    st.write("# Unicef Data : Monitoring the situation of Children and Woman")
+    st.write("# Unicef Data: Monitoring the situation of Children and Woman")
     st.write("Noer Fajrin, 23222036")
     selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
 
@@ -47,7 +53,7 @@ if datadunia is not None:
     text_layer = pdk.Layer(
         "TextLayer",
         data=sorted_df,
-        get_position='[lon, lat]',
+        get_position=["Longitude", "Latitude"],
         get_text="Country and areas",
         get_size=24,
         get_color=[255, 0, 0],
