@@ -15,74 +15,58 @@ if datadunia is not None:
         r'Longitude \(lon\) = ([\d.-]+)').astype(float)
     datadunia['Latitude'] = datadunia['Data Awal'].str.extract(
         r'Latitude \(lat\) = ([\d.-]+)').astype(float)
+
     # Filter the years (2000-2022)
     selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
+
     # Select only the relevant columns
     selected_cols = ["Country and areas", str(
         selected_years), "Latitude", "Longitude"]
+
     # Filter and sort the DataFrame
     sorted_df = datadunia[selected_cols].sort_values(
         by=str(selected_years), ascending=False)
+
     # Reset the index to start from 1 for the first row
     sorted_df = sorted_df.reset_index(drop=True)
     sorted_df.index += 1  # Start the index from 1
-    # Display the sorsted DataFrame with the modified index
-    # st.write(sorted_df)
 
-    json_array = sorted_df.to_json(orient='records')
-
-    # Display the JSON array
-    # st.json(json_array)
-    new_json_array = []
-
-    for index, row in sorted_df.iterrows():
-        new_json_item = {
-            "Nilai": row[str(selected_years)],
-            "Negara": row["Country and areas"],
-            "lat": row["Latitude"],
-            "lon": row["Longitude"]
-        }
-        new_json_array.append(new_json_item)
-
-    # Display the new JSON array
-    st.json(new_json_array)
-
-    def get_color():
-        if 'Nilai' <= 20:
+    # Define a function to get color based on 'Nilai'
+    def get_color(value):
+        if value <= 20:
             return [0, 255, 0, 160]  # Green
-        elif 'Nilai' <= 50:
+        elif value <= 50:
             return [255, 255, 0, 160]  # Yellow
         else:
             return [255, 0, 0, 160]  # Red
 
-    # Add a 'color' column to the filtered_data
-    new_json_array['color'] = new_json_array['Nilai'].apply(
-        get_color)
-    # Create a PyDeck map with markers and text labels
+    # Add a 'color' column to the sorted_df
+    sorted_df['color'] = sorted_df['Nilai'].apply(get_color)
+
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
-        latitude=new_json_array['lat'].mean(),
-        longitude=new_json_array['lon'].mean(),
+        latitude=sorted_df['Latitude'].mean(),
+        longitude=sorted_df['Longitude'].mean(),
         zoom=9,
         pitch=50,
     )
 
-    # Create a text label layer for 'nama_kab'
-    text_layer_nama_negara = pdk.Layer(
+    # Create a text label layer for 'Country and areas'
+    text_layer_negara = pdk.Layer(
         'TextLayer',
-        data=new_json_array,
-        get_position='[lon, lat]',
-        get_text='Negara',
+        data=sorted_df,
+        get_position='[Longitude, Latitude]',
+        get_text='Country and areas',
         get_size=15,
         get_color='[0, 0, 0, 255]',
-        get_alignment_baseline="'bottom'",
+        get_alignment_baseline='bottom',
     )
 
-    # Create a column layer with scaled 'balita_stunting' and color mapping
+    # Create a column layer with scaled 'Nilai' and color mapping
     column_layer = pdk.Layer(
         'ColumnLayer',
-        data=new_json_array,
-        get_position='[lon, lat]',
+        data=sorted_df,
+        get_position='[Longitude, Latitude]',
         get_fill_color='color',
         get_radius=200,
         auto_highlight=True,
@@ -97,22 +81,12 @@ if datadunia is not None:
     # Create a PyDeck Deck with all layers
     deck = pdk.Deck(
         map_style='mapbox://styles/mapbox/light-v9',
-        layers=[
-            pdk.Layer(
-                'ScatterplotLayer',
-                data=new_json_array,
-                get_position='[lon, lat]',
-                get_radius=200,
-                get_color='[0, 0, 255, 160]'
-            ),
-            # //text_layer_scaled_balita_stunting,
-            # text_layer_nama_kab,
-            column_layer
-        ],
+        layers=[text_layer_negara, column_layer],
         initial_view_state=view_state,
-        tooltip={"html": "<b>Balita Stunting:</b> {Nilai} <br><b>Wilayah:</b> {Negara} <br>",
+        tooltip={"html": "<b>Nilai:</b> {Nilai} <br><b>Negara:</b> {Country and areas} <br>",
                  "style": {"color": "white"}},
     )
+
     # Display the PyDeck map
     st.pydeck_chart(deck)
 else:
