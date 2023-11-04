@@ -30,15 +30,7 @@ if datadunia is not None:
     # Select only the relevant columns
     selected_cols = ["Negara", "Estimate", "lat", "lon"]
 
-    # Filter and sort the DataFrame
-    sorted_df = datadunia[selected_cols].sort_values(
-        by=str(selected_year), ascending=False)
-
-    # Reset the index to start from 1 for the first row
-    sorted_df = sorted_df.reset_index(drop=True)
-    sorted_df.index += 1  # Start the index from 1
-
     # Display the sorted DataFrame with the modified column names and the modified index
-    st.write(sorted_df)
+    st.write(datadunia)
 else:
     st.write("Data not found or could not be loaded.")
