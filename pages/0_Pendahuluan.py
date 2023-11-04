@@ -64,9 +64,9 @@ if datadunia is not None:
 
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
-        latitude=-2.5489,  # Latitude of Indonesia
-        longitude=118.0149,  # Longitude of Indonesia
-        zoom=5,  # Adjust the zoom level as needed
+        latitude=4.2105,  # Set latitude to a central point in Southeast Asia
+        longitude=101.9758,  # Set longitude to a central point in Southeast Asia
+        zoom=4,  # Adjust the zoom level as needed to encompass the desired region
         pitch=50,
     )
 
@@ -91,7 +91,7 @@ if datadunia is not None:
         auto_highlight=True,
         pickable=True,
         get_elevation='Nilai',
-        elevation_scale=1000000,
+        elevation_scale=20000,
         elevation_range=[0, 100],
         extruded=True,
         coverage=1,
