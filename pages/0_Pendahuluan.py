@@ -28,12 +28,11 @@ if datadunia is not None:
     })
 
     # Select only the relevant columns
-    selected_cols = ["Country and areas",
-                     "selected years", "Latitude", "Longitude"]
+    selected_cols = ["Negara", "Estimate", "lat", "lon"]
 
     # Filter and sort the DataFrame
     sorted_df = datadunia[selected_cols].sort_values(
-        by="selected years", ascending=False)
+        by="Estimate", ascending=False)
 
     # Reset the index to start from 1 for the first row
     sorted_df = sorted_df.reset_index(drop=True)
