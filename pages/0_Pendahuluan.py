@@ -66,10 +66,13 @@ if datadunia is not None:
 
     # Create a list of connections to form a ring
     connections = []
-    for i in range(len(coordinates) - 1):
-        connections.append([coordinates[i], coordinates[i + 1]])
-    connections.append([coordinates[-1], coordinates[0]]
-                       )  # Connect the last to the first
+
+    # Append connections for the ring
+    for i in range(len(coordinates)):
+        connections.append({
+            "start": coordinates[i],
+            "end": coordinates[(i + 1) % len(coordinates)]
+        })
 
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
@@ -83,8 +86,8 @@ if datadunia is not None:
     great_circle_layer = pdk.Layer(
         "GreatCircleLayer",
         data=connections,
-        get_source_position="d[0]",
-        get_target_position="d[1]",
+        get_source_position="start",
+        get_target_position="end",
         get_stroke_width=2,
         get_source_color=[255, 0, 0],
         get_target_color=[0, 0, 255],
