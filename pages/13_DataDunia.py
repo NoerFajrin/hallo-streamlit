@@ -35,5 +35,9 @@ if datadunia is not None:
 
     # Display the sorted DataFrame with the modified index
     st.write(sorted_df)
+    # Assuming you have a DataFrame named sorted_df
+    json_representation = sorted_df.to_json(orient='records')
+    # Display the JSON representation using st.write
+    st.write(json_representation)
 else:
     st.write("Data not found or could not be loaded.")
