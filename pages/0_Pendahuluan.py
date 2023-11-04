@@ -3,6 +3,17 @@ import pandas as pd
 import pydeck as pdk
 
 # Load the CSV data
+
+
+def get_color(nilai):
+    if nilai <= 20:
+        return [0, 0, 255, 160]  # Blue
+    elif nilai <= 50:
+        return [255, 255, 0, 160]  # Yellow
+    else:
+        return [255, 0, 0, 160]  # Red
+
+
 datadunia = pd.read_csv('datadunia.csv')
 
 # Check if the data has been loaded
@@ -47,10 +58,6 @@ if datadunia is not None:
     # Display the new JSON array
     st.json(new_json_array)
 
-    color_range = [0, 20, 50, float('inf')]  # Define the color ranges
-    color_values = [[0, 0, 255, 160], [255, 255, 0, 160],
-                    [255, 0, 0, 160]]  # Define corresponding colors
-
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
         latitude=-2.5489,  # Latitude of Indonesia
@@ -75,12 +82,7 @@ if datadunia is not None:
         'ColumnLayer',
         data=new_json_array,
         get_position='[lon, lat]',
-        get_fill_color=[
-            pdk.interpolate(
-                pdk.linear('Nilai'), color_range, color_values
-            ),
-            255,
-        ],
+        get_fill_color=[get_color(nilai) for nilai in new_json_array['Nilai']],
         get_radius=8000,
         auto_highlight=True,
         pickable=True,
