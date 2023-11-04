@@ -83,7 +83,7 @@ if datadunia is not None:
 
     # Create a column layer with scaled 'balita_stunting' and color mapping
     column_layer = pdk.Layer(
-        'ColumnLayer',
+        'GridLayer',
         data=df,
         get_position='[lon, lat]',
         get_fill_color='FillColor',
