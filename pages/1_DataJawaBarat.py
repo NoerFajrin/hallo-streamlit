@@ -10,11 +10,11 @@ endpoint_data_lat_lon = 'https://data.jabarprov.go.id/api-backend/bigdata/diskom
 
 # Make GET requests to the APIs
 response = requests.get(endpoint_data_lat_lon)
-st.write(response)
 responseStunting = requests.get(endpoint_data_stunting)
 
 # Parse the JSON responses
 data_lat_lon = response.json().get('data', [])
+
 data_stunting = responseStunting.json().get('data', [])
 
 # Create a list of years for selection
@@ -56,6 +56,9 @@ for stunting_data in data_stunting:
 # Create a DataFrame
 df = pd.DataFrame(combined_data)
 st.write(df)
+json_array = df.to_json(orient='records')
+# Display the JSON array
+st.json(json_array)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
