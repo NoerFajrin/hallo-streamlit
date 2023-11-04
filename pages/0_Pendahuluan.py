@@ -19,7 +19,7 @@ if datadunia is not None:
     st.write(datadunia)
 
     # Filter the years (2000-2022)
-    selected_year_label = "Select Estimate Value"
+    selected_year_label = "Pilih Tahun"
     selected_year = st.selectbox(selected_year_label, list(range(2000, 2023)))
 
     # Select only the relevant columns
