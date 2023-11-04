@@ -26,12 +26,12 @@ if datadunia is not None:
     sorted_df = sorted_df.reset_index(drop=True)
     sorted_df.index += 1  # Start the index from 1
     # Display the sorsted DataFrame with the modified index
-    st.write(sorted_df)
+    # st.write(sorted_df)
 
     json_array = sorted_df.to_json(orient='records')
 
     # Display the JSON array
-    st.json(json_array)
+    # st.json(json_array)
     new_json_array = []
 
     for index, row in sorted_df.iterrows():
