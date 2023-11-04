@@ -54,6 +54,7 @@ for stunting_data in data_stunting:
 
 # Create a DataFrame
 df = pd.DataFrame(combined_data)
+st.write(df)
 
 # Filter DataFrame for the selected year
 filtered_data = df[df['tahun'] == selected_year]
