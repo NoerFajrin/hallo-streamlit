@@ -91,7 +91,7 @@ if datadunia is not None:
         auto_highlight=True,
         pickable=True,
         get_elevation='Nilai',
-        elevation_scale=2000,
+        elevation_scale=10000,
         elevation_range=[0, 100],
         extruded=True,
         coverage=1,
