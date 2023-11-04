@@ -50,7 +50,7 @@ if datadunia is not None:
         get_position=["Longitude", "Latitude"],
         get_text="Country and areas",
         get_size=24,
-        get_color=[255, 255, 255],
+        get_color=[255, 0, 0],
         get_alignment_baseline="'bottom'",
     )
 
