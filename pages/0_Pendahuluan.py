@@ -11,9 +11,9 @@ if datadunia is not None:
 
     # Extract Longitude (lon) and Latitude (lat) from "Data Awal"
     datadunia['Longitude'] = datadunia['Data Awal'].str.extract(
-        r'Longitude \(lon\) = ([\d.-]+)')
+        r'Longitude \(lon\) = ([\d.-]+)').astype(float)
     datadunia['Latitude'] = datadunia['Data Awal'].str.extract(
-        r'Latitude \(lat\) = ([\d.-]+)')
+        r'Latitude \(lat\) = ([\d.-]+)').astype(float)
     # Filter the years (2000-2022)
     selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
     # Select only the relevant columns
