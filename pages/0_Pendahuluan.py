@@ -61,7 +61,7 @@ if datadunia is not None:
         data=new_json_array,
         get_position='[lon, lat]',
         get_text='Negara',
-        get_size=100,
+        get_size=30,
         get_color='[0, 0, 0, 255]',
         get_alignment_baseline="'bottom'",
     )
