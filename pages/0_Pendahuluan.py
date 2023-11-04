@@ -46,67 +46,73 @@ if datadunia is not None:
 
     # Display the new JSON array
     st.json(new_json_array)
+
+    def get_color(scaled_value):
+        if scaled_value <= 20:
+            return [0, 255, 0, 160]  # Green
+        elif scaled_value <= 50:
+            return [255, 255, 0, 160]  # Yellow
+        else:
+            return [255, 0, 0, 160]  # Red
+
+    # Add a 'color' column to the filtered_data
+    new_json_array['color'] = new_json_array['Nilai'].apply(
+        get_color)
+    # Create a PyDeck map with markers and text labels
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
-        latitude=filtered_data['lat'].mean(),
-        longitude=filtered_data['lon'].mean(),
+        latitude=new_json_array['lat'].mean(),
+        longitude=new_json_array['lon'].mean(),
         zoom=9,
         pitch=50,
     )
 
-    # Create a text label layer for 'balita_stunting'
-    text_layer_balita_stunting = pdk.Layer(
+    # Create a text label layer for 'nama_kab'
+    text_layer_nama_negara = pdk.Layer(
         'TextLayer',
-        data=filtered_data,
+        data=new_json_array,
         get_position='[lon, lat]',
-        get_text='balita_stunting',
+        get_text='Negara',
         get_size=15,
         get_color='[0, 0, 0, 255]',
         get_alignment_baseline="'bottom'",
     )
 
-    # Create a text label layer for 'nama_kab'
-    text_layer_nama_kab = pdk.Layer(
-        'TextLayer',
-        data=filtered_data,
+    # Create a column layer with scaled 'balita_stunting' and color mapping
+    column_layer = pdk.Layer(
+        'ColumnLayer',
+        data=new_json_array,
         get_position='[lon, lat]',
-        get_text='nama_kab',
-        get_size=15,
-        get_color='[0, 0, 0, 255]',
-        get_alignment_baseline="'bottom'",
+        get_fill_color='color',
+        get_radius=200,
+        auto_highlight=True,
+        pickable=True,
+        get_elevation='Nilai',
+        elevation_scale=100,
+        elevation_range=[0, 100],
+        extruded=True,
+        coverage=1,
     )
 
     # Create a PyDeck Deck with all layers
     deck = pdk.Deck(
         map_style='mapbox://styles/mapbox/light-v9',
-        initial_view_state=view_state,
         layers=[
             pdk.Layer(
                 'ScatterplotLayer',
-                data=filtered_data,
+                data=new_json_array,
                 get_position='[lon, lat]',
-                get_radius=1000,
+                get_radius=200,
                 get_color='[0, 0, 255, 160]'
             ),
-            text_layer_balita_stunting,
-            text_layer_nama_kab,
-            pdk.Layer(
-                'HexagonLayer',
-                data=filtered_data,
-                get_position='[lon, lat]',
-                get_color='[200, 30, 0, 160]',
-                get_radius=200,
-                auto_highlight=True,
-                pickable=True,
-                get_elevation='balita_stunting',
-                elevation_scale=5,
-                elevation_range=[1000, 20000],
-                extruded=True,
-                coverage=1,
-            )
-        ]
+            # //text_layer_scaled_balita_stunting,
+            # text_layer_nama_kab,
+            column_layer
+        ],
+        initial_view_state=view_state,
+        tooltip={"html": "<b>Balita Stunting:</b> {Nilai} <br><b>Wilayah:</b> {Negara} <br>",
+                 "style": {"color": "white"}},
     )
-
     # Display the PyDeck map
     st.pydeck_chart(deck)
 else:
