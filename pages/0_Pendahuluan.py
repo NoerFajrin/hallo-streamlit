@@ -39,22 +39,31 @@ if datadunia is not None:
     sorted_df = sorted_df.reset_index(drop=True)
     sorted_df.index += 1  # Start the index from 1
 
-    # Display the sorted DataFrame with the modified index
-    st.write(sorted_df)
+    # Create a new data format
+    data_baru = {
+        "nama_negara": sorted_df["Country and areas"],
+        "lat": sorted_df["Latitude"],
+        "lon": sorted_df["Longitude"],
+        "prediksi": sorted_df[selected_years]
+    }
 
-    # Create a PyDeck map
+    # Use data_baru for the map
+    st.write("New Data Format for Map:")
+    st.write(data_baru)
+
+    # Create a PyDeck map using data_baru
     view_state = pdk.ViewState(
         latitude=0,  # Provide the default latitude here
         longitude=0,  # Provide the default longitude here
         zoom=1,  # Provide the default zoom level here
     )
 
-    # Create a text layer for 'Country and areas' with tooltips
+    # Create a text layer for 'nama_negara' with tooltips
     text_layer = pdk.Layer(
         "TextLayer",
-        data=sorted_df,
-        get_position=["Longitude", "Latitude"],
-        get_text="Country and areas",
+        data=data_baru,
+        get_position=["lon", "lat"],
+        get_text="nama_negara",
         get_size=24,
         get_color=[255, 0, 0],
         get_alignment_baseline="'bottom'",
@@ -65,11 +74,12 @@ if datadunia is not None:
         map_style="mapbox://styles/mapbox/light-v9",
         layers=[text_layer],
         initial_view_state=view_state,
-        tooltip={"html": "<b>Country:</b> {Country and areas}",
+        tooltip={"html": "<b>Country:</b> {nama_negara}",
                  "style": {"color": "white"}},
     )
 
     # Display the PyDeck map
     st.pydeck_chart(deck)
+
 else:
     st.write("Data not found or could not be loaded.")
