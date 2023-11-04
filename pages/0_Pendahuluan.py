@@ -47,7 +47,7 @@ if datadunia is not None:
     text_layer = pdk.Layer(
         "TextLayer",
         data=sorted_df,
-        get_position=["Longitude", "Latitude"],
+        get_position='[lon, lat]',
         get_text="Country and areas",
         get_size=24,
         get_color=[255, 0, 0],
