@@ -3,6 +3,8 @@ import pandas as pd
 
 # Load the CSV data
 datadunia = pd.read_csv('datadunia.csv')
+st.write("# Unicef Data : Monitoring the sitution of children and Woman")
+st.write("Noer Fajrin, 23222036")
 
 # Check if the data has been loaded
 if datadunia is not None:
