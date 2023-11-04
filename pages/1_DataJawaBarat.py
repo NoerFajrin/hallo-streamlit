@@ -10,6 +10,7 @@ endpoint_data_lat_lon = 'https://data.jabarprov.go.id/api-backend/bigdata/diskom
 
 # Make GET requests to the APIs
 response = requests.get(endpoint_data_lat_lon)
+st.write(response)
 responseStunting = requests.get(endpoint_data_stunting)
 
 # Parse the JSON responses
