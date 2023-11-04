@@ -130,7 +130,7 @@ if datadunia is not None:
                 get_color='[0, 0, 255, 160]'
             ),
             # text_layer_nama_negara,
-            great_circle_layer,
+            # great_circle_layer,
             column_layer
         ],
         initial_view_state=view_state,
