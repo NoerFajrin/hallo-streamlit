@@ -3,9 +3,6 @@ import pandas as pd
 
 # Load the CSV data
 datadunia = pd.read_csv('datadunia.csv')
-st.write("# Unicef Data : Monitoring the sitution of children and Woman")
-st.write("Noer Fajrin, 23222036")
-
 # Check if the data has been loaded
 if datadunia is not None:
     # Replace ',' with '.' in all columns of the DataFrame
@@ -18,6 +15,8 @@ if datadunia is not None:
         r'Latitude \(lat\) = ([\d.-]+)')
 
     # Filter the years (2000-2022)
+    st.write("Unicef Data : Monitoring the sitution of children and Woman")
+    st.write("Noer Fajrin, 23222036")
     selected_years = st.selectbox("Select Year", list(range(2000, 2023)))
 
     # Select only the relevant columns
