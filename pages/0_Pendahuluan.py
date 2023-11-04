@@ -34,12 +34,12 @@ if datadunia is not None:
     st.json(json_array)
     new_json_array = []
 
-    for item in json.loads(json_array):
+    for index, row in sorted_df.iterrows():
         new_json_item = {
-            "Nilai": item[str(selected_years)],
-            "Negara": item["Country and areas"],
-            "lat": item["Latitude"],
-            "lon": item["Longitude"]
+            "Nilai": row[str(selected_years)],
+            "Negara": row["Country and areas"],
+            "lat": row["Latitude"],
+            "lon": row["Longitude"]
         }
         new_json_array.append(new_json_item)
 
