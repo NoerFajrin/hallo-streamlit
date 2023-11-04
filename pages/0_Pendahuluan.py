@@ -47,10 +47,10 @@ if datadunia is not None:
     # Display the new JSON array
     st.json(new_json_array)
 
-    def get_color(scaled_value):
-        if scaled_value <= 20:
+    def get_color():
+        if 'Nilai' <= 20:
             return [0, 255, 0, 160]  # Green
-        elif scaled_value <= 50:
+        elif 'Nilai' <= 50:
             return [255, 255, 0, 160]  # Yellow
         else:
             return [255, 0, 0, 160]  # Red
