@@ -72,7 +72,7 @@ if datadunia is not None:
         data=new_json_array,
         get_position='[lon, lat]',
         get_fill_color='[0, 255, 0, 160]',
-        get_radius=200,
+        get_radius=1000,
         auto_highlight=True,
         pickable=True,
         get_elevation='Nilai',
