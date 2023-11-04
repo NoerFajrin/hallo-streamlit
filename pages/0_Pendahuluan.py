@@ -47,6 +47,10 @@ if datadunia is not None:
     # Display the new JSON array
     st.json(new_json_array)
 
+    color_range = [0, 20, 50, float('inf')]  # Define the color ranges
+    color_values = [[0, 0, 255, 160], [255, 255, 0, 160],
+                    [255, 0, 0, 160]]  # Define corresponding colors
+
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
         latitude=-2.5489,  # Latitude of Indonesia
@@ -71,7 +75,12 @@ if datadunia is not None:
         'ColumnLayer',
         data=new_json_array,
         get_position='[lon, lat]',
-        get_fill_color='[0, 255, 0, 160]',
+        get_fill_color=[
+            pdk.interpolate(
+                pdk.linear('Nilai'), color_range, color_values
+            ),
+            255,
+        ],
         get_radius=8000,
         auto_highlight=True,
         pickable=True,
