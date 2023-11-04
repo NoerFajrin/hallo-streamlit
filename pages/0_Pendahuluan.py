@@ -32,5 +32,18 @@ if datadunia is not None:
 
     # Display the JSON array
     st.json(json_array)
+    new_json_array = []
+
+    for item in json.loads(json_array):
+        new_json_item = {
+            "Nilai": item[str(selected_years)],
+            "Negara": item["Country and areas"],
+            "lat": item["Latitude"],
+            "lon": item["Longitude"]
+        }
+        new_json_array.append(new_json_item)
+
+    # Display the new JSON array
+    st.json(new_json_array)
 else:
     st.write("Data not found or could not be loaded.")
