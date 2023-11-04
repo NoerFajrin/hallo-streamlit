@@ -57,6 +57,7 @@ if datadunia is not None:
 
     # Display the new JSON array
     st.json(new_json_array)
+    new_json_array['Nilai'] = new_json_array['Nilai'].astype(int)
     new_json_array['FillColor'] = new_json_array['Nilai'].apply(get_color)
 
     # Create a PyDeck map with markers and text labels
