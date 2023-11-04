@@ -57,7 +57,10 @@ if datadunia is not None:
 
     # Display the new JSON array
     st.json(new_json_array)
-    new_json_array['FillColor'] = new_json_array['Nilai'].apply(get_color)
+    df = pd.DataFrame(new_json_array)
+
+    # Apply the get_color function to each element in the 'Nilai' column
+    df['FillColor'] = df['Nilai'].apply(get_color)
 
     # Create a PyDeck map with markers and text labels
     view_state = pdk.ViewState(
@@ -70,7 +73,7 @@ if datadunia is not None:
     # Create a text label layer for 'nama_kab'
     text_layer_nama_negara = pdk.Layer(
         'TextLayer',
-        data=new_json_array,
+        data=df,
         get_position='[lon, lat]',
         get_text='Negara',
         get_size=30,
@@ -81,7 +84,7 @@ if datadunia is not None:
     # Create a column layer with scaled 'balita_stunting' and color mapping
     column_layer = pdk.Layer(
         'ColumnLayer',
-        data=new_json_array,
+        data=df,
         get_position='[lon, lat]',
         get_fill_color='FillColor',
         get_radius=8000,
@@ -100,7 +103,7 @@ if datadunia is not None:
         layers=[
             pdk.Layer(
                 'ScatterplotLayer',
-                data=new_json_array,
+                data=df,
                 get_position='[lon, lat]',
                 get_radius=200,
                 get_color='[0, 0, 255, 160]'
