@@ -6,7 +6,7 @@ import pandas as pd
 data = {
     "Aktivitas": ["Perancangan", "Perakitan", "Uji Coba", "Analisis & Kesimpulan"],
     "Tanggal Mulai": ["2023-04-01", "2023-05-01", "2023-09-01", "2023-10-01"],
-    "Tanggal Selesai": ["2023-05-01", "2023-09-15", "2023-10-05", "2023-11-01"]
+    "Tanggal Selesai": ["2023-05-01", "2023-09-01", "2023-10-01", "2023-11-01"]
 }
 
 df = pd.DataFrame(data)
