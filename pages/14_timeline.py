@@ -23,5 +23,5 @@ def plot_timeline(data):
 
 
 # Tampilkan aplikasi Streamlit
-st.title("Timeline Appp")
+st.title("Timeline Kerja Sama")
 st.plotly_chart(plot_timeline(df))
