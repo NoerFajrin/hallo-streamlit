@@ -32,10 +32,10 @@ def run():
 
     st.markdown(
         """
-        Indonesia sendiri merupakan negara dengan angka stunting tertinggi ke-2 di Asia Tenggara dan menduduki peringkat ke-5 di dunia menurut data riset kesehatan dasar (Riskesdas) di tahun 2018
-        ### 2. Pembuatan Sistem Digitalilasi Antropometri 
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
+        ### Pendahuluan
+        
+        Indonesia merupakan negara dengan angka stunting tertinggi ke-2 di Asia Tenggara dan menduduki peringkat ke-5 di dunia menurut data riset kesehatan dasar (Riskesdas) di tahun 2018
+        
         **👈 Select a demo from the sidebar** to see some examples
         of what Streamlit can do!
         ### Want to learn more?
