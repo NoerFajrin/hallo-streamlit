@@ -4,9 +4,9 @@ import pandas as pd
 
 # Contoh data untuk timeline
 data = {
-    "Event": ["Event 1", "Event 2", "Event 3"],
-    "Start Date": ["2023-01-01", "2023-02-01", "2023-03-01"],
-    "End Date": ["2023-01-10", "2023-02-15", "2023-03-05"]
+    "Event": ["Perancangan", "Perakitan", "Uji Coba", "Analisis & Kesimpulan"],
+    "Start Date": ["2023-04-01", "2023-05-01", "2023-09-01", "2023-10-01"],
+    "End Date": ["2023-05-10", "2023-09-15", "2023-10-05", "2023-11-01"]
 }
 
 df = pd.DataFrame(data)
