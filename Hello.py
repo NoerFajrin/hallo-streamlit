@@ -32,9 +32,18 @@ def run():
 
     st.markdown(
         """
-    ### Pendahuluan
-    Indonesia merupakan negara dengan angka stunting tertinggi ke-2 di Asia Tenggara dan menduduki peringkat ke-5 di dunia menurut data riset kesehatan dasar (Riskesdas) di tahun 2018
+        ### Pendahuluan
         
+        Indonesia merupakan negara dengan angka stunting tertinggi ke-2 di Asia Tenggara dan menduduki peringkat ke-5 di dunia menurut data riset kesehatan dasar (Riskesdas) di tahun 2018
+        Prevalensi stunting termasuk masalah gizi kronis.
+         ### Rumusan Masalah dan Urgensi Kerja sama
+         - Proses pencatatan dan pemetaan tumbuh kembang anak di Indonesia belum sepenuhnya terdigitalisasi dan terintegrasi dengan alat ukur yang digunakan. 
+         - 1000 hari pertama menentukan prevalensi stunting sangat penting untuk menangani agar tidak prevalensi stunting
+         - Mendukung Program Pemerintah untuk menurunkan prevalensi stunting di 2024.
+         - Membantu tenaga kesehatan dalam proses pencatatan, pemetaan, dan analisis tumbuh kembang anak.
+         - Dapat menentukan prevalensi stunting di 1000 hari pertama sehingga dapat mempercepat penanganan atau pencegahan prevalensi stunting, 
+         - Rekacipta yang dibuat mampu  mengakomodir proses pengukuran, penginputan, pemetaan dan menganalisis tumbuh kembang anak.
+
     """
     )
 
