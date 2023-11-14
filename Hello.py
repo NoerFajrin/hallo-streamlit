@@ -37,7 +37,7 @@ def run():
         Indonesia merupakan negara dengan angka stunting tertinggi ke-2 di Asia Tenggara dan menduduki peringkat ke-5 di dunia menurut data riset kesehatan dasar (Riskesdas) di tahun 2018
        
          ### Rumusan Masalah dan Urgensi Kerja sama
-         - Prevalensi stunting termasuk masalah gizi kronis.
+         - Prevalensi stunting termasuk masalah gizi kronis. (Prevalensi Stunting adalah Jumlah balita di suatu populasi yang mengalami stunting dalam pertumbuhan fisiknya).
          - Proses pencatatan dan pemetaan tumbuh kembang anak di Indonesia belum sepenuhnya terdigitalisasi dan terintegrasi dengan alat ukur yang digunakan. 
          - 1000 hari pertama menentukan prevalensi stunting sangat penting untuk menangani agar tidak prevalensi stunting
          - Mendukung Program Pemerintah untuk menurunkan prevalensi stunting di 2024.
