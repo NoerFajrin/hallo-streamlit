@@ -5,9 +5,12 @@ import requests
 api_url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
 
 # Fungsi untuk mendapatkan data dari API
+
+
 def get_api_data():
     response = requests.get(api_url)
     return response.json()
+
 
 # Tampilkan data dalam bentuk tabel
 st.title("Tabel Data Balita Stunting di Jawa Barat")
@@ -16,7 +19,8 @@ data = get_api_data()
 
 # Periksa apakah respon API valid
 if "data" in data:
-    st.write("Berikut ini adalah Tabel Data Stunting di Provinsi Jawa Barat dari Tahun 2014 - 2021")
+    st.write(
+        "Berikut ini adalah Tabel Data Stunting di Provinsi Jawa Barat dari Tahun 2014 - 2021")
 
     # Buat daftar unik tahun dari data dan urutkan
     years = sorted(list(set(item['tahun'] for item in data["data"])))
