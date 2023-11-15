@@ -1,0 +1,11 @@
+import streamlit as st
+from PIL import Image
+
+# Menampilkan gambar dari URL
+url = "/aset/desain sistem.png"
+st.image(url, caption='Gambar dari URL', use_column_width=True)
+
+# Menampilkan gambar dari file lokal
+file_path = "path/to/local/image.jpg"
+image = Image.open(file_path)
+st.image(image, caption='Gambar dari file lokal', use_column_width=True)
