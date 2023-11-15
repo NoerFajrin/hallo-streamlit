@@ -80,4 +80,4 @@ else:
     st.write("Tidak ada data untuk Data Balita Stunting dan Indeks Kemiskinan.")
 st.write("\n")  # Ini akan menambahkan satu baris kosong
 st.write("\n")  # Ini akan menambahkan satu baris kosong
-st.write("Berdasarkan grafik diatas, dapat disimpulkan bahwa, Kemiskinan bukan menjadi faktor utama dalam kasus Stunting")
+st.write("Berdasarkan grafik diatas, dapat disimpulkan bahwa, Kemiskinan bukan menjadi faktor utama dalam kasus Stunting.")
