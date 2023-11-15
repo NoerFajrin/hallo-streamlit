@@ -2,6 +2,6 @@ import streamlit as st
 from PIL import Image
 
 
-st.title("Aviation Activities in Kertajati International Airport ✈️")
+st.title("Desain Sistem")
 image = Image.open("/aset/desain.png")
 st.image(image)
