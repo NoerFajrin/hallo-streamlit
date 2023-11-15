@@ -24,3 +24,8 @@ st.write("\n")  # Ini akan menambahkan satu baris kosong
 st.title("- Spesifikasi Pita LiLa")
 image5 = Image.open("aset/pita.png")
 st.image(image5)
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.title("- Mockup Mobile Apps")
+image6 = Image.open("aset/mobile.png")
+st.image(image6)
