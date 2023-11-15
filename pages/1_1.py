@@ -2,6 +2,6 @@ import streamlit as st
 from PIL import Image
 
 
-st.title("haha")
+st.title("Sistem Desain")
 image = Image.open("/aset/desain.png")
 st.image(image)
