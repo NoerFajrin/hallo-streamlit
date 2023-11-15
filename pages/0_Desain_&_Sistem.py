@@ -29,3 +29,14 @@ st.write("\n")  # Ini akan menambahkan satu baris kosong
 st.title("- Mockup Mobile Apps")
 image6 = Image.open("aset/mobile.png")
 st.image(image6)
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.title("- Website")
+image7 = Image.open("aset/dashboard.png")
+st.image(image7)
+st.title("- Log Pengukuran")
+image8 = Image.open("aset/anaisis.png")
+st.image(image8)
+st.title("- Analisis")
+image9 = Image.open("aset/anaisi1.png")
+st.image(image9)
