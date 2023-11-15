@@ -8,12 +8,14 @@ api_url1 = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jum
 api_url2 = "https://data.jabarprov.go.id/api-backend/bigdata/bps/od_20000_indeks_kedalaman_kemiskinan_berdasarkan_kabupatenkota?limit=1000&where=%7B%22tahun%22%3A%5B%222014%22%2C%222015%22%2C%222016%22%2C%222017%22%2C%222018%22%2C%222019%22%2C%222020%22%2C%222021%22%2C%222022%22%5D%7D"
 
 # Fungsi untuk mendapatkan data dari API
+
+
 def get_api_data(api_url):
     response = requests.get(api_url)
     return response.json()
 
 # Set the title for the page
-st.title("Data Visualizations for Jawa Barat")
+
 
 # Fetch data from the first API
 data1 = get_api_data(api_url1)
@@ -32,11 +34,13 @@ if "data" in data2:
 
 # Normalize "Jumlah Balita Stunting" values to be within the range of 0 to 5
 if "data" in data1:
-    df1["jumlah_balita_stunting"] = (df1["jumlah_balita_stunting"] - df1["jumlah_balita_stunting"].min()) / (df1["jumlah_balita_stunting"].max() - df1["jumlah_balita_stunting"].min()) * 5
+    df1["jumlah_balita_stunting"] = (df1["jumlah_balita_stunting"] - df1["jumlah_balita_stunting"].min()) / (
+        df1["jumlah_balita_stunting"].max() - df1["jumlah_balita_stunting"].min()) * 5
 
 # Normalize "Indeks Kemiskinan" values to be within the range of 0 to 5
 if "data" in data2:
-    df2["indeks_kedalaman_kemiskinan"] = (df2["indeks_kedalaman_kemiskinan"] - df2["indeks_kedalaman_kemiskinan"].min()) / (df2["indeks_kedalaman_kemiskinan"].max() - df2["indeks_kedalaman_kemiskinan"].min()) * 5
+    df2["indeks_kedalaman_kemiskinan"] = (df2["indeks_kedalaman_kemiskinan"] - df2["indeks_kedalaman_kemiskinan"].min()) / (
+        df2["indeks_kedalaman_kemiskinan"].max() - df2["indeks_kedalaman_kemiskinan"].min()) * 5
 
 # Check if the first API response is valid
 if "data" in data1:
@@ -47,7 +51,7 @@ if "data" in data1:
 
     # Filter data1 based on the selected year
     filtered_data1 = df1[df1["tahun"] == selected_year1]
-    
+
     # Filter data2 based on the selected year
     filtered_data2 = df2[df2["tahun"] == selected_year1]
 
@@ -57,7 +61,8 @@ if "data" in data1:
         x="nama_kabupaten_kota",
         y="jumlah_balita_stunting",
         title=f"Jumlah Balita Stunting dan Indeks Kemiskinan di Jawa Barat Tahun {selected_year1}",
-        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting (Normalized)", "nama_kabupaten_kota": "Kabupaten/Kota"}
+        labels={
+            "jumlah_balita_stunting": "Jumlah Balita Stunting (Normalized)", "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
     # Add a line chart for data2 with green color
@@ -73,3 +78,6 @@ if "data" in data1:
     st.plotly_chart(fig)
 else:
     st.write("Tidak ada data untuk Data Balita Stunting dan Indeks Kemiskinan.")
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.write("Berdasarkan grafik diatas, dapat disimpulkan bahwa, Kemiskinan bukan menjadi faktor utama dalam kasus Stunting")
