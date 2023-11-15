@@ -28,7 +28,7 @@ st.title("Timeline Kerja Sama")
 st.plotly_chart(plot_timeline(df))
 st.write("\n")  # Ini akan menambahkan satu baris kosong
 st.write("\n")  # Ini akan menambahkan satu baris kosong
-st.title("- Perancangan")
+st.title("- Perancanga")
 image1 = Image.open("aset/perancangan.png")
 st.image(image1)
 image2 = Image.open("aset/perancangan1.png")
