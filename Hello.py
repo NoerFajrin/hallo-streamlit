@@ -48,6 +48,10 @@ def run():
          ### Program Jawa Barat Zero Stunting 2024
          - Kepala Dinas Kesehatan dr. Nina Susana Dewi, Sp.PK(K)., M. Kes., MMRS., memaparkan data survei SSGI tahun 2021 yang mengatakan bahwa prevalensi stunting di Provinsi Jawa Barat dikategorikan tinggi pada tahun tersebut dan menargetkan Jabar zero new stunting pada 2023. Paparan tersebut dibahas pada rapat terbatas koordinasi evaluasi capaian kinerja triwulan II Dinkes tahun 2022 di Soreang Kabupaten Bandung, Selasa (7/6/2022).
          - Jabar Zero New Stunting adalah program unggulan Gubernur Jawa Barat dalam mendukung program nasional untuk menurunkan prevalensi stunting, dengan target capaian pada tahun 2023 adalah 19,2%.
+         ### Tujuan Kerja Sama
+         - Membuat Sistem Digitalisasi Antropometri Kit untuk Analisis Tumbuh Kembang Anak
+         - Memproduksi 2 Antropometri Kit, Mobile Apps, dan sebuah Dashboard Monitoring Tumbuh Kembang Anak
+         - Membantu Tenaga Kesehatan dalam proses pengukuran, pencatatan, dan analisis kesehatan tumbuh kembang anak
 
     """
     )
