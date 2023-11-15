@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+from PIL import Image
 
 # Contoh data untuk timeline
 data = {
@@ -25,3 +26,12 @@ def plot_timeline(data):
 # Tampilkan aplikasi Streamlit
 st.title("Timeline Kerja Sama")
 st.plotly_chart(plot_timeline(df))
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.title("- Perancangan")
+image1 = Image.open("aset/perancangan.png")
+st.image(image1)
+image2 = Image.open("aset/perancangan1.png")
+st.image(image2)
+image3 = Image.open("aset/perancangan2.png")
+st.image(image3)
