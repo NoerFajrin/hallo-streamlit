@@ -32,7 +32,7 @@ st.image(image6)
 st.write("\n")  # Ini akan menambahkan satu baris kosong
 st.write("\n")  # Ini akan menambahkan satu baris kosong
 st.title("- Website")
-image7 = Image.open("aset/dashboard.png")
+image7 = Image.open("aset/dasboard.png")
 st.image(image7)
 st.title("- Log Pengukuran")
 image8 = Image.open("aset/anaisis.png")
