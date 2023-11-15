@@ -35,3 +35,13 @@ image2 = Image.open("aset/perancangan1.jpeg")
 st.image(image2)
 image3 = Image.open("aset/perancangan2.jpeg")
 st.image(image3)
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.title("- Perakitan")
+image4 = Image.open("aset/perakitan.jpg")
+st.image(image4)
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.write("\n")  # Ini akan menambahkan satu baris kosong
+st.title("- Pengujian")
+image4 = Image.open("aset/pengujian.png")
+st.image(image4)
