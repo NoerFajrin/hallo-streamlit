@@ -59,7 +59,6 @@ else:
 
 # Check if the second API response is valid
 if "data" in data2:
-    st.header("Grafik Indeks Kemiskinan Berdasarkan Kabupaten/Kota di Jawa Barat")
 
     # # Select a year using a widget
     # selected_year2 = st.selectbox("Pilih Tahun Indeks Kemiskinan:", years2)
