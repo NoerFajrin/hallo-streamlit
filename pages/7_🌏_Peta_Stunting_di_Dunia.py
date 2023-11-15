@@ -3,6 +3,7 @@ import pandas as pd
 import pydeck as pdk
 
 # Load the CSV data
+st.title("The UNICEF, WHO and the World Bank inter-agency team update the Joint Child Malnutrition Estimates (JME)")
 
 
 def get_color(nilai):
