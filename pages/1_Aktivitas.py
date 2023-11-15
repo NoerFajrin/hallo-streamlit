@@ -40,8 +40,8 @@ st.write("\n")  # Ini akan menambahkan satu baris kosong
 st.title("- Perakitan")
 image4 = Image.open("aset/perakitan.jpg")
 st.image(image4)
-st.write("\n")  # Ini akan menambahkan satu baris kosong
-st.write("\n")  # Ini akan menambahkan satu baris kosong
-st.title("- Pengujian")
-image5 = Image.open("aset/pengujian.png")
-st.image(image5)
+# st.write("\n")  # Ini akan menambahkan satu baris kosong
+# st.write("\n")  # Ini akan menambahkan satu baris kosong
+# st.title("- Pengujian")
+# image5 = Image.open("aset/pengujian.png")
+# st.image(image5)
