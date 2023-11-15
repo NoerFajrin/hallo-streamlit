@@ -4,6 +4,8 @@ import pydeck as pdk
 import requests
 import numpy as np
 
+st.title("Peta Stunting di Jawa Barat")
+st.write("Angka Stunting di Kabupaten / Kota (tahun 2014-2022)")
 # Define the API endpoints
 endpoint_data_stunting = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
 endpoint_data_lat_lon = 'https://data.jabarprov.go.id/api-backend/bigdata/diskominfo/od_kode_wilayah_dan_nama_wilayah_kota_kabupaten'
