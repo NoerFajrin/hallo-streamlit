@@ -7,9 +7,12 @@ import plotly.express as px
 api_url = "https://data.jabarprov.go.id/api-backend/bigdata/dinkes/od_17147_jumlah_balita_stunting_berdasarkan_kabupatenkota?limit=300"
 
 # Fungsi untuk mendapatkan data dari API
+
+
 def get_api_data():
     response = requests.get(api_url)
     return response.json()
+
 
 # Tampilkan data dalam bentuk grafik
 st.title("Grafik Data Balita Stunting di Jawa Barat")
@@ -38,7 +41,8 @@ if "data" in data:
         x="nama_kabupaten_kota",
         y="jumlah_balita_stunting",
         title=f"Jumlah Balita Stunting di Jawa Barat Tahun {selected_year}",
-        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting", "nama_kabupaten_kota": "Kabupaten/Kota"}
+        labels={"jumlah_balita_stunting": "Jumlah Balita Stunting",
+                "nama_kabupaten_kota": "Kabupaten/Kota"}
     )
 
     # Tampilkan grafik
