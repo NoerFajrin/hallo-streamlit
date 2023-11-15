@@ -9,4 +9,3 @@ plotly
 folium
 pydeck
 geopandas
-PIL
